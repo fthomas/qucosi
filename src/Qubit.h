@@ -1,23 +1,21 @@
-/*
-   <one line to give the program's name and a brief idea of what it does.>
-   Copyright © 2009 Frank S. Thomas <frank@thomas-alfeld.de>
+// QuCoSi - Quantum Computer Simulation
+// Copyright © 2009 Frank S. Thomas <frank@thomas-alfeld.de>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#ifndef QUBIT_H
-#define QUBIT_H
+#ifndef QUCOSI_QUBIT_H
+#define QUCOSI_QUBIT_H
 
 #include <cstdlib>
 #include <limits>
@@ -26,43 +24,44 @@
 #include <Eigen/Array>
 #include <Eigen/Core>
 
-typedef Eigen::Vector2cf Vector2D;
-typedef std::complex<float> field;
+#include <Base.h>
 
-class Qubit : public Vector2D {
+namespace QuCoSi {
+
+class Qubit : public Vector {
   protected:
-    Vector2D m_std_base[2];
+    Vector m_std_base[2];
 
   private:
     inline bool isOne(const float x) const
     {
-      return std::abs(x-1.) < std::numeric_limits<float>::epsilon();
+      return std::abs(x-1.) < std::numeric_limits<fptype>::epsilon();
     }
 
   public:
-    inline Qubit() : Vector2D()
+    inline Qubit() : Vector()
     {
       (*this)[0] = field(1,0);
       (*this)[1] = field(0,0);
       setStdBase();
     }
 
-    inline Qubit(const field c0, const field c1) : Vector2D()
+    inline Qubit(const field c0, const field c1) : Vector()
     {
       (*this)[0] = c0;
       (*this)[1] = c1;
       setStdBase();
     }
 
-    inline Qubit& operator=(const Vector2D& v)
+    inline Qubit& operator=(const Vector& v)
     {
-      Vector2D::operator=(v);
+      Vector::operator=(v);
       return *this;
     }
 
     inline void setStdBase()
     {
-      Vector2D v0, v1;
+      Vector v0, v1;
 
       v0[0] = field(1, 0);
       v0[1] = field(0, 0);
@@ -74,8 +73,8 @@ class Qubit : public Vector2D {
       m_std_base[1] = v1;
     }
 
-    inline void setStdBase(const Vector2D& baseVector0,
-                           const Vector2D& baseVector1)
+    inline void setStdBase(const Vector& baseVector0,
+                           const Vector& baseVector1)
     {
       if (!isOne(baseVector0.norm()) || !isOne(baseVector1.norm())) {
         throw std::logic_error("Qubit::setStdBase(): "
@@ -104,8 +103,8 @@ class Qubit : public Vector2D {
       return isPureState(m_std_base[0], m_std_base[1]);
     }
 
-    inline bool isPureState(const Vector2D& baseVector0,
-                            const Vector2D& baseVector1) const
+    inline bool isPureState(const Vector& baseVector0,
+                            const Vector& baseVector1) const
     {
       field c[2];
       c[0] = baseVector0.dot(*this);
@@ -121,7 +120,7 @@ class Qubit : public Vector2D {
 
     inline Qubit& setRandom()
     {
-      Vector2D::setRandom().normalize();
+      Vector::setRandom().normalize();
       return *this;
     }
 
@@ -130,8 +129,8 @@ class Qubit : public Vector2D {
       return measure(m_std_base[0], m_std_base[1]);
     }
 
-    inline Qubit& measure(const Vector2D& baseVector0,
-                          const Vector2D& baseVector1)
+    inline Qubit& measure(const Vector& baseVector0,
+                          const Vector& baseVector1)
     {
       field c[2];
       c[0] = baseVector0.dot(*this);
@@ -156,6 +155,8 @@ class Qubit : public Vector2D {
     }
 };
 
-#endif // QUBIT_H
+} // namespace QuCoSi
 
-// vim: shiftwidth=2
+#endif // QUCOSI_QUBIT_H
+
+// vim: shiftwidth=2 textwidth=78

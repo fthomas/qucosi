@@ -1,12 +1,27 @@
-#include <Qubit.h>
 #include <cstdlib>
 #include <ctime>
 #include <limits>
 
+#include <MultiQubit.h>
+#include <Qubit.h>
+
 using namespace std;
+using namespace QuCoSi;
 
 int main(int, char *[])
 {
+    Qubit q;
+    MultiQubit mq;
+
+    mq.otimes(q);
+
+    cout << q << endl<<endl;
+    cout << mq << endl<<endl;
+    mq.otimes(q,q,q);
+    cout << mq << endl<<endl;
+
+
+/*
     std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
     Qubit k, q(std::complex<float>(0.707106781187,0),
@@ -19,6 +34,7 @@ int main(int, char *[])
     cout << k.setRandom() << endl;
     cout << k.measure() << endl<< endl;
     cout <<  std::pow(std::numeric_limits<float>::epsilon(),2);
+*/
 
 /*
     cout << q[0] <<endl;
