@@ -25,6 +25,11 @@ typedef double fptype;
 typedef std::complex<fptype> field;
 typedef Eigen::Matrix<field, 2, 1> Vector;
 typedef Eigen::Matrix<field, Eigen::Dynamic, 1> MultiVector;
+typedef Eigen::Matrix<field, Eigen::Dynamic, 1> DynamicVector;
+
+class Tensor : public DynamicVector {};
+
+class Base 
 
 } // namespace QuCoSi
 

@@ -17,7 +17,9 @@ int main(int, char *[])
 
     cout << q << endl<<endl;
     cout << mq << endl<<endl;
-    mq.otimes(q,q,q);
+    mq.otimes(q);
+    cout << mq << endl<<endl;
+    mq.otimes(mq);
     cout << mq << endl<<endl;
 
 

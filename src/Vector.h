@@ -14,53 +14,43 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef QUCOSI_MULTIQUBIT_H
-#define QUCOSI_MULTIQUBIT_H
+#ifndef QUCOSI_VECTOR_H
+#define QUCOSI_VECTOR_H
 
-#include <Base.h>
-#include <Qubit.h>
+#include <Eigen/Core>
 
 namespace QuCoSi {
 
-class MultiQubit : public MultiVector {
+typedef double fptype;
+typedef std::complex<fptype> field;
+typedef Eigen::Matrix<field, Eigen::Dynamic, 1> VectorXc;
+
+class Vector : public VectorXc {
   public:
-    inline MultiQubit() : MultiVector() {}
+    inline Vector() : VectorXc() {}
 
-    inline MultiQubit(const int size) : MultiVector(size) {}
+    inline Vector(const int rows) : VectorXc(rows) {}
 
-    inline MultiQubit& operator=(const Qubit& v)
-    {
-      MultiVector::operator=(v);
-      return *this;
-    }
-
-    inline MultiQubit& otimes(const Qubit& v)
+    inline Vector& otimes(const Vector& v)
     {
       if (rows() == 0) {
-        resize(v.rows());
         *this = v;
       } else {
-        MultiQubit tmp(rows()*v.rows());
-
-        int n = 0;
+        Vector tmp(rows() * v.rows());
+        int k = 0;
         for (int i = 0; i < rows(); i++) {
-          for (int j = 0; j < v.rows(); j++, n++) {
+          for (int j = 0; j < v.rows(); j++, k++) {
             tmp[n] = (*this)[i] * v[j];
           }
-        } 
+        }
         *this = tmp;
       }
       return *this;
-    }
-
-    inline MultiQubit& otimes(const MultiQubit& v)
-    {
-      otimes(v);
     }
 };
 
 } // namespace QuCoSi
 
-#endif // QUCOSI_MULTIQUBIT_H
+#endif // QUCOSI_VECTOR_H
 
 // vim: shiftwidth=2 textwidth=78
