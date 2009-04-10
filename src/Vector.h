@@ -25,25 +25,62 @@ typedef double fptype;
 typedef std::complex<fptype> field;
 typedef Eigen::Matrix<field, Eigen::Dynamic, 1> VectorXc;
 
+inline bool isZero(const fptype x)
+{
+  return std::abs(x) <= std::numeric_limits<fptype>::epsilon();
+}
+
+inline bool isOne(const fptype x)
+{
+  return isZero(x-1.);
+}
+
 class Vector : public VectorXc {
   public:
-    inline Vector() : VectorXc() {}
+    inline Vector() : VectorXc(2) {}
 
-    inline Vector(const int rows) : VectorXc(rows) {}
+    inline Vector(const int dim) : VectorXc(dim) {}
 
-    inline Vector& otimes(const Vector& v)
+    inline Vector(const field& c0, const field& c1) : VectorXc(2)
     {
-      if (rows() == 0) {
-        *this = v;
-      } else {
-        Vector tmp(rows() * v.rows());
-        int k = 0;
-        for (int i = 0; i < rows(); i++) {
-          for (int j = 0; j < v.rows(); j++, k++) {
-            tmp[n] = (*this)[i] * v[j];
-          }
+      (*this)[0] = c0;
+      (*this)[1] = c1;
+    }
+
+    inline Vector& operator=(const VectorXc& v)
+    {
+      VectorXc::operator=(v);
+      return *this;
+    }
+
+    inline bool isNormalized() const
+    {
+      return isOne(norm());
+    }
+
+    inline Vector& randomize()
+    {
+      setRandom().normalize();
+      return *this;
+    }
+
+    inline Vector otimes(const Vector& v) const
+    {
+      Vector w(rows()*v.rows());
+
+      int k = 0;
+      for (int i = 0; i < rows(); i++) {
+        for (int j = 0; j < v.rows(); j++, k++) {
+          w[k] = (*this)[i]*v[j];
         }
-        *this = tmp;
+      }
+      return w;
+    }
+
+    inline Vector& otimesSet(const Vector& v)
+    {
+      if (rows() > 0 && v.rows() > 0) {
+        *this = otimes(v);
       }
       return *this;
     }

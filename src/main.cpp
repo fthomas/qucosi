@@ -2,14 +2,27 @@
 #include <ctime>
 #include <limits>
 
-#include <MultiQubit.h>
-#include <Qubit.h>
+//#include <MultiQubit.h>
+//#include <Qubit.h>
+#include <Vector.h>
+#include <Basis.h>
 
 using namespace std;
 using namespace QuCoSi;
 
 int main(int, char *[])
 {
+
+    Basis b1(2), b2(2);
+    cout << b1 << endl << endl;
+    cout << b2 << endl << endl;
+    cout << b1.otimesSet(b2) << endl;
+
+/*
+    Vector v(field(0.9999999999999999,0), field(0,0));
+    cout << v.isNormalized() << endl;
+*/
+/*
     Qubit q;
     MultiQubit mq;
 
@@ -21,7 +34,7 @@ int main(int, char *[])
     cout << mq << endl<<endl;
     mq.otimes(mq);
     cout << mq << endl<<endl;
-
+*/
 
 /*
     std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
