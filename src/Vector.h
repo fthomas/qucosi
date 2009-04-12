@@ -17,6 +17,8 @@
 #ifndef QUCOSI_VECTOR_H
 #define QUCOSI_VECTOR_H
 
+#include <limits>
+
 #include <Eigen/Core>
 
 namespace QuCoSi {
@@ -37,7 +39,11 @@ inline bool isOne(const fptype x)
 
 class Vector : public VectorXc {
   public:
-    inline Vector() : VectorXc(2) {}
+    inline Vector() : VectorXc(2)
+    {
+      (*this)[0] = field(1,0);
+      (*this)[1] = field(0,0);
+    }
 
     inline Vector(const int dim) : VectorXc(dim) {}
 

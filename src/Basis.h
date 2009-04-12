@@ -26,6 +26,8 @@ namespace QuCoSi {
 
 class Basis : public std::vector<Vector> {
   public:
+    inline Basis() {}
+
     inline Basis(const int dim)
     {
       setNaturalBasis(dim);
@@ -33,6 +35,7 @@ class Basis : public std::vector<Vector> {
 
     inline Basis& setNaturalBasis(const int dim)
     {
+      clear();
       for (int i = 0; i < dim; i++) {
         Vector e(dim);
         e[i] = field(1,0);
@@ -60,6 +63,16 @@ class Basis : public std::vector<Vector> {
         *this = otimes(f);
       }
       return *this;
+    }
+
+    inline bool isNormalized() const
+    {
+      for (int i = 0; i < size(); i++) {
+        if (!at(i).isNormalized()) {
+          return false;
+        }
+      }
+      return true;
     }
 
     inline bool isOrthogonal() const

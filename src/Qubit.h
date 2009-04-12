@@ -18,39 +18,26 @@
 #define QUCOSI_QUBIT_H
 
 #include <cstdlib>
-#include <limits>
 #include <stdexcept>
 
-#include <Eigen/Array>
-#include <Eigen/Core>
-
-#include <Base.h>
+#include <Basis.h>
+#include <Vector.h>
 
 namespace QuCoSi {
 
 class Qubit : public Vector {
-  protected:
-    Vector m_std_base[2];
-
   private:
-    inline bool isOne(const float x) const
-    {
-      return std::abs(x-1.) < std::numeric_limits<fptype>::epsilon();
-    }
+    Basis m_std_basis;
 
   public:
-    inline Qubit() : Vector()
+    inline Qubit() : Vector(2)
     {
-      (*this)[0] = field(1,0);
-      (*this)[1] = field(0,0);
-      setStdBase();
+      m_std_basis = Basis(2);
     }
 
-    inline Qubit(const field c0, const field c1) : Vector()
+    inline Qubit(const field& c0, const field& c1) : Vector(c0, c1)
     {
-      (*this)[0] = c0;
-      (*this)[1] = c1;
-      setStdBase();
+      m_std_basis = Basis(2);
     }
 
     inline Qubit& operator=(const Vector& v)
@@ -59,97 +46,79 @@ class Qubit : public Vector {
       return *this;
     }
 
-    inline void setStdBase()
+    inline Basis getStdBasis() const
     {
-      Vector v0, v1;
-
-      v0[0] = field(1, 0);
-      v0[1] = field(0, 0);
-
-      v1[0] = field(0, 0);
-      v1[1] = field(0, 1);
-
-      m_std_base[0] = v0;
-      m_std_base[1] = v1;
+      return m_std_basis;
     }
 
-    inline void setStdBase(const Vector& baseVector0,
-                           const Vector& baseVector1)
+    inline void setStdBasis()
     {
-      if (!isOne(baseVector0.norm()) || !isOne(baseVector1.norm())) {
-        throw std::logic_error("Qubit::setStdBase(): "
-          "one of the alleged base vectors is not normalized");
+      m_std_basis.setNaturalBasis(rows());
+    }
+
+    inline void setStdBasis(const Basis& b)
+    {
+      if (b.size() == rows()) {
+        m_std_basis = b;
       }
-      if (!baseVector0.isOrthogonal(baseVector1)) {
-        throw std::logic_error("Qubit::setStdBase(): "
-          "the alleged base vectors are not orthogonal");
-      }
-      m_std_base[0] = baseVector0;
-      m_std_base[1] = baseVector1;
+    }
+
+    inline Qubit& otimesSet(const Qubit& q)
+    {
+      Vector::otimesSet(q);
+      m_std_basis.otimesSet(q.getStdBasis());
+      return *this;
     }
 
     inline field coefficient(const unsigned index) const
     {
-      return m_std_base[index%2].dot(*this);
-    }
-
-    inline bool isNormalized() const
-    {
-      return isOne(norm());
+      return m_std_basis[index%rows()].dot(*this);
     }
 
     inline bool isPureState() const
     {
-      return isPureState(m_std_base[0], m_std_base[1]);
+      return isPureState(m_std_basis);
     }
 
-    inline bool isPureState(const Vector& baseVector0,
-                            const Vector& baseVector1) const
+    inline bool isPureState(const Basis& b) const
     {
-      field c[2];
-      c[0] = baseVector0.dot(*this);
-      c[1] = baseVector1.dot(*this);
-
-      for (int i = 0; i <= 1; i++) {
-        if (std::pow(std::abs(c[i]),2) == 0) {
+      field c;
+      for (int i = 0; i < rows(); i++) {
+        c = b.at(i).dot(*this);
+        if (isOne(std::pow(std::abs(c),2))) {
           return true;
         }
       }
       return false;
     }
 
-    inline Qubit& setRandom()
-    {
-      Vector::setRandom().normalize();
-      return *this;
-    }
-
     inline Qubit& measure()
     {
-      return measure(m_std_base[0], m_std_base[1]);
+      return measure(m_std_basis);
     }
 
-    inline Qubit& measure(const Vector& baseVector0,
-                          const Vector& baseVector1)
+    inline Qubit& measure(const Basis& b)
     {
-      field c[2];
-      c[0] = baseVector0.dot(*this);
-      c[1] = baseVector1.dot(*this);
+      int n = rows();
+      std::vector<field> c(n);
+      std::vector<fptype> p(n);
 
-      double p[2];
-      p[0] = std::pow(std::abs(c[0]),2);
-      p[1] = std::pow(std::abs(c[1]),2);
-
-      if (p[0] == 0 || p[1] == 0) {
-        return *this;
+      for (int i = 0; i < n; i++) {
+        c[i] = b.at(i).dot(*this);
+        p[i] = std::pow(std::abs(c[i]),2);
+        if (isOne(p[i])) {
+          return *this;
+        }
       }
 
-      double w = double(std::rand())/RAND_MAX;
-      if (w <= p[0]) {
-        *this = c[0]/std::abs(c[0]) * baseVector0;
-      }
-      else {
-        *this = c[1]/std::abs(c[1]) * baseVector1;
+      fptype s = 0., r = fptype(std::rand())/RAND_MAX;
+      for (int j = 0; j < n; j++) {
+        s += p[j];
+        if (s >= r) {
+          *this = b.at(j);
+          *this *= c[j]/std::abs(c[j]);
+          return *this;
+        }
       }
       return *this;
     }
