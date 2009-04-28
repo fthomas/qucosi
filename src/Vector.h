@@ -37,7 +37,20 @@ inline bool isOne(const fptype x)
   return isZero(x-1.);
 }
 
-class Vector : public VectorXc {
+/** \class Vector
+  *
+  * \brief Dynamic size vector of complex numbers
+  *
+  * The Vector class is the base for all vectors and qubits used in QuCoSi. It
+  * is of dynamic size and uses complex numbers. Besides the standard methods
+  * that are inherited from the Eigen base class it offers some convenient
+  * methods like isNormalized() and randomize(). The most important feature of
+  * this class is the canonical tensor product otimes() and otimesSet().
+  *
+  * \sa Qubit
+  */
+class Vector : public VectorXc
+{
   public:
     inline Vector() : VectorXc(2)
     {
@@ -45,7 +58,7 @@ class Vector : public VectorXc {
       (*this)[1] = field(0,0);
     }
 
-    inline Vector(const int dim) : VectorXc(dim) {}
+    inline Vector(const unsigned dim) : VectorXc(dim) {}
 
     inline Vector(const field& c0, const field& c1) : VectorXc(2)
     {
@@ -70,10 +83,34 @@ class Vector : public VectorXc {
       return *this;
     }
 
+    /** \brief Calculates the canonical tensor product of this vector with
+      *        Vector \a v
+      *
+      * This method calculates the canonical tensor product of this vector
+      * with Vector \a v. The canonical tensor product \f$x \otimes y\f$ of
+      * the vectors \f$x \in K^n\f$ and \f$y \in K^m\f$ is defined as:
+      * \f[
+      *   \left(\begin{array}{c}
+      *     x_1 \\ x_2 \\ \vdots \\ x_n
+      *   \end{array}\right)
+      *   \otimes
+      *   \left(\begin{array}{c}
+      *     y_1 \\ y_2 \\ \vdots \\ y_m
+      *   \end{array}\right)
+      *   =
+      *   \left(\begin{array}{c}
+      *     x_1 y_1 \\ \vdots \\ x_1 y_m \\
+      *     x_2 y_1 \\ \vdots \\ x_2 y_m \\
+      *     \vdots \\ x_n y_m
+      *   \end{array}\right)
+      * \f]
+      *
+      * \param v The right hand side operand of the tensor product
+      * \return The canonical tensor product of this vector with Vector \a v
+      */
     inline Vector otimes(const Vector& v) const
     {
       Vector w(rows()*v.rows());
-
       int k = 0;
       for (int i = 0; i < rows(); i++) {
         for (int j = 0; j < v.rows(); j++, k++) {
@@ -83,6 +120,11 @@ class Vector : public VectorXc {
       return w;
     }
 
+    /** \brief Set the tensor product of this vector and Vector \a v as this
+      *        vector
+      *
+      * \sa otimes()
+      */
     inline Vector& otimesSet(const Vector& v)
     {
       if (rows() > 0 && v.rows() > 0) {
