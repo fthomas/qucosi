@@ -24,22 +24,26 @@
 
 namespace QuCoSi {
 
-class Basis : public std::vector<Vector> {
+class Basis : public std::vector<Vector>
+{
   public:
-    inline Basis() {}
+    inline Basis()
+    {
+      setNaturalBasis(2);
+    }
 
-    inline Basis(const int dim)
+    inline Basis(const unsigned dim)
     {
       setNaturalBasis(dim);
     }
 
-    inline Basis& setNaturalBasis(const int dim)
+    inline Basis& setNaturalBasis(const unsigned dim)
     {
-      clear();
+      resize(dim);
       for (int i = 0; i < dim; i++) {
         Vector e(dim);
         e[i] = field(1,0);
-        push_back(e);
+        (*this)[i] = e;
       }
       return *this;
     }
@@ -47,7 +51,6 @@ class Basis : public std::vector<Vector> {
     inline Basis otimes(const Basis& f) const
     {
       Basis g(size()*f.size());
-
       int k = 0;
       for (int i = 0; i < size(); i++) {
         for (int j = 0; j < f.size(); j++, k++) {
@@ -91,15 +94,15 @@ class Basis : public std::vector<Vector> {
 
 inline std::ostream& operator<<(std::ostream& os, const Basis& b)
 {
-  int n = b.size();
+  int n = b.size()-1;
   os << "{" << std::endl;
   for (int i = 0; i < n; i++) {
-    os << b.at(i);
-    if (i < n-1) {
-      os << "," << std::endl << std::endl;
-    }
+    os << b.at(i) << "," << std::endl << std::endl;
   }
-  return os << std::endl << "}";
+  if (n >= 0) {
+    os << b.at(n) << std::endl;
+  }
+  return os << "}";
 }
 
 } // namespace QuCoSi

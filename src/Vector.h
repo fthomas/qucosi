@@ -19,6 +19,7 @@
 
 #include <limits>
 
+#include <Eigen/Array>
 #include <Eigen/Core>
 
 namespace QuCoSi {
@@ -83,8 +84,7 @@ class Vector : public VectorXc
       return *this;
     }
 
-    /** \brief Calculates the canonical tensor product of this vector with
-      *        Vector \a v
+    /** \brief Calculates the tensor product of this vector with \a v
       *
       * This method calculates the canonical tensor product of this vector
       * with Vector \a v. The canonical tensor product \f$x \otimes y\f$ of
@@ -120,8 +120,11 @@ class Vector : public VectorXc
       return w;
     }
 
-    /** \brief Set the tensor product of this vector and Vector \a v as this
-      *        vector
+    /** \brief Sets the tensor product of this vector and \a v as this vector
+      *
+      * Sets the result of the tensor product of this vector and Vector \a v
+      * as this vector. For two vectors \c x and \c y \code x.otimesSet(y)
+      * \endcode is practically identical to \code x = x.otimes(y) \endcode
       *
       * \sa otimes()
       */
