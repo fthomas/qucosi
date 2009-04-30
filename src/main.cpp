@@ -11,6 +11,7 @@ using namespace QuCoSi;
 
 int main(int, char *[])
 {
+/*
     Qubit 
         q1(field(0,0), field(1,0)),
         q2(field(0,0), field(1,0)),
@@ -21,7 +22,7 @@ int main(int, char *[])
     cout << q3 << endl << endl;
     cout << q1.otimesSet(q2).otimesSet(q3) << endl << endl;
     //cout << q1.getStdBasis() << endl << endl;
-
+*/
 /*
     Vector v1(field(1,0), field(0,1)),v2(2);
     Qubit q;
@@ -32,12 +33,13 @@ int main(int, char *[])
     v2=(field(3,4)* b[0]);
     cout << field(55,0)*b[1] << endl;
 */
-/*
+
     Basis b1(2), b2(2);
     cout << b1 << endl << endl;
     cout << b2 << endl << endl;
     cout << b1.otimesSet(b2) << endl;
-*/
+    cout << b1.setNaturalBasis(0) << endl;
+
 /*
     Vector v(field(0.9999999999999999,0), field(0,0));
     cout << v.isNormalized() << endl;
