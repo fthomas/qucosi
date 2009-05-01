@@ -28,6 +28,7 @@ class VectorTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(VectorTest);
   CPPUNIT_TEST(testIsNormalized);
+  CPPUNIT_TEST(testOtimes);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -55,6 +56,39 @@ class VectorTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( v2.randomize().isNormalized() == true );
       CPPUNIT_ASSERT( v3.randomize().isNormalized() == true );
       CPPUNIT_ASSERT( v4.randomize().isNormalized() == true );
+
+      v1.resize(10);
+      v1.setZero();
+      v1[9] = field(1,0);
+      CPPUNIT_ASSERT( v1.isNormalized() == true );
+    }
+
+    void testOtimes()
+    {
+      Vector v1(field(1,0), field(0,0)),
+             v2(field(1,0), field(0,0)),
+             v3(4);
+
+      v3[0] = field(1,0);
+      CPPUNIT_ASSERT( v3 == v1.otimes(v1) );
+      CPPUNIT_ASSERT( v3.otimes(v1) == v1.otimes(v1).otimes(v1) );
+
+      v1[0] = field(2,0);
+      v1[1] = field(3,0);
+
+      v2[0] = field(5,0);
+      v2[1] = field(7,0);
+
+      v3[0] = field(10,0);
+      v3[1] = field(14,0);
+      v3[2] = field(15,0);
+      v3[3] = field(21,0);
+
+      CPPUNIT_ASSERT( v3 == v1.otimes(v2) );
+
+      CPPUNIT_ASSERT( v1.otimes(v2).size() == 4 );
+      CPPUNIT_ASSERT( v3.otimes(v2).size() == 8 );
+      CPPUNIT_ASSERT( v3.otimes(v3).size() == 16 );
     }
 };
 
