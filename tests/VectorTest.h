@@ -17,6 +17,9 @@
 #ifndef QUCOSI_VECTORTEST_H
 #define QUCOSI_VECTORTEST_H
 
+#include <cstdlib>
+#include <ctime>
+
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -28,17 +31,17 @@ class VectorTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(VectorTest);
   CPPUNIT_TEST(testIsNormalized);
+  CPPUNIT_TEST(testRandomize);
   CPPUNIT_TEST(testTensorDot);
   CPPUNIT_TEST_SUITE_END();
 
   public:
     void setUp()
     {
+      std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
     }
 
-    void tearDown()
-    {
-    }
+    void tearDown() {}
 
     void testIsNormalized()
     {
@@ -61,6 +64,25 @@ class VectorTest : public CppUnit::TestFixture
       v1.setZero();
       v1[9] = field(1,0);
       CPPUNIT_ASSERT( v1.isNormalized() == true );
+    }
+
+    void testRandomize()
+    {
+      Vector v1(field(1,0), field(0,0)),
+             v2(field(1,0), field(0,0));
+
+      v1.randomize();
+      CPPUNIT_ASSERT( v1.isNormalized() == true );
+      CPPUNIT_ASSERT( v1 != v2 );
+
+      v1[0] = field(1,0);
+      v1[1] = field(0,0);
+      v2.randomize();
+      CPPUNIT_ASSERT( v1 != v2 );
+
+      v1.randomize();
+      v2.randomize();
+      CPPUNIT_ASSERT( v1 != v2 );
     }
 
     void testTensorDot()
