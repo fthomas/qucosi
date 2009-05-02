@@ -5,12 +5,37 @@
 #include <Qubit.h>
 #include <Vector.h>
 #include <Basis.h>
+#include <Gate.h>
 
 using namespace std;
 using namespace QuCoSi;
+using namespace Eigen;
 
 int main(int, char *[])
 {
+
+    Gate m1(2,2), m2(2,2);
+    m1 << 1,2,3,4;
+    m2 << 5,6,7,8;
+    cout << m1 << endl << endl << m2 << endl << endl;
+    cout << m1.tensorDot(m2);
+
+/*
+    MatrixXf m1(2,2), m2(2,2);
+    m1 << 1,2,3,4;
+    m2 << 5,6,7,8;
+    cout << m1 << endl << endl << m2 << endl << endl;
+
+    MatrixXf m3(m1.rows()*m2.rows(), m1.cols()*m2.cols());
+
+    for (int i = 0; i < m1.cols(); i++) {
+        for (int j = 0; j < m1.rows(); j++) {
+            m3.block(i*m2.rows(), j*m2.cols(), m2.rows(), m2.cols()) =  m1(i,j)*m2;
+        }
+    }
+
+    cout << m3 << endl;
+*/
 /*
     Qubit 
         q1(field(0,0), field(1,0)),
@@ -33,13 +58,13 @@ int main(int, char *[])
     v2=(field(3,4)* b[0]);
     cout << field(55,0)*b[1] << endl;
 */
-
+/*
     Basis b1(2), b2(2);
     cout << b1 << endl << endl;
     cout << b2 << endl << endl;
     cout << b1.otimesSet(b2) << endl;
     cout << b1.setNaturalBasis(0) << endl;
-
+*/
 /*
     Vector v(field(0.9999999999999999,0), field(0,0));
     cout << v.isNormalized() << endl;
