@@ -18,27 +18,17 @@
 #define QUCOSI_QUBIT_H
 
 #include <cstdlib>
-#include <stdexcept>
+#include <vector>
 
-#include <Basis.h>
 #include <Vector.h>
 
 namespace QuCoSi {
 
 class Qubit : public Vector {
-  private:
-    Basis m_std_basis;
-
   public:
-    inline Qubit() : Vector(2)
-    {
-      m_std_basis = Basis(2);
-    }
+    inline Qubit() : Vector(2) {}
 
-    inline Qubit(const field& c0, const field& c1) : Vector(c0, c1)
-    {
-      m_std_basis = Basis(2);
-    }
+    inline Qubit(const field& c0, const field& c1) : Vector(c0, c1) {}
 
     inline Qubit& operator=(const Vector& v)
     {
@@ -46,46 +36,10 @@ class Qubit : public Vector {
       return *this;
     }
 
-    inline Basis getStdBasis() const
-    {
-      return m_std_basis;
-    }
-
-    inline void setStdBasis()
-    {
-      m_std_basis.setNaturalBasis(rows());
-    }
-
-    inline void setStdBasis(const Basis& b)
-    {
-      if (b.size() == rows()) {
-        m_std_basis = b;
-      }
-    }
-
-    inline Qubit& tensorDotSet(const Qubit& q)
-    {
-      Vector::tensorDotSet(q);
-      m_std_basis.tensorDotSet(q.getStdBasis());
-      return *this;
-    }
-
-    inline field coefficient(const unsigned index) const
-    {
-      return m_std_basis[index%rows()].dot(*this);
-    }
-
     inline bool isPureState() const
     {
-      return isPureState(m_std_basis);
-    }
-
-    inline bool isPureState(const Basis& b) const
-    {
-      field c;
       for (int i = 0; i < rows(); i++) {
-        c = b.at(i).dot(*this);
-        if (isOne(std::pow(std::abs(c),2))) {
+        if (isOne(std::pow(std::abs((*this)(i)),2))) {
           return true;
         }
       }
@@ -94,18 +48,11 @@ class Qubit : public Vector {
 
     inline Qubit& measure()
     {
-      return measure(m_std_basis);
-    }
-
-    inline Qubit& measure(const Basis& b)
-    {
       int n = rows();
-      std::vector<field> c(n);
       std::vector<fptype> p(n);
 
       for (int i = 0; i < n; i++) {
-        c[i] = b.at(i).dot(*this);
-        p[i] = std::pow(std::abs(c[i]),2);
+        p[i] = std::pow(std::abs((*this)(i)),2);
         if (isOne(p[i])) {
           return *this;
         }
@@ -115,8 +62,9 @@ class Qubit : public Vector {
       for (int j = 0; j < n; j++) {
         s += p[j];
         if (s >= r) {
-          *this = b.at(j);
-          *this *= c[j]/std::abs(c[j]);
+          field c = (*this)(j)/std::abs((*this)(j));
+          setZero();
+          (*this)(j) = c;
           return *this;
         }
       }
