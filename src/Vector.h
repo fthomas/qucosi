@@ -46,7 +46,7 @@ inline bool isOne(const fptype x)
   * is of dynamic size and uses complex numbers. Besides the standard methods
   * that are inherited from the Eigen base class it offers some convenient
   * methods like isNormalized() and randomize(). The most important feature of
-  * this class is the canonical tensor product otimes() and otimesSet().
+  * this class is the canonical tensor product tensorDot() and tensorDotSet().
   *
   * \sa Qubit
   */
@@ -108,7 +108,7 @@ class Vector : public VectorXc
       * \param v The right hand side operand of the tensor product
       * \return The canonical tensor product of this vector with Vector \a v
       */
-    inline Vector otimes(const Vector& v) const
+    inline Vector tensorDot(const Vector& v) const
     {
       Vector w(rows()*v.rows());
       int k = 0;
@@ -123,15 +123,15 @@ class Vector : public VectorXc
     /** \brief Sets the tensor product of this vector and \a v as this vector
       *
       * Sets the result of the tensor product of this vector and Vector \a v
-      * as this vector. For two vectors \c x and \c y \code x.otimesSet(y)
-      * \endcode is practically identical to \code x = x.otimes(y) \endcode
+      * as this vector. For two vectors \c x and \c y \code x.tensorDotSet(y)
+      * \endcode is practically identical to \code x = x.tensorDot(y) \endcode
       *
-      * \sa otimes()
+      * \sa tensorDot()
       */
-    inline Vector& otimesSet(const Vector& v)
+    inline Vector& tensorDotSet(const Vector& v)
     {
       if (rows() > 0 && v.rows() > 0) {
-        *this = otimes(v);
+        *this = tensorDot(v);
       }
       return *this;
     }

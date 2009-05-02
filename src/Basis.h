@@ -48,22 +48,22 @@ class Basis : public std::vector<Vector>
       return *this;
     }
 
-    inline Basis otimes(const Basis& f) const
+    inline Basis tensorDot(const Basis& f) const
     {
       Basis g(size()*f.size());
       int k = 0;
       for (int i = 0; i < size(); i++) {
         for (int j = 0; j < f.size(); j++, k++) {
-          g[k] = (*this)[i].otimes(f[j]);
+          g[k] = (*this)[i].tensorDot(f[j]);
         }
       }
       return g;
     }
 
-    inline Basis& otimesSet(const Basis& f)
+    inline Basis& tensorDotSet(const Basis& f)
     {
       if (size() > 0 && f.size() > 0) {
-        *this = otimes(f);
+        *this = tensorDot(f);
       }
       return *this;
     }

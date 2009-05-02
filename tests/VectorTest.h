@@ -28,7 +28,7 @@ class VectorTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(VectorTest);
   CPPUNIT_TEST(testIsNormalized);
-  CPPUNIT_TEST(testOtimes);
+  CPPUNIT_TEST(testTensorDot);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -63,15 +63,15 @@ class VectorTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( v1.isNormalized() == true );
     }
 
-    void testOtimes()
+    void testTensorDot()
     {
       Vector v1(field(1,0), field(0,0)),
              v2(field(1,0), field(0,0)),
              v3(4);
 
       v3[0] = field(1,0);
-      CPPUNIT_ASSERT( v3 == v1.otimes(v1) );
-      CPPUNIT_ASSERT( v3.otimes(v1) == v1.otimes(v1).otimes(v1) );
+      CPPUNIT_ASSERT( v3 == v1.tensorDot(v1) );
+      CPPUNIT_ASSERT( v3.tensorDot(v1) == v1.tensorDot(v1).tensorDot(v1) );
 
       v1[0] = field(2,0);
       v1[1] = field(3,0);
@@ -84,11 +84,11 @@ class VectorTest : public CppUnit::TestFixture
       v3[2] = field(15,0);
       v3[3] = field(21,0);
 
-      CPPUNIT_ASSERT( v3 == v1.otimes(v2) );
+      CPPUNIT_ASSERT( v3 == v1.tensorDot(v2) );
 
-      CPPUNIT_ASSERT( v1.otimes(v2).size() == 4 );
-      CPPUNIT_ASSERT( v3.otimes(v2).size() == 8 );
-      CPPUNIT_ASSERT( v3.otimes(v3).size() == 16 );
+      CPPUNIT_ASSERT( v1.tensorDot(v2).size() == 4 );
+      CPPUNIT_ASSERT( v3.tensorDot(v2).size() == 8 );
+      CPPUNIT_ASSERT( v3.tensorDot(v3).size() == 16 );
     }
 };
 

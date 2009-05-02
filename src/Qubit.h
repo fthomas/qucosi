@@ -63,10 +63,10 @@ class Qubit : public Vector {
       }
     }
 
-    inline Qubit& otimesSet(const Qubit& q)
+    inline Qubit& tensorDotSet(const Qubit& q)
     {
-      Vector::otimesSet(q);
-      m_std_basis.otimesSet(q.getStdBasis());
+      Vector::tensorDotSet(q);
+      m_std_basis.tensorDotSet(q.getStdBasis());
       return *this;
     }
 
