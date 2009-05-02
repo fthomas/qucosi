@@ -3,9 +3,10 @@ SET(QUCOSI_SOURCES
 )
 
 SET(QUCOSI_HEADERS
-    Base.h
-    MultiQubit.h
+    Basis.h
+    Gate.h
     Qubit.h
+    Vector.h
 )
 
 INCLUDE_DIRECTORIES(. /usr/include/eigen2)

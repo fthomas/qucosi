@@ -29,15 +29,15 @@ class Basis : public std::vector<Vector>
   public:
     inline Basis()
     {
-      setNaturalBasis(2);
+      setStandardBasis(2);
     }
 
     inline Basis(const unsigned dim)
     {
-      setNaturalBasis(dim);
+      setStandardBasis(dim);
     }
 
-    inline Basis& setNaturalBasis(const unsigned dim)
+    inline Basis& setStandardBasis(const unsigned dim)
     {
       resize(dim);
       for (int i = 0; i < dim; i++) {
@@ -89,6 +89,16 @@ class Basis : public std::vector<Vector>
         }
       }
       return true;
+    }
+
+    inline bool isOrthonormal() const
+    {
+      if (isNormalized()) {
+        if (isOrthogonal()) {
+          return true;
+        }
+      }
+      return false;
     }
 };
 
