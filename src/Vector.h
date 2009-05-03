@@ -38,6 +38,15 @@ inline bool isOne(const fptype x)
   return isZero(x-1.);
 }
 
+inline unsigned log2(unsigned value)
+{
+  unsigned l = 0;
+  while((value >> l) != 0) {
+    l++;
+  }
+  return l-1;
+}
+
 /** \class Vector
   *
   * \brief Dynamic size vector of complex numbers

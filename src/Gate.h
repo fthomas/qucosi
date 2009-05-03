@@ -78,8 +78,7 @@ class Gate : public MatrixXc
 
     inline Gate extendToPos(const int k, const int n) const
     {
-      int size = std::log(rows())/std::log(2);
-      int l = n-k-size;
+      int l = n-k-log2(rows());
       Gate id, x = *this;
 
       if (l > 0) {
@@ -87,7 +86,7 @@ class Gate : public MatrixXc
         id.setIdentity();
         x = id.tensorDot(x);
       }
-      if (l > 0 && k > 0) {
+      if (l >= 0 && k > 0) {
         id.resize(std::pow(2,k), std::pow(2,k));
         id.setIdentity();
         x.tensorDotSet(id);

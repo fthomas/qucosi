@@ -37,7 +37,7 @@ int main(int, char *[])
   m(1,2) = 1;
   m(3,3) = 1;
 
-  cout << m.extendToPos(0,3);
+  cout << m.extendToPos(1,3);
 /*
   Gate m(4,4), i(2,2);
 
