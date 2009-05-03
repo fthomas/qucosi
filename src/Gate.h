@@ -95,6 +95,70 @@ class Gate : public MatrixXc
     }
 };
 
+class XGate : public Gate
+{
+  public:
+    inline XGate() : Gate(2, 2)
+    {
+      (*this)(0,1) = field(1,0);
+      (*this)(1,0) = field(1,0);
+    }
+};
+
+class YGate : public Gate
+{
+  public:
+    inline YGate() : Gate(2, 2)
+    {
+      (*this)(0,1) = field(0,-1);
+      (*this)(1,0) = field(0,1);
+    }
+};
+
+class ZGate : public Gate
+{
+  public:
+    inline ZGate() : Gate(2, 2)
+    {
+      (*this)(0,0) = field(1,0);
+      (*this)(1,1) = field(-1,0);
+    }
+};
+
+class HGate : public Gate
+{
+  public:
+    inline HGate() : Gate(2, 2)
+    {
+      fptype c = std::sqrt(0.5);
+      (*this)(0,0) = field(c,0);
+      (*this)(0,1) = field(c,0);
+      (*this)(1,0) = field(c,0);
+      (*this)(1,1) = field(-c,0);
+    }
+};
+
+class PGate : public Gate
+{
+  public:
+    inline PGate() : Gate(2, 2)
+    {
+      (*this)(0,0) = field(1,0);
+      (*this)(1,1) = field(0,1);
+    }
+};
+
+class TGate : public Gate
+{
+  public:
+    inline TGate() : Gate(2, 2)
+    {
+      fptype c = std::sqrt(0.5);
+      (*this)(0,0) = field(1,0);
+      (*this)(1,1) = field(c,c);
+    }
+};
+
 } // namespace QuCoSi
 
 #endif // QUCOSI_GATE_H

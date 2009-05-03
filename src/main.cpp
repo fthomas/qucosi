@@ -29,6 +29,36 @@ using namespace Eigen;
 
 int main(int, char *[])
 {
+  Qubit q0(field(1,0), field(0,0)),
+        q1(field(0,0), field(1,0));
+  XGate x = XGate();
+  YGate y = YGate();
+  ZGate z = ZGate();
+  HGate h = HGate();
+  PGate p = PGate();
+  TGate t = TGate();
+
+  cout << h.extendToPos(1,2) << endl;
+
+  cout << x*q0 << endl << endl;
+  cout << x*q1 << endl << "---" << endl;
+
+  cout << y*q0 << endl << endl;
+  cout << y*q1 << endl << "---" << endl;
+
+  cout << z*q0 << endl << endl;
+  cout << z*q1 << endl << "---" << endl;
+
+  cout << h*q0 << endl << endl;
+  cout << h*q1 << endl << "---" << endl;
+
+  cout << p*q0 << endl << endl;
+  cout << p*q1 << endl << "---" << endl;
+
+  cout << t*q0 << endl << endl;
+  cout << t*q1 << endl << "---" << endl;
+
+/*
   Gate m(4,4);
 
   m.setZero();
@@ -38,6 +68,7 @@ int main(int, char *[])
   m(3,3) = 1;
 
   cout << m.extendToPos(1,3);
+*/
 /*
   Gate m(4,4), i(2,2);
 
