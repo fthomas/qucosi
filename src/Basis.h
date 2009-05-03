@@ -32,12 +32,12 @@ class Basis : public std::vector<Vector>
       setStandardBasis(2);
     }
 
-    inline Basis(const unsigned dim)
+    inline Basis(const int dim)
     {
       setStandardBasis(dim);
     }
 
-    inline Basis& setStandardBasis(const unsigned dim)
+    inline Basis& setStandardBasis(const int dim)
     {
       resize(dim);
       for (int i = 0; i < dim; i++) {

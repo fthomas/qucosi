@@ -1,3 +1,19 @@
+// QuCoSi - Quantum Computer Simulation
+// Copyright © 2009 Frank S. Thomas <frank@thomas-alfeld.de>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <cstdlib>
 #include <ctime>
 #include <limits>
@@ -13,13 +29,37 @@ using namespace Eigen;
 
 int main(int, char *[])
 {
+  Gate m(4,4);
 
+  m.setZero();
+  m(0,0) = 1;
+  m(2,1) = 1;
+  m(1,2) = 1;
+  m(3,3) = 1;
+
+  cout << m.extendToPos(0,3);
+/*
+  Gate m(4,4), i(2,2);
+
+  m.setZero();
+  m(0,0) = 1;
+  m(2,1) = 1;
+  m(1,2) = 1;
+  m(3,3) = 1;
+  i.setIdentity();
+
+  cout << i.tensorPow(0) << endl << endl;
+  cout << m << endl << endl;
+
+  cout << m.tensorDot(i);
+*/
+/*
     Gate m1(2,2), m2(2,2);
     m1 << 1,2,3,4;
     m2 << 5,6,7,8;
     cout << m1 << endl << endl << m2 << endl << endl;
     cout << m1.tensorDot(m2);
-
+*/
 /*
     MatrixXf m1(2,2), m2(2,2);
     m1 << 1,2,3,4;
@@ -123,5 +163,7 @@ int main(int, char *[])
     std::cout << q.isNormalized() << std::endl << std::endl;
     q.setStdBase(v1, v2);
 */
-    return 0;
+  return 0;
 }
+
+// vim: shiftwidth=2 textwidth=78

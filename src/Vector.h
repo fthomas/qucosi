@@ -59,7 +59,7 @@ class Vector : public VectorXc
       (*this)[1] = field(0,0);
     }
 
-    inline Vector(const unsigned dim) : VectorXc(dim) {}
+    inline Vector(const int dim) : VectorXc(dim) {}
 
     inline Vector(const field& c0, const field& c1) : VectorXc(2)
     {
@@ -73,11 +73,16 @@ class Vector : public VectorXc
       return *this;
     }
 
+    /** \brief Checks if this vector is an unit vector
+      * \return true if this vector is an unit vector
+      */
     inline bool isNormalized() const
     {
       return isOne(norm());
     }
 
+    /** \brief Sets all coefficients in this vector to random values
+      */
     inline Vector& randomize()
     {
       setRandom().normalize();
@@ -105,8 +110,8 @@ class Vector : public VectorXc
       *   \end{array}\right)
       * \f]
       *
-      * \param v The right hand side operand of the tensor product
-      * \return The canonical tensor product of this vector with Vector \a v
+      * \param v the right hand side operand of the tensor product
+      * \return the canonical tensor product of this vector with Vector \a v
       */
     inline Vector tensorDot(const Vector& v) const
     {
@@ -122,9 +127,10 @@ class Vector : public VectorXc
 
     /** \brief Sets the tensor product of this vector and \a v as this vector
       *
-      * Sets the result of the tensor product of this vector and Vector \a v
-      * as this vector. For two vectors \c x and \c y \code x.tensorDotSet(y)
-      * \endcode is practically identical to \code x = x.tensorDot(y) \endcode
+      * This method calculates the tensor product of this vector and Vector
+      * \a v and sets the result as this vector. For two vectors \c x and \c y
+      * \code x.tensorDotSet(y) \endcode is practically identical to
+      * \code x = x.tensorDot(y) \endcode
       *
       * \sa tensorDot()
       */

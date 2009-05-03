@@ -26,7 +26,15 @@ typedef Eigen::Matrix<field, Eigen::Dynamic, Eigen::Dynamic> MatrixXc;
 class Gate : public MatrixXc
 {
   public:
+    inline Gate() : MatrixXc() {}
+
     inline Gate(const int r, const int c) : MatrixXc(r, c) {}
+
+    inline Gate& operator=(const MatrixXc& m)
+    {
+      MatrixXc::operator=(m);
+      return *this;
+    }
 
     inline Gate tensorDot(const Gate& m) const
     {
@@ -51,6 +59,40 @@ class Gate : public MatrixXc
         *this = tensorDot(m);
       }
       return *this;
+    }
+
+    inline Gate tensorPow(const int n) const
+    {
+      Gate x = *this;
+      for (int i = 1; i < n; i++) {
+        x.tensorDotSet(*this);
+      }
+      return x;
+    }
+
+    inline Gate& tensorPowSet(const int n)
+    {
+      *this = tensorPow(n);
+      return *this;
+    }
+
+    inline Gate extendToPos(const int k, const int n) const
+    {
+      int size = std::log(rows())/std::log(2);
+      int l = n-k-size;
+      Gate id, x = *this;
+
+      if (l > 0) {
+        id.resize(std::pow(2,l), std::pow(2,l));
+        id.setIdentity();
+        x = id.tensorDot(x);
+      }
+      if (l > 0 && k > 0) {
+        id.resize(std::pow(2,k), std::pow(2,k));
+        id.setIdentity();
+        x.tensorDotSet(id);
+      }
+      return x;
     }
 };
 
