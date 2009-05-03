@@ -30,6 +30,7 @@ namespace QuCoSi {
 class VectorTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(VectorTest);
+  CPPUNIT_TEST(testLog2);
   CPPUNIT_TEST(testIsNormalized);
   CPPUNIT_TEST(testRandomize);
   CPPUNIT_TEST(testTensorDot);
@@ -42,6 +43,21 @@ class VectorTest : public CppUnit::TestFixture
     }
 
     void tearDown() {}
+
+    void testLog2()
+    {
+      CPPUNIT_ASSERT( log2(0) == -1 );
+      CPPUNIT_ASSERT( log2(1) == 0 );
+      CPPUNIT_ASSERT( log2(2) == 1 );
+      CPPUNIT_ASSERT( log2(4) == 2 );
+      CPPUNIT_ASSERT( log2(8) == 3 );
+      CPPUNIT_ASSERT( log2(16) == 4 );
+      CPPUNIT_ASSERT( log2(32) == 5 );
+      CPPUNIT_ASSERT( log2(33) == 5 );
+      CPPUNIT_ASSERT( log2(64) == 6 );
+      CPPUNIT_ASSERT( log2(128) == 7 );
+      CPPUNIT_ASSERT( log2(256) == 8 );
+    }
 
     void testIsNormalized()
     {
