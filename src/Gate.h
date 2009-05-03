@@ -95,6 +95,8 @@ class Gate : public MatrixXc
     }
 };
 
+/** \brief \b X gate (NOT gate)
+  */
 class XGate : public Gate
 {
   public:
@@ -105,6 +107,8 @@ class XGate : public Gate
     }
 };
 
+/** \brief \b Y gate
+  */
 class YGate : public Gate
 {
   public:
@@ -115,6 +119,8 @@ class YGate : public Gate
     }
 };
 
+/** \brief \b Z gate
+  */
 class ZGate : public Gate
 {
   public:
@@ -125,6 +131,8 @@ class ZGate : public Gate
     }
 };
 
+/** \brief \b H gate (Hadamard gate)
+  */
 class HGate : public Gate
 {
   public:
@@ -138,6 +146,8 @@ class HGate : public Gate
     }
 };
 
+/** \brief \b P gate (phase gate)
+  */
 class PGate : public Gate
 {
   public:
@@ -148,6 +158,8 @@ class PGate : public Gate
     }
 };
 
+/** \brief \b T gate (pi/4 phase shift gate)
+  */
 class TGate : public Gate
 {
   public:
