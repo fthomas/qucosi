@@ -29,9 +29,16 @@ using namespace Eigen;
 
 int main(int, char *[])
 {
+  std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
+  Qubit x(field(0,0), field(1,0));
+  Gate h;
+  h.HGate();
+  x = h*x;
+  cout << x.measure() << endl;
+/*
   Gate m;
   cout << m.CNOTGate() << endl;
-
+*/
 /*
   Qubit q0(field(1,0), field(0,0)),
         q1(field(0,0), field(1,0));

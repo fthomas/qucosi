@@ -41,7 +41,7 @@ inline bool isOne(const fptype x)
 inline unsigned log2(unsigned value)
 {
   unsigned l = 0;
-  while((value >> l) != 0) {
+  while ((value >> l) != 0) {
     l++;
   }
   return l-1;

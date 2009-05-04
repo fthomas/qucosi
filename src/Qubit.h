@@ -30,6 +30,12 @@ class Qubit : public Vector {
 
     inline Qubit(const field& c0, const field& c1) : Vector(c0, c1) {}
 
+    inline Qubit& operator=(const VectorXc& v)
+    {
+      VectorXc::operator=(v);
+      return *this;
+    }
+
     inline Qubit& operator=(const Vector& v)
     {
       Vector::operator=(v);
