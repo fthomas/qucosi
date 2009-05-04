@@ -28,7 +28,7 @@ class Gate : public MatrixXc
   public:
     inline Gate() : MatrixXc() {}
 
-    inline Gate(const int r, const int c) : MatrixXc(r, c) {}
+    inline Gate(const int r, const int c) : MatrixXc(r,c) {}
 
     inline Gate& operator=(const MatrixXc& m)
     {
@@ -105,7 +105,7 @@ class Gate : public MatrixXc
       */
     inline Gate& XGate()
     {
-      resize(2, 2);
+      resize(2,2);
       setZero();
       (*this)(0,1) = field(1,0);
       (*this)(1,0) = field(1,0);
@@ -123,7 +123,7 @@ class Gate : public MatrixXc
       */
     inline Gate& YGate()
     {
-      resize(2, 2);
+      resize(2,2);
       setZero();
       (*this)(0,1) = field(0,-1);
       (*this)(1,0) = field(0,1);
@@ -141,7 +141,7 @@ class Gate : public MatrixXc
       */
     inline Gate& ZGate()
     {
-      resize(2, 2);
+      resize(2,2);
       setZero();
       (*this)(0,0) = field(1,0);
       (*this)(1,1) = field(-1,0);
@@ -159,8 +159,7 @@ class Gate : public MatrixXc
       */
     inline Gate& HGate()
     {
-      resize(2, 2);
-      setZero();
+      resize(2,2);
       fptype c = std::sqrt(0.5);
       (*this)(0,0) = field(c,0);
       (*this)(0,1) = field(c,0);
@@ -180,7 +179,7 @@ class Gate : public MatrixXc
       */
     inline Gate& PGate()
     {
-      resize(2, 2);
+      resize(2,2);
       setZero();
       (*this)(0,0) = field(1,0);
       (*this)(1,1) = field(0,1);
@@ -198,7 +197,7 @@ class Gate : public MatrixXc
       */
     inline Gate& TGate()
     {
-      resize(2, 2);
+      resize(2,2);
       setZero();
       fptype c = std::sqrt(0.5);
       (*this)(0,0) = field(1,0);
@@ -219,7 +218,7 @@ class Gate : public MatrixXc
       */
     inline Gate& CNOTGate()
     {
-      resize(4, 4);
+      resize(4,4);
       setZero();
       (*this)(0,0) = field(1,0);
       (*this)(1,1) = field(1,0);
@@ -241,7 +240,7 @@ class Gate : public MatrixXc
       */
     inline Gate& SWAPGate()
     {
-      resize(4, 4);
+      resize(4,4);
       setZero();
       (*this)(0,0) = field(1,0);
       (*this)(1,2) = field(1,0);
