@@ -29,6 +29,10 @@ using namespace Eigen;
 
 int main(int, char *[])
 {
+  Gate m;
+  cout << m.CNOTGate() << endl;
+
+/*
   Qubit q0(field(1,0), field(0,0)),
         q1(field(0,0), field(1,0));
   XGate x = XGate();
@@ -57,7 +61,7 @@ int main(int, char *[])
 
   cout << t*q0 << endl << endl;
   cout << t*q1 << endl << "---" << endl;
-
+*/
 /*
   Gate m(4,4);
 

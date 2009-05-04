@@ -93,82 +93,163 @@ class Gate : public MatrixXc
       }
       return x;
     }
-};
 
-/** \brief \b X gate (NOT gate)
-  */
-class XGate : public Gate
-{
-  public:
-    inline XGate() : Gate(2, 2)
+    /** \brief \b X gate (NOT gate)
+      *
+      * \f[\mathbf{X} =
+      *   \left(\begin{array}{cc}
+      *     0 & 1\\
+      *     1 & 0
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& XGate()
     {
+      resize(2, 2);
+      setZero();
       (*this)(0,1) = field(1,0);
       (*this)(1,0) = field(1,0);
+      return *this;
     }
-};
 
-/** \brief \b Y gate
-  */
-class YGate : public Gate
-{
-  public:
-    inline YGate() : Gate(2, 2)
+    /** \brief \b Y gate
+      *
+      * \f[\mathbf{Y} =
+      *   \left(\begin{array}{cc}
+      *     0 & -i\\
+      *     i & 0
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& YGate()
     {
+      resize(2, 2);
+      setZero();
       (*this)(0,1) = field(0,-1);
       (*this)(1,0) = field(0,1);
+      return *this;
     }
-};
 
-/** \brief \b Z gate
-  */
-class ZGate : public Gate
-{
-  public:
-    inline ZGate() : Gate(2, 2)
+    /** \brief \b Z gate
+      *
+      * \f[\mathbf{Z} =
+      *   \left(\begin{array}{cc}
+      *     1 & 0\\
+      *     0 & -1
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& ZGate()
     {
+      resize(2, 2);
+      setZero();
       (*this)(0,0) = field(1,0);
       (*this)(1,1) = field(-1,0);
+      return *this;
     }
-};
 
-/** \brief \b H gate (Hadamard gate)
-  */
-class HGate : public Gate
-{
-  public:
-    inline HGate() : Gate(2, 2)
+    /** \brief \b H gate (Hadamard gate)
+      *
+      * \f[\mathbf{H} = \frac{1}{\sqrt{2}}
+      *   \left(\begin{array}{cc}
+      *     1 & 1\\
+      *     1 & -1
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& HGate()
     {
+      resize(2, 2);
+      setZero();
       fptype c = std::sqrt(0.5);
       (*this)(0,0) = field(c,0);
       (*this)(0,1) = field(c,0);
       (*this)(1,0) = field(c,0);
       (*this)(1,1) = field(-c,0);
+      return *this;
     }
-};
 
-/** \brief \b P gate (phase gate)
-  */
-class PGate : public Gate
-{
-  public:
-    inline PGate() : Gate(2, 2)
+    /** \brief \b P gate (phase gate)
+      *
+      * \f[\mathbf{P} =
+      *   \left(\begin{array}{cc}
+      *     1 & 0\\
+      *     0 & i
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& PGate()
     {
+      resize(2, 2);
+      setZero();
       (*this)(0,0) = field(1,0);
       (*this)(1,1) = field(0,1);
+      return *this;
     }
-};
 
-/** \brief \b T gate (pi/4 phase shift gate)
-  */
-class TGate : public Gate
-{
-  public:
-    inline TGate() : Gate(2, 2)
+    /** \brief \b T gate (pi/4 phase shift gate)
+      *
+      * \f[\mathbf{T} =
+      *   \left(\begin{array}{cc}
+      *     1 & 0\\
+      *     0 & e^{\frac{i \pi}{4}}
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& TGate()
     {
+      resize(2, 2);
+      setZero();
       fptype c = std::sqrt(0.5);
       (*this)(0,0) = field(1,0);
       (*this)(1,1) = field(c,c);
+      return *this;
     }
+
+    /** \brief \b CNOT gate (controlled NOT gate)
+      *
+      * \f[\mathbf{CNOT} =
+      *   \left(\begin{array}{cccc}
+      *     1 & 0 & 0 & 0\\
+      *     0 & 1 & 0 & 0\\
+      *     0 & 0 & 0 & 1\\
+      *     0 & 0 & 1 & 0
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& CNOTGate()
+    {
+      resize(4, 4);
+      setZero();
+      (*this)(0,0) = field(1,0);
+      (*this)(1,1) = field(1,0);
+      (*this)(2,3) = field(1,0);
+      (*this)(3,2) = field(1,0);
+      return *this;
+    }
+
+    /** \brief \b SWAP gate
+      *
+      * \f[\mathbf{SWAP} =
+      *   \left(\begin{array}{cccc}
+      *     1 & 0 & 0 & 0\\
+      *     0 & 0 & 1 & 0\\
+      *     0 & 1 & 0 & 0\\
+      *     0 & 0 & 0 & 1
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& SWAPGate()
+    {
+      resize(4, 4);
+      setZero();
+      (*this)(0,0) = field(1,0);
+      (*this)(1,2) = field(1,0);
+      (*this)(2,1) = field(1,0);
+      (*this)(3,3) = field(1,0);
+      return *this;
+    }
+
 };
 
 } // namespace QuCoSi
