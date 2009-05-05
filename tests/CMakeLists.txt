@@ -3,6 +3,7 @@ SET(tests_SOURCES
 )
 
 SET(tests_HEADERS
+    AlgorithmsTest.h
     VectorTest.h
 )
 

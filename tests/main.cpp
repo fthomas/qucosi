@@ -16,6 +16,7 @@
 
 #include <cppunit/ui/text/TestRunner.h>
 
+#include <AlgorithmsTest.h>
 #include <VectorTest.h>
 
 int main(int argc, char* argv[])
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
   CppUnit::TextUi::TestRunner runner;
 
   runner.addTest(QuCoSi::VectorTest::suite());
+  runner.addTest(QuCoSi::AlgorithmsTest::suite());
   runner.run();
 
   return 0;
