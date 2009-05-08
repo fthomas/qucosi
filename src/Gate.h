@@ -17,6 +17,7 @@
 #ifndef QUCOSI_GATE_H
 #define QUCOSI_GATE_H
 
+#include <Qubit.h>
 #include <Vector.h>
 
 namespace QuCoSi {
@@ -249,6 +250,26 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    inline Gate& UfGate(const Qubit& q)
+    {
+      int s = q.size();
+      resize(s,s);
+      setIdentity();
+
+      int x = 0, y = 0;
+      for ( ; x < s; x++) {
+        if (q[x] != field(0,0)) {
+          break;
+        }
+      }
+      y = x%2;
+      x /= 2;
+
+      // Do binary addition with f(x) and y.
+      y = std::abs(y-1); // this is a dummy
+
+      return *this;
+    }
 };
 
 } // namespace QuCoSi
