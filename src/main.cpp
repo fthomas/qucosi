@@ -30,11 +30,43 @@ using namespace Eigen;
 int main(int, char *[])
 {
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
+
+  Qubit q0(field(1,0), field(0,0));
+  Qubit q1(field(0,0), field(1,0));
+  Qubit xy;
+  Gate h;
+  h.HGate().tensorPowSet(2);
+  Gate u;
+
+  vector<int> f(2);
+  f[0] = 1;
+  f[1] = 1;
+
+  xy = q0.tensorDot(q1);
+  cout << xy << endl;
+  cout << h << endl;
+  xy = h*xy;
+  cout << xy << endl << endl;
+  xy = u.UfGate(xy,f)*xy;
+  cout << xy << endl << endl;
+  xy = h*xy;
+  cout << xy << endl << endl;
+
+//  cout << u.UfGate(q0,f) << endl;
+
+/*
+  cout << (1+1)%2 << endl;
+  cout << (1+0)%2 << endl;
+  cout << (0+1)%2 << endl;
+  cout << (0+0)%2 << endl;
+*/
+/*
   Qubit x(field(0,0), field(1,0));
   Gate h;
   h.HGate();
   x = h*x;
   cout << x.measure() << endl;
+*/
 /*
   Gate m;
   cout << m.CNOTGate() << endl;

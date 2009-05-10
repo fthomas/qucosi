@@ -42,7 +42,7 @@ class Basis : public std::vector<Vector>
       resize(dim);
       for (int i = 0; i < dim; i++) {
         Vector e(dim);
-        e[i] = field(1,0);
+        e(i) = field(1,0);
         (*this)[i] = e;
       }
       return *this;
