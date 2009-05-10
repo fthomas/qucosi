@@ -33,26 +33,38 @@ int main(int, char *[])
 
   Qubit q0(field(1,0), field(0,0));
   Qubit q1(field(0,0), field(1,0));
-  Qubit xy;
+  Qubit xy, xy2;
   Gate h;
   h.HGate().tensorPowSet(2);
   Gate u;
 
+  xy2.resize(4);
+  xy2.setZero();
+
   vector<int> f(2);
-  f[0] = 1;
+  f[0] = 0;
   f[1] = 1;
 
   xy = q0.tensorDot(q1);
-  cout << xy << endl;
-  cout << h << endl;
-  xy = h*xy;
   cout << xy << endl << endl;
-  xy = u.UfGate(xy,f)*xy;
-  cout << xy << endl << endl;
+  cout << h << endl << endl;
   xy = h*xy;
   cout << xy << endl << endl;
 
-//  cout << u.UfGate(q0,f) << endl;
+  Basis b(xy.size());
+  cout << b << b.size()<< endl;
+
+  for (int i = 0; i < b.size(); i++) {
+    Qubit tmp;
+    tmp = b[i].dot(xy)*b[i];
+    xy2 = xy2 + u.UfGate(tmp, f)*tmp;
+  }
+  cout << xy2 << endl << endl;
+
+  //xy = u.UfGate(xy,f)*xy;
+  //cout << xy << endl << endl;
+  xy2 = h*xy2;
+  cout << xy2 << endl << endl;
 
 /*
   cout << (1+1)%2 << endl;
