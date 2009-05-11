@@ -257,6 +257,30 @@ class Gate : public MatrixXc
       resize(s,s);
       setIdentity();
 
+      int x = 0, y = 0, z = 0, w = 0;
+      for ( ; z < s; z++) {
+        if (v(z) != field(0,0)) {
+          x = z/2;
+          y = z%2;
+          w = z-y;
+
+          if (y != (f.at(x)+y)%2) {
+            (*this)(w,w) = field(0,0);
+            (*this)(w+1,w+1) = field(0,0);
+            (*this)(w+1,w) = field(1,0);
+            (*this)(w,w+1) = field(1,0);
+          }
+        }
+      }
+      return *this;
+    }
+
+    inline Gate& UfGate2(const Vector& v, const std::vector<int>& f)
+    {
+      int s = v.size();
+      resize(s,s);
+      setIdentity();
+
       int x = 0, y = 0, z = 0;
       for ( ; z < s; z++) {
         if (v(z) != field(0,0)) {
@@ -267,7 +291,7 @@ class Gate : public MatrixXc
       y = z%2;
       z -= y;
 
-      if (y != (f.at(x)+y)%2) {
+      if (z < s && y != (f.at(x)+y)%2) {
         (*this)(z,z) = field(0,0);
         (*this)(z+1,z+1) = field(0,0);
         (*this)(z+1,z) = field(1,0);
