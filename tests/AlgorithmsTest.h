@@ -32,6 +32,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(AlgorithmsTest);
   CPPUNIT_TEST(testCoinFlipping);
+  CPPUNIT_TEST(testDeutsch);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -91,6 +92,45 @@ class AlgorithmsTest : public CppUnit::TestFixture
       // 99.999% level of confidence.
       CPPUNIT_ASSERT( (0.5 - 0.01) <= pq );
       CPPUNIT_ASSERT( (0.5 + 0.01) >= pq );
+    }
+
+    void testDeutsch()
+    {
+      Qubit q0(field(1,0), field(0,0)),
+            q1(field(0,0), field(1,0)),
+            x, r0 ,r1;
+
+      Gate h, u;
+      h.HGate().tensorPowSet(2);
+      r0 = q0.tensorDot(q1);
+      r1 = q1.tensorDot(q1);
+      std::vector<int> f(2);
+
+      // The function f is constant: f(0) == f(1).
+      f[0] = 0;
+      f[1] = 0;
+      x = h * q0.tensorDot(q1);
+      x = h * u.UfGate(x,f) * x;
+      CPPUNIT_ASSERT( x.isApprox(r0) );
+
+      f[0] = 1;
+      f[1] = 1;
+      x = h * q0.tensorDot(q1);
+      x = h * u.UfGate(x,f) * x;
+      CPPUNIT_ASSERT( x.isApprox(-r0) );
+
+      // The function f is balanced: f(0) != f(1).
+      f[0] = 0;
+      f[1] = 1;
+      x = h * q0.tensorDot(q1);
+      x = h * u.UfGate(x,f) * x;
+      CPPUNIT_ASSERT( x.isApprox(r1) );
+
+      f[0] = 1;
+      f[1] = 0;
+      x = h * q0.tensorDot(q1);
+      x = h * u.UfGate(x,f) * x;
+      CPPUNIT_ASSERT( x.isApprox(-r1) );
     }
 };
 
