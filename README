@@ -1,0 +1,23 @@
+QuCoSi - Quantum Computer Simulation
+====================================
+
+@book{ homeister2008,
+    author = "Matthias Homeister",
+    title = "Quantum Computing verstehen",
+    edition = "2",
+    publisher = "Vieweg",
+    address = "Wiesbaden",
+    year = "2008",
+    isbn = "978-3-8348-0436-5",
+    url = "http://num.math.uni-goettingen.de/homeiste/qc/"
+}
+
+@book{ sturm2009,
+    author = "Thomas F. Sturm and Jörg Schulze",
+    title = "Quantum Computation aus algorithmischer Sicht",
+    publisher = "Oldenburg Wissenschaftsverlag",
+    address = "München",
+    year = "2009",
+    isbn = "978-3-486-58914-6",
+    url = "http://www.oldenbourg-wissenschaftsverlag.de/olb/de/1.c.1598341.de"
+}
