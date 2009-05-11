@@ -124,10 +124,10 @@ class Vector : public VectorXc
       */
     inline Vector tensorDot(const Vector& v) const
     {
-      Vector w(rows()*v.rows());
+      Vector w(size()*v.size());
       int k = 0;
-      for (int i = 0; i < rows(); i++) {
-        for (int j = 0; j < v.rows(); j++, k++) {
+      for (int i = 0; i < size(); i++) {
+        for (int j = 0; j < v.size(); j++, k++) {
           w[k] = (*this)[i]*v[j];
         }
       }
@@ -145,7 +145,7 @@ class Vector : public VectorXc
       */
     inline Vector& tensorDotSet(const Vector& v)
     {
-      if (rows() > 0 && v.rows() > 0) {
+      if (size() > 0 && v.size() > 0) {
         *this = tensorDot(v);
       }
       return *this;
