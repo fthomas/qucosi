@@ -39,13 +39,20 @@ class GateTest : public CppUnit::TestFixture
     {
       Gate h, h_byhand;
 
+      h.HGate().tensorPowSet(1);
+      h_byhand.resize(2,2);
+      h_byhand << 1,  1,
+                  1, -1;
+      h_byhand *= std::sqrt(1./2);
+      CPPUNIT_ASSERT( h.isApprox(h_byhand) );
+
       h.HGate().tensorPowSet(2);
       h_byhand.resize(4,4);
       h_byhand << 1,  1,  1,  1,
                   1, -1,  1, -1,
                   1,  1, -1, -1,
                   1, -1, -1,  1;
-      h_byhand *= 0.5;
+      h_byhand *= std::sqrt(1./4);
       CPPUNIT_ASSERT( h.isApprox(h_byhand) );
 
       h.HGate().tensorPowSet(3);
