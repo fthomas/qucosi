@@ -17,6 +17,7 @@
 #ifndef QUCOSI_GATE_H
 #define QUCOSI_GATE_H
 
+#include <cmath>
 #include <vector>
 
 #include <Vector.h>
@@ -277,15 +278,15 @@ class Gate : public MatrixXc
 
     /** \brief \b F gate (quantum Fourier transform)
       */
-    inline Gate& FGate(const int n)
+    inline Gate& FGate(const int dim)
     {
-      resize(n,n);
-      for (int x = 0; x < n; x++) {
-        for (int y = x; y < n; y++) {
-          (*this)(x,y) = std::exp(2*M_PI*x*y/n*field(0,1));
+      resize(dim,dim);
+      for (int x = 0; x < dim; x++) {
+        for (int y = x; y < dim; y++) {
+          (*this)(x,y) = std::exp(2*M_PI*x*y/dim*field(0,1));
         }
       }
-      *this *= std::sqrt(1./n);
+      *this *= std::sqrt(1./dim);
 
       MatrixXc t = transpose();
       t.diagonal().setZero();
