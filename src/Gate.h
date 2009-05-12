@@ -140,7 +140,10 @@ class Gate : public MatrixXc
       *     1 & 0\\
       *     0 & -1
       *   \end{array}\right)
+      *   = \mathbf{R}(2)
       * \f]
+      *
+      * \sa RGate()
       */
     inline Gate& ZGate()
     {
@@ -178,7 +181,10 @@ class Gate : public MatrixXc
       *     1 & 0\\
       *     0 & i
       *   \end{array}\right)
+      *   = \mathbf{R}(4)
       * \f]
+      *
+      * \sa RGate()
       */
     inline Gate& PGate()
     {
@@ -194,9 +200,12 @@ class Gate : public MatrixXc
       * \f[\mathbf{T} =
       *   \left(\begin{array}{cc}
       *     1 & 0\\
-      *     0 & e^{\frac{i \pi}{4}}
+      *     0 & e^{\pi i/4}
       *   \end{array}\right)
+      *   = \mathbf{R}(8)
       * \f]
+      *
+      * \sa RGate()
       */
     inline Gate& TGate()
     {
@@ -205,6 +214,24 @@ class Gate : public MatrixXc
       fptype c = std::sqrt(0.5);
       (*this)(0,0) = field(1,0);
       (*this)(1,1) = field(c,c);
+      return *this;
+    }
+
+    /** \brief <b>R</b>(k) gate (general phase shift gate)
+      *
+      * \f[\mathbf{R}(k) =
+      *   \left(\begin{array}{cc}
+      *     1 & 0\\
+      *     0 & e^{2 \pi i/k}
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& RGate(const int k)
+    {
+      resize(2,2);
+      setZero();
+      (*this)(0,0) = field(1,0);
+      (*this)(1,1) = std::exp(2*M_PI/k*field(0,1));
       return *this;
     }
 
