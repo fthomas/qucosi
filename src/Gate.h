@@ -277,16 +277,29 @@ class Gate : public MatrixXc
     }
 
     /** \brief \b F gate (quantum Fourier transform)
+      *
+      * \f[\mathbf{F_N} = \frac{1}{\sqrt{N}}
+      *   \left(\begin{array}{cccccc}
+      *     1 & 1 & 1 & 1 & \cdots & 1 \\
+      *     1 & \omega^1 & \omega^2 & \omega^3 & \cdots & \omega^{N-1}\\
+      *     1 & \omega^2 & \omega^4 & \omega^6 & \cdots & \omega^{2(N-1)}\\
+      *     1 & \omega^3 & \omega^6 & \omega^9 & \cdots & \omega^{3(N-1)}\\
+      *     \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+      *     1 & \omega^{N-1} & \omega^{2(N-1)} & \omega^{3(N-1)} & \cdots &
+      *       \omega^{(N-1)(N-1)}
+      *   \end{array}\right),
+      *   \quad \omega = \exp\left(2 \pi i/N\right)
+      * \f]
       */
-    inline Gate& FGate(const int dim)
+    inline Gate& FGate(const int N)
     {
-      resize(dim,dim);
-      for (int x = 0; x < dim; x++) {
-        for (int y = x; y < dim; y++) {
-          (*this)(x,y) = std::exp(2*M_PI*x*y/dim*field(0,1));
+      resize(N,N);
+      for (int x = 0; x < N; x++) {
+        for (int y = x; y < N; y++) {
+          (*this)(x,y) = std::exp(2*M_PI*x*y/N*field(0,1));
         }
       }
-      *this *= std::sqrt(1./dim);
+      *this *= std::sqrt(1./N);
 
       MatrixXc t = transpose();
       t.diagonal().setZero();
