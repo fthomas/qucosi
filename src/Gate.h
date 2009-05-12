@@ -78,7 +78,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    inline Gate extendToPos(const int k, const int n) const
+    inline Gate applyToPos(const int k, const int n) const
     {
       int l = n-k-log2(rows());
       Gate id, x = *this;
