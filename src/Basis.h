@@ -52,8 +52,8 @@ class Basis : public std::vector<Vector>
     {
       Basis g(size()*f.size());
       int k = 0;
-      for (int i = 0; i < size(); i++) {
-        for (int j = 0; j < f.size(); j++, k++) {
+      for (unsigned i = 0; i < size(); i++) {
+        for (unsigned j = 0; j < f.size(); j++, k++) {
           g[k] = (*this)[i].tensorDot(f[j]);
         }
       }
@@ -70,7 +70,7 @@ class Basis : public std::vector<Vector>
 
     inline bool isNormalized() const
     {
-      for (int i = 0; i < size(); i++) {
+      for (unsigned i = 0; i < size(); i++) {
         if (!at(i).isNormalized()) {
           return false;
         }

@@ -38,7 +38,7 @@ inline bool isOne(const fptype x)
   return isZero(x-1.);
 }
 
-inline unsigned log2(unsigned value)
+inline int log2(unsigned value)
 {
   unsigned l = 0;
   while ((value >> l) != 0) {
