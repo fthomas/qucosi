@@ -274,6 +274,25 @@ class Gate : public MatrixXc
       }
       return *this;
     }
+
+    /** \brief \b F gate (quantum Fourier transform)
+      */
+    inline Gate& FGate(const int n)
+    {
+      resize(n,n);
+      for (int x = 0; x < n; x++) {
+        for (int y = x; y < n; y++) {
+          (*this)(x,y) = std::exp(2*M_PI*x*y/n*field(0,1));
+        }
+      }
+      *this *= std::sqrt(1./n);
+
+      MatrixXc t = transpose();
+      t.diagonal().setZero();
+      *this += t;
+
+      return *this;
+    }
 };
 
 } // namespace QuCoSi
