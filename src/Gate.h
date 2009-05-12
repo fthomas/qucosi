@@ -161,6 +161,7 @@ class Gate : public MatrixXc
       *     1 & 1\\
       *     1 & -1
       *   \end{array}\right)
+      *   = \frac{1}{\sqrt{2}} (\mathbf{X} + \mathbf{Z})
       * \f]
       */
     inline Gate& HGate()
@@ -235,6 +236,27 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief <b>C</b>(U) gate (controlled U gate)
+      *
+      * \f[\mathbf{C}(U) =
+      *   \left(\begin{array}{cccc}
+      *     1 & 0 & 0 & 0\\
+      *     0 & 1 & 0 & 0\\
+      *     0 & 0 & U_{11} & U_{12}\\
+      *     0 & 0 & U_{21} & U_{22}
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& CGate(const Gate& U)
+    {
+      resize(4,4);
+      setZero();
+      (*this)(0,0) = field(1,0);
+      (*this)(1,1) = field(1,0);
+      block(2,2,2,2) = U;
+      return *this;
+    }
+
     /** \brief \b CNOT gate (controlled NOT gate)
       *
       * \f[\mathbf{CNOT} =
@@ -244,7 +266,10 @@ class Gate : public MatrixXc
       *     0 & 0 & 0 & 1\\
       *     0 & 0 & 1 & 0
       *   \end{array}\right)
+      *   = \mathbf{C}(\mathbf{X})
       * \f]
+      *
+      * \sa CGate()
       */
     inline Gate& CNOTGate()
     {

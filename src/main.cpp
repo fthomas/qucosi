@@ -31,10 +31,17 @@ int main(int, char *[])
 {
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
+  Gate c0,c1,x;
+  c0.CNOTGate();
+  c1.CGate(x.XGate());
+  cout << c0 << endl;
+  cout <<( c1 == c0) << endl;
+/*
   Gate f;
   f.FGate(2);
   cout << f << endl;
   cout << (f*f.conjugate()).isIdentity() << endl;
+*/
 /*
   Qubit q0(field(1,0), field(0,0));
   Qubit q1(field(0,0), field(1,0));
