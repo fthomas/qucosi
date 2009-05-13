@@ -17,6 +17,7 @@
 #ifndef QUCOSI_GATE_H
 #define QUCOSI_GATE_H
 
+#include <bitset>
 #include <cmath>
 #include <vector>
 
@@ -218,7 +219,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>R</b>(k) gate (general phase shift gate)
+    /** \brief <b>R</b>(\e k) gate (general phase shift gate)
       *
       * \f[\mathbf{R}(k) =
       *   \left(\begin{array}{cc}
@@ -236,7 +237,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>C</b>(U) gate (controlled U gate)
+    /** \brief <b>C</b>(\e U) gate (controlled \e U gate)
       *
       * \f[\mathbf{C}(U) =
       *   \left(\begin{array}{cccc}
@@ -282,6 +283,70 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief Swaps Qubits according to the permutation \p sigma
+      *
+      * This methods constructs a tensor permutation matrix that permutes
+      * qubits according to the permutation \p sigma.
+      *
+      * \note
+      * The implementation of this method is based on proposition 6.2 in the
+      * paper arXiv:math/0508053v2 by Rakotonirina Christian. Read the paper
+      * if you are interested why this method constructs a permutation
+      * matrix. This implementation takes advantage of the fact that the
+      * dimension of single qubits is 2 so that the multiple row and column
+      * indices \f$i_1 \ldots i_k\f$ and \f$j_1 \ldots j_k\f$ can be obtained
+      * from the row and column indices of the permutation matrix with
+      * <tt>std::bitset</tt>s.
+      *
+      * \sa http://arxiv.org/abs/math/0508053
+      */
+    inline Gate& SGate(const std::vector<int>& sigma)
+    {
+      int n = sigma.size();
+      int dim = std::pow(2,n);
+      resize(dim,dim);
+      setZero();
+
+      for (int c = 0; c < dim; c++) {
+        for (int r = 0; r < dim; r++) {
+          // Create bitsets of the row and column index. Since the dimension
+          // of single qubits is 2, these bitsets can be interpreted as the
+          // multiple row and colum indices.
+          std::bitset< std::numeric_limits<unsigned long>::digits >
+            br(r), bc(c), bcp(0);
+
+          // Permute the bitset bc using the permutation sigma.
+          for (int i = 0; i < n; i++) {
+            bcp[n-1-i] = bc[n-1-sigma[i]];
+          }
+
+          // If the bitset of the row index is equal to the permuted bitset of
+          // the column index, set a 1 at this position. This equals the
+          // multiple Kronecker deltas.
+          if (br == bcp) {
+            (*this)(r,c) = field(1,0);
+          }
+        }
+      }
+      return *this;
+    }
+
+    /** \brief <b>S</b>\e pq gate - swaps the Qubits at position \e p and \e q
+      *
+      * \sa SGate()
+      */
+    inline Gate& SpqGate(const int p, const int q, const int n)
+    {
+      std::vector<int> sigma(n);
+      for (int i = 0; i < n; i++) {
+        sigma[i] = i;
+      }
+      sigma[p] = q;
+      sigma[q] = p;
+      SGate(sigma);
+      return *this;
+    }
+
     /** \brief \b SWAP gate
       *
       * \f[\mathbf{SWAP} =
@@ -291,7 +356,10 @@ class Gate : public MatrixXc
       *     0 & 1 & 0 & 0\\
       *     0 & 0 & 0 & 1
       *   \end{array}\right)
+      *   = \mathbf{S}_{10}
       * \f]
+      *
+      * \sa SpqGate(), SGate()
       */
     inline Gate& SWAPGate()
     {

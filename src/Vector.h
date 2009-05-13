@@ -98,10 +98,10 @@ class Vector : public VectorXc
       return *this;
     }
 
-    /** \brief Calculates the tensor product of this vector with \a v
+    /** \brief Calculates the tensor product of this vector with \e v
       *
       * This method calculates the canonical tensor product of this vector
-      * with Vector \a v. The canonical tensor product \f$x \otimes y\f$ of
+      * with Vector \e v. The canonical tensor product \f$x \otimes y\f$ of
       * the vectors \f$x \in K^n\f$ and \f$y \in K^m\f$ is defined as:
       * \f[
       *   \left(\begin{array}{c}
@@ -120,7 +120,7 @@ class Vector : public VectorXc
       * \f]
       *
       * \param v the right hand side operand of the tensor product
-      * \return the canonical tensor product of this vector with Vector \a v
+      * \return the canonical tensor product of this vector with Vector \e v
       */
     inline Vector tensorDot(const Vector& v) const
     {
@@ -134,10 +134,10 @@ class Vector : public VectorXc
       return w;
     }
 
-    /** \brief Sets the tensor product of this vector and \a v as this vector
+    /** \brief Sets the tensor product of this vector and \e v as this vector
       *
       * This method calculates the tensor product of this vector and Vector
-      * \a v and sets the result as this vector. For two vectors \c x and \c y
+      * \e v and sets the result as this vector. For two vectors \c x and \c y
       * \code x.tensorDotSet(y) \endcode is practically identical to
       * \code x = x.tensorDot(y) \endcode
       *

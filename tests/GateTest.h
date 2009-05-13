@@ -29,6 +29,7 @@ class GateTest : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE(GateTest);
   CPPUNIT_TEST(testTensorPow);
   CPPUNIT_TEST(testApplyToPos);
+  CPPUNIT_TEST(testSGate);
   CPPUNIT_TEST(testFGate);
   CPPUNIT_TEST_SUITE_END();
 
@@ -111,6 +112,102 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( h1.isApprox(h.applyToPos(1,2)) );
       CPPUNIT_ASSERT( h.applyToPos(0,2).isUnitary() );
       CPPUNIT_ASSERT( h.applyToPos(1,2).isUnitary() );
+    }
+
+    void testSGate()
+    {
+      Gate s,t;
+      Qubit a(field(2,0), field(3,0)),
+            b(field(4,0), field(5,0)),
+            c(field(6,0), field(7,0)),
+            d(field(8,0), field(9,0));
+
+      // Permute two qubits.
+      Qubit ab, ba;
+      ab = a.tensorDot(b);
+      ba = b.tensorDot(a);
+
+      CPPUNIT_ASSERT( s.SpqGate(0,1,2)*ab == ba );
+      CPPUNIT_ASSERT( s.SpqGate(0,1,2) == t.SWAPGate() );
+
+      // Permute three qubits.
+      Qubit abc, acb, bac, bca, cab, cba;
+      abc = a.tensorDot(b.tensorDot(c));
+      acb = a.tensorDot(c.tensorDot(b));
+      bac = b.tensorDot(a.tensorDot(c));
+      bca = b.tensorDot(c.tensorDot(a));
+      cab = c.tensorDot(a.tensorDot(b));
+      cba = c.tensorDot(b.tensorDot(a));
+
+      CPPUNIT_ASSERT( s.SpqGate(0,0,3)*abc == abc );
+      CPPUNIT_ASSERT( s.SpqGate(0,1,3)*abc == bac );
+      CPPUNIT_ASSERT( s.SpqGate(1,2,3)*abc == acb );
+      CPPUNIT_ASSERT( s.SpqGate(0,2,3)*abc == cba );
+      CPPUNIT_ASSERT( s.SpqGate(1,2,3)*t.SpqGate(0,1,3)*abc == bca );
+      CPPUNIT_ASSERT( s.SpqGate(0,1,3)*t.SpqGate(1,2,3)*abc == cab );
+
+      std::vector<int> p1(3), p2(3);
+      p1[0] = 1; p2[0] = 2;
+      p1[1] = 2; p2[1] = 0;
+      p1[2] = 0; p2[2] = 1;
+
+      CPPUNIT_ASSERT( s.SGate(p1)*abc == bca );
+      CPPUNIT_ASSERT( s.SGate(p2)*abc == cab );
+
+      // Permute four qubits.
+      Qubit abcd, abdc, acbd, acdb, adbc, adcb,
+            bacd, badc, bcad, bcda, bdac, bdca,
+            cabd, cadb, cbad, cbda, cdab, cdba,
+            dacb, dabc, dbac, dbca, dcab, dcba;
+      abcd = a.tensorDot(b.tensorDot(c.tensorDot(d)));
+      abdc = a.tensorDot(b.tensorDot(d.tensorDot(c)));
+      acbd = a.tensorDot(c.tensorDot(b.tensorDot(d)));
+      acdb = a.tensorDot(c.tensorDot(d.tensorDot(b)));
+      adbc = a.tensorDot(d.tensorDot(b.tensorDot(c)));
+      adcb = a.tensorDot(d.tensorDot(c.tensorDot(b)));
+
+      bacd = b.tensorDot(a.tensorDot(c.tensorDot(d)));
+      badc = b.tensorDot(a.tensorDot(d.tensorDot(c)));
+      bcad = b.tensorDot(c.tensorDot(a.tensorDot(d)));
+      bcda = b.tensorDot(c.tensorDot(d.tensorDot(a)));
+      bdac = b.tensorDot(d.tensorDot(a.tensorDot(c)));
+      bdca = b.tensorDot(d.tensorDot(c.tensorDot(a)));
+
+      cabd = c.tensorDot(a.tensorDot(b.tensorDot(d)));
+      cadb = c.tensorDot(a.tensorDot(d.tensorDot(b)));
+      cbad = c.tensorDot(b.tensorDot(a.tensorDot(d)));
+      cbda = c.tensorDot(b.tensorDot(d.tensorDot(a)));
+      cdab = c.tensorDot(d.tensorDot(a.tensorDot(b)));
+      cdba = c.tensorDot(d.tensorDot(b.tensorDot(a)));
+
+      dabc = d.tensorDot(a.tensorDot(b.tensorDot(c)));
+      dacb = d.tensorDot(a.tensorDot(c.tensorDot(b)));
+      dbac = d.tensorDot(b.tensorDot(a.tensorDot(c)));
+      dbca = d.tensorDot(b.tensorDot(c.tensorDot(a)));
+      dcab = d.tensorDot(c.tensorDot(a.tensorDot(b)));
+      dcba = d.tensorDot(c.tensorDot(b.tensorDot(a)));
+
+      CPPUNIT_ASSERT( s.SpqGate(0,1,4)*abcd == bacd );
+      CPPUNIT_ASSERT( s.SpqGate(0,2,4)*abcd == cbad );
+      CPPUNIT_ASSERT( s.SpqGate(0,3,4)*abcd == dbca );
+      CPPUNIT_ASSERT( s.SpqGate(1,2,4)*abcd == acbd );
+      CPPUNIT_ASSERT( s.SpqGate(1,3,4)*abcd == adcb );
+      CPPUNIT_ASSERT( s.SpqGate(2,3,4)*abcd == abdc );
+
+      std::vector<int> p3(4), p4(4), p5(4), p6(4);
+      p3[0] = 3; p4[0] = 1; p5[0] = 3; p6[0] = 3;
+      p3[1] = 2; p4[1] = 2; p5[1] = 0; p6[1] = 2;
+      p3[2] = 1; p4[2] = 3; p5[2] = 1; p6[2] = 0;
+      p3[3] = 0; p4[3] = 0; p5[3] = 2; p6[3] = 1;
+
+      CPPUNIT_ASSERT( s.SGate(p3)*abcd == dcba );
+      CPPUNIT_ASSERT( s.SGate(p3).transpose()*dcba == abcd );
+      CPPUNIT_ASSERT( s.SGate(p4)*abcd == bcda );
+      CPPUNIT_ASSERT( s.SGate(p4).transpose()*bcda == abcd );
+      CPPUNIT_ASSERT( s.SGate(p5)*abcd == dabc );
+      CPPUNIT_ASSERT( s.SGate(p5).transpose()*dabc == abcd );
+      CPPUNIT_ASSERT( s.SGate(p6)*abcd == dcab );
+      CPPUNIT_ASSERT( s.SGate(p6).transpose()*dcab == abcd );
     }
 
     void testFGate()

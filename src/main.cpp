@@ -17,6 +17,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
+#include <bitset>
 
 #include <Qubit.h>
 #include <Vector.h>
@@ -31,11 +32,54 @@ int main(int, char *[])
 {
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
+  bitset<std::numeric_limits<unsigned long>::digits>
+    c(10), d(0);
+  cout << c << endl;
+
+  vector<int> p(4);
+  int n = p.size();
+  p[0] = 1;
+  p[1] = 2; 
+  p[2] = 3;
+  p[3] = 0;
+
+  for(int i = 0; i < n; i++) {
+    int o = n-1-i;
+    int u = n-1-p[i];
+
+    cout << o <<  " " << u << endl;
+    d[o] = c[u];
+  }
+  cout << d << endl;
+
+
+/*
+  // passt fuer alle permutationen
+  vector<int> p(3);
+  int n = p.size();
+  p[0] = 2;
+  p[1] = 0; 
+  p[2] = 1;
+
+  for(int i = 0; i < n; i++) {
+    int o = n-1-i;
+    int u = n-1-p[i];
+
+    cout << o <<  " " << u << endl;
+    d[o] = c[u];
+  }
+  cout << d << endl;
+*/
+
+  //Gate s;
+  //cout << s.SGate(p) << endl << endl;
+/*
   Gate c0,c1,x;
   c0.CNOTGate();
   c1.CGate(x.XGate());
   cout << c0 << endl;
   cout <<( c1 == c0) << endl;
+*/
 /*
   Gate f;
   f.FGate(2);
