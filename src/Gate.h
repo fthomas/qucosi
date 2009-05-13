@@ -19,13 +19,13 @@
 
 #include <bitset>
 #include <cmath>
+#include <limits>
 #include <vector>
 
+#include <Aux.h>
 #include <Vector.h>
 
 namespace QuCoSi {
-
-typedef Eigen::Matrix<field, Eigen::Dynamic, Eigen::Dynamic> MatrixXc;
 
 class Gate : public MatrixXc
 {
@@ -288,15 +288,12 @@ class Gate : public MatrixXc
       * This methods constructs a tensor permutation matrix that permutes
       * qubits according to the permutation \p sigma.
       *
-      * \note
-      * The implementation of this method is based on proposition 6.2 in the
-      * paper arXiv:math/0508053v2 by Rakotonirina Christian. Read the paper
-      * if you are interested why this method constructs a permutation
-      * matrix. This implementation takes advantage of the fact that the
-      * dimension of single qubits is 2 so that the multiple row and column
-      * indices \f$i_1 \ldots i_k\f$ and \f$j_1 \ldots j_k\f$ can be obtained
-      * from the row and column indices of the permutation matrix with
-      * <tt>std::bitset</tt>s.
+      * \note The implementation of this method is based on proposition 6.2
+      * in the paper arXiv:math/0508053v2 by Rakotonirina Christian. It takes
+      * advantage of the fact that the dimension of single qubits is 2 so
+      * that the multiple row and column indices \f$i_1 \ldots i_k\f$ and
+      * \f$j_1 \ldots j_k\f$ can be obtained from the row and column indices
+      * of the permutation matrix with <tt>std::bitset</tt>s.
       *
       * \sa http://arxiv.org/abs/math/0508053
       */
@@ -307,8 +304,14 @@ class Gate : public MatrixXc
       resize(dim,dim);
       setZero();
 
-      for (int c = 0; c < dim; c++) {
-        for (int r = 0; r < dim; r++) {
+      // The first and last component of any tensor stays unchanged for all
+      // tensor permutations, therefore we ignore the outermost rows and
+      // columns.
+      (*this)(0,0) = field(1,0);
+      (*this)(dim-1,dim-1) = field(1,0);
+
+      for (int c = 1; c < dim-1; c++) {
+        for (int r = 1; r < dim-1; r++) {
           // Create bitsets of the row and column index. Since the dimension
           // of single qubits is 2, these bitsets can be interpreted as the
           // multiple row and colum indices.
@@ -325,6 +328,7 @@ class Gate : public MatrixXc
           // multiple Kronecker deltas.
           if (br == bcp) {
             (*this)(r,c) = field(1,0);
+            break;
           }
         }
       }

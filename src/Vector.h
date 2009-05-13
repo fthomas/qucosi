@@ -17,35 +17,11 @@
 #ifndef QUCOSI_VECTOR_H
 #define QUCOSI_VECTOR_H
 
-#include <limits>
-
 #include <Eigen/Array>
-#include <Eigen/Core>
+
+#include <Aux.h>
 
 namespace QuCoSi {
-
-typedef double fptype;
-typedef std::complex<fptype> field;
-typedef Eigen::Matrix<field, Eigen::Dynamic, 1> VectorXc;
-
-inline bool isZero(const fptype x)
-{
-  return std::abs(x) <= std::numeric_limits<fptype>::epsilon();
-}
-
-inline bool isOne(const fptype x)
-{
-  return isZero(x-1.);
-}
-
-inline int log2(unsigned value)
-{
-  unsigned l = 0;
-  while ((value >> l) != 0) {
-    l++;
-  }
-  return l-1;
-}
 
 /** \class Vector
   *

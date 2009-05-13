@@ -3,6 +3,7 @@ SET(QUCOSI_SOURCES
 )
 
 SET(QUCOSI_HEADERS
+    Aux.h
     Basis.h
     Gate.h
     Qubit.h

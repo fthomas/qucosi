@@ -19,6 +19,7 @@
 #include <limits>
 #include <bitset>
 
+#include <Aux.h>
 #include <Qubit.h>
 #include <Vector.h>
 #include <Basis.h>

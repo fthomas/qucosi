@@ -20,6 +20,7 @@
 #include <ostream>
 #include <vector>
 
+#include <Aux.h>
 #include <Vector.h>
 
 namespace QuCoSi {
