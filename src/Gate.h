@@ -98,7 +98,7 @@ class Gate : public MatrixXc
       return x;
     }
 
-    /** \brief \b X gate (NOT gate)
+    /** \brief \b X gate (NOT gate, Pauli \b X matrix)
       *
       * \f[\mathbf{X} =
       *   \left(\begin{array}{cc}
@@ -116,7 +116,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b Y gate
+    /** \brief \b Y gate (Pauli \b Y matrix)
       *
       * \f[\mathbf{Y} =
       *   \left(\begin{array}{cc}
@@ -134,7 +134,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b Z gate
+    /** \brief \b Z gate (Pauli \b Z matrix)
       *
       * \f[\mathbf{Z} =
       *   \left(\begin{array}{cc}
@@ -228,7 +228,7 @@ class Gate : public MatrixXc
       *   \end{array}\right)
       * \f]
       */
-    inline Gate& RGate(const int k)
+    inline Gate& RGate(const fptype k)
     {
       resize(2,2);
       setZero();
@@ -270,7 +270,7 @@ class Gate : public MatrixXc
       *   = \mathbf{C}(\mathbf{X})
       * \f]
       *
-      * \sa CGate()
+      * \sa CGate(), XGate()
       */
     inline Gate& CNOTGate()
     {
@@ -360,7 +360,7 @@ class Gate : public MatrixXc
       *     0 & 1 & 0 & 0\\
       *     0 & 0 & 0 & 1
       *   \end{array}\right)
-      *   = \mathbf{S}_{10}
+      *   = \mathbf{S}_{10} = \mathbf{S}_{01}
       * \f]
       *
       * \sa SpqGate(), SGate()
