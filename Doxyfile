@@ -1,4 +1,4 @@
-# Doxyfile 1.5.8
+# Doxyfile 1.5.9
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -166,6 +166,7 @@ PDF_HYPERLINKS         = YES
 USE_PDFLATEX           = YES
 LATEX_BATCHMODE        = NO
 LATEX_HIDE_INDICES     = NO
+LATEX_SOURCE_CODE      = NO
 #---------------------------------------------------------------------------
 # configuration options related to the RTF output
 #---------------------------------------------------------------------------
