@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 2.6)
 
-PROJECT(QuCoSi)
+project(QuCoSi)
 
-#SET(CMAKE_VERBOSE_MAKEFILE ON)
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 
-#ADD_DEFINITIONS(-Wall -ansi -pedantic)
-ADD_DEFINITIONS(-Wall -ansi)
+#add_definitions(-Wall -ansi -pedantic)
+add_definitions(-Wall -ansi)
 
-ADD_SUBDIRECTORY(src)
-ADD_SUBDIRECTORY(tests)
+add_subdirectory(src)
+add_subdirectory(tests)
 
-FIND_PACKAGE(Doxygen)
-IF (DOXYGEN_FOUND)
-  ADD_CUSTOM_TARGET(doc ${DOXYGEN_EXECUTABLE}
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+  add_custom_target(doc ${DOXYGEN_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
-ENDIF (DOXYGEN_FOUND)
+endif (DOXYGEN_FOUND)

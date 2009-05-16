@@ -1,8 +1,8 @@
-SET(QUCOSI_SOURCES
+set(QUCOSI_SOURCES
     main.cpp
 )
 
-SET(QUCOSI_HEADERS
+set(QUCOSI_HEADERS
     Aux.h
     Basis.h
     Gate.h
@@ -10,5 +10,5 @@ SET(QUCOSI_HEADERS
     Vector.h
 )
 
-INCLUDE_DIRECTORIES(. /usr/include/eigen2)
-ADD_EXECUTABLE(qctest ${QUCOSI_SOURCES})
+include_directories(. /usr/include/eigen2)
+add_executable(qctest ${QUCOSI_SOURCES})

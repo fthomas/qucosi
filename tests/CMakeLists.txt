@@ -1,13 +1,13 @@
-SET(tests_SOURCES
+set(tests_SOURCES
     main.cpp
 )
 
-SET(tests_HEADERS
+set(tests_HEADERS
     AlgorithmsTest.h
     GateTest.h
     VectorTest.h
 )
 
-INCLUDE_DIRECTORIES(. ../src /usr/include/eigen2)
-ADD_EXECUTABLE(tests ${tests_SOURCES})
-TARGET_LINK_LIBRARIES(tests cppunit)
+include_directories(. ../src /usr/include/eigen2)
+add_executable(tests ${tests_SOURCES})
+target_link_libraries(tests cppunit)
