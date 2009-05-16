@@ -237,6 +237,86 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief \b CNOT gate (controlled NOT gate)
+      *
+      * \f[\mathbf{CNOT} =
+      *   \left(\begin{array}{cccc}
+      *     1 & 0 & 0 & 0\\
+      *     0 & 1 & 0 & 0\\
+      *     0 & 0 & 0 & 1\\
+      *     0 & 0 & 1 & 0
+      *   \end{array}\right)
+      * \f]
+      *
+      * \sa CGate(), XGate()
+      */
+    inline Gate& CNOTGate()
+    {
+      resize(4,4);
+      setZero();
+      (*this)(0,0) = field(1,0);
+      (*this)(1,1) = field(1,0);
+      (*this)(2,3) = field(1,0);
+      (*this)(3,2) = field(1,0);
+      return *this;
+    }
+
+    /** \brief CCNOT gate (Toffoli gate, controlled CNOT gate)
+      *
+      * \f[\mathbf{CCNOT} =
+      *   \left(\begin{array}{cccccccc}
+      *     1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+      *     0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+      *     0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+      *     0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+      *     0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+      *     0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+      *     0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+      *     0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
+      *   \end{array}\right)
+      * \f]
+      *
+      * \sa CGate(), CNOTGate()
+      */
+    inline Gate& CCNOTGate()
+    {
+      resize(8,8);
+      setIdentity();
+      (*this)(6,6) = field(0,0);
+      (*this)(7,7) = field(0,0);
+      (*this)(7,6) = field(1,0);
+      (*this)(6,7) = field(1,0);
+      return *this;
+    }
+
+    /** \brief CSWAP gate (Fredkin gate, controlled SWAP gate)
+      *
+      * \f[\mathbf{CSWAP} =
+      *   \left(\begin{array}{cccccccc}
+      *     1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+      *     0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+      *     0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+      *     0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+      *     0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+      *     0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+      *     0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+      *     0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+      *   \end{array}\right)
+      * \f]
+      *
+      * \sa CGate(), SWAPGate()
+      */
+    inline Gate& CSWAPGate()
+    {
+      resize(8,8);
+      setIdentity();
+      (*this)(5,5) = field(0,0);
+      (*this)(6,6) = field(0,0);
+      (*this)(6,5) = field(1,0);
+      (*this)(5,6) = field(1,0);
+      return *this;
+    }
+
     /** \brief <b>C</b>(\e U) gate (controlled \e U gate)
       *
       * \f[\mathbf{C}(U) =
@@ -258,30 +338,6 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b CNOT gate (controlled NOT gate)
-      *
-      * \f[\mathbf{CNOT} =
-      *   \left(\begin{array}{cccc}
-      *     1 & 0 & 0 & 0\\
-      *     0 & 1 & 0 & 0\\
-      *     0 & 0 & 0 & 1\\
-      *     0 & 0 & 1 & 0
-      *   \end{array}\right)
-      *   = \mathbf{C}(\mathbf{X})
-      * \f]
-      *
-      * \sa CGate(), XGate()
-      */
-    inline Gate& CNOTGate()
-    {
-      resize(4,4);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,1) = field(1,0);
-      (*this)(2,3) = field(1,0);
-      (*this)(3,2) = field(1,0);
-      return *this;
-    }
 
     /** \brief Swaps Qubits according to the permutation \p sigma
       *

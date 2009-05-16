@@ -33,6 +33,12 @@ int main(int, char *[])
 {
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
+  Gate s,c;
+  s.SWAPGate();
+  c.CNOTGate();
+
+  cout << s*c*s << endl;
+/*
   bitset<std::numeric_limits<unsigned long>::digits>
     c(10), d(0);
   cout << c << endl;
@@ -52,7 +58,7 @@ int main(int, char *[])
     d[o] = c[u];
   }
   cout << d << endl;
-
+*/
 
 /*
   // passt fuer alle permutationen
