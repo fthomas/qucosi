@@ -261,7 +261,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief CCNOT gate (Toffoli gate, controlled CNOT gate)
+    /** \brief \b CCNOT gate (Toffoli gate, controlled CNOT gate)
       *
       * \f[\mathbf{CCNOT} =
       *   \left(\begin{array}{cccccccc}
@@ -289,7 +289,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief CSWAP gate (Fredkin gate, controlled SWAP gate)
+    /** \brief \b CSWAP gate (Fredkin gate, controlled SWAP gate)
       *
       * \f[\mathbf{CSWAP} =
       *   \left(\begin{array}{cccccccc}
@@ -466,7 +466,7 @@ class Gate : public MatrixXc
       *     1 & \omega^3 & \omega^6 & \omega^9 & \cdots & \omega^{3(N-1)}\\
       *     \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
       *     1 & \omega^{N-1} & \omega^{2(N-1)} & \omega^{3(N-1)} & \cdots &
-      *       \omega^{(N-1)(N-1)}
+      *       \omega^{(N-1)^2}
       *   \end{array}\right),
       *   \quad \omega = \exp\left(2 \pi i/N\right)
       * \f]
