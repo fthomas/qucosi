@@ -38,14 +38,23 @@ namespace QuCoSi {
 class Vector : public VectorXc
 {
   public:
+    /** \brief Constructs the two-dimensional vector (1 0)<sup>T</sup>
+      */
     inline Vector() : VectorXc(2)
     {
       (*this)[0] = field(1,0);
       (*this)[1] = field(0,0);
     }
 
+    /** \brief Constructs the null vector of dimension \p dim
+      * \param dim the dimension of this vector
+      */
     inline Vector(const int dim) : VectorXc(dim) {}
 
+    /** \brief Constructs the two-dimensional vector (\p c0 \p c1)<sup>T</sup>
+      * \param c0 the first component of this vector
+      * \param c1 the second component of this vector
+      */
     inline Vector(const field& c0, const field& c1) : VectorXc(2)
     {
       (*this)[0] = c0;
@@ -66,7 +75,7 @@ class Vector : public VectorXc
       return isOne(norm());
     }
 
-    /** \brief Sets all coefficients in this vector to random values
+    /** \brief Sets all coefficients of this vector to random values
       */
     inline Vector& randomize()
     {
