@@ -7,3 +7,10 @@ Source code:
 
 API Documentation:
   http://alioth.debian.org/~fst/qucosi/html/
+
+Requirements:
+  C++ compiler, e.g. g++: http://gcc.gnu.org/
+  Eigen: http://eigen.tuxfamily.org/
+  CppUnit: http://cppunit.sourceforge.net/
+  CMake: http://www.cmake.org/
+  Doxygen: http://www.doxygen.org/
