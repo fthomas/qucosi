@@ -120,7 +120,8 @@ class GateTest : public CppUnit::TestFixture
       Qubit a(field(2,0), field(3,0)),
             b(field(4,0), field(5,0)),
             c(field(6,0), field(7,0)),
-            d(field(8,0), field(9,0));
+            d(field(8,0), field(9,0)),
+            e(field(10,0), field(11,0));
 
       // Permute two qubits.
       Qubit ab, ba;
@@ -208,6 +209,22 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( s.SGate(p5).transpose()*dabc == abcd );
       CPPUNIT_ASSERT( s.SGate(p6)*abcd == dcab );
       CPPUNIT_ASSERT( s.SGate(p6).transpose()*dcab == abcd );
+
+      // Permute five qubits.
+      Qubit abcde, acbed, edcab;
+      abcde = a.tensorDot(b).tensorDot(c).tensorDot(d).tensorDot(e);
+      acbed = a.tensorDot(c).tensorDot(b).tensorDot(e).tensorDot(d);
+      edcab = e.tensorDot(d).tensorDot(c).tensorDot(a).tensorDot(b);
+
+      std::vector<int> r1(5), r2(5);
+      r1[0] = 0; r2[0] = 4;
+      r1[1] = 2; r2[1] = 3;
+      r1[2] = 1; r2[2] = 2;
+      r1[3] = 4; r2[3] = 0;
+      r1[4] = 3; r2[4] = 1;
+
+      CPPUNIT_ASSERT( s.SGate(r1)*abcde == acbed );
+      CPPUNIT_ASSERT( s.SGate(r2)*abcde == edcab );
     }
 
     void testFGate()
