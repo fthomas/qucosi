@@ -237,6 +237,22 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief \b I gate (identity gate)
+      *
+      * \f[\mathbf{I} =
+      *   \left(\begin{array}{cc}
+      *     1 & 0\\
+      *     0 & 1
+      *   \end{array}\right)
+      * \f]
+      */
+    inline Gate& IGate()
+    {
+      resize(2,2);
+      setIdentity();
+      return *this;
+    }
+
     /** \brief \b CNOT gate (controlled NOT gate)
       *
       * \f[\mathbf{CNOT} =

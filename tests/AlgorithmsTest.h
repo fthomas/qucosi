@@ -33,6 +33,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE(AlgorithmsTest);
   CPPUNIT_TEST(testCoinFlipping);
   CPPUNIT_TEST(testDeutsch);
+  CPPUNIT_TEST(testDeutschJozsa);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -131,6 +132,25 @@ class AlgorithmsTest : public CppUnit::TestFixture
       x = h * q0.tensorDot(q1);
       x = h * u.UfGate(x,f) * x;
       CPPUNIT_ASSERT( x.isApprox(-r1) );
+    }
+
+    void testDeutschJozsa()
+    {
+      Qubit x;
+      Gate h, u;
+      std::vector<int> f(4);
+
+      // The function f is constant: f(x) = f(y) for all x, y.
+      f[0] = 0;
+      f[1] = 0;
+      f[2] = 0;
+      f[3] = 0;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3)*x;
+      x = u.UfGate(x,f)*x;
+      x = h.HGate().tensorPow(2).tensorDot(Gate().IGate())*x;
+      x.measurePartial(2);
     }
 };
 

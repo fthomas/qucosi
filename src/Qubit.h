@@ -29,6 +29,8 @@ class Qubit : public Vector {
   public:
     inline Qubit() : Vector(2) {}
 
+    inline Qubit(const int dim) : Vector(dim) {}
+
     inline Qubit(const field& c0, const field& c1) : Vector(c0, c1) {}
 
     inline Qubit(const int x, const int n) : Vector(std::pow(2,n))
@@ -94,7 +96,7 @@ class Qubit : public Vector {
       for (int j = 0; j < pn; j++) {
         pj[j] = 0.;
         for (int r = 0; r < qn; r++) {
-          pj[j] += std::pow(std::abs( (*this)(j*qn+r) ),2);
+          pj[j] += std::pow(std::abs((*this)(j*qn+r)),2);
         }
       }
 
@@ -102,9 +104,9 @@ class Qubit : public Vector {
       for (int j = 0; j < pn; j++) {
         s += pj[j];
         if (s >= t) {
-          Qubit rq;
+          Qubit rq(qn);
           for (int r = 0; r < qn; r++) {
-              rq += (*this)(j*qn+r)/std::sqrt(pj[j]) * Qubit(r,q);
+              rq += (*this)(j*qn+r)/std::sqrt(pj[j])*Qubit(r,q);
           }
           *this = Qubit(j,p).tensorDot(rq);
           return *this;

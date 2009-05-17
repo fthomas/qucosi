@@ -113,6 +113,10 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( h1.isApprox(h.applyToPos(1,2)) );
       CPPUNIT_ASSERT( h.applyToPos(0,2).isUnitary() );
       CPPUNIT_ASSERT( h.applyToPos(1,2).isUnitary() );
+
+      h0 = h0.HGate().tensorPowSet(2).applyToPos(1,3);
+      h1 = h1.HGate().tensorPowSet(2).tensorDotSet(Gate().IGate());
+      CPPUNIT_ASSERT( h0.isApprox(h1) );
     }
 
     void testCGate()
