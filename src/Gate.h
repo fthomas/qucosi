@@ -219,7 +219,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>R</b>(\e k) gate (general phase shift gate)
+    /** \brief <b>R</b>(\p k) gate (general phase shift gate)
       *
       * \f[\mathbf{R}(k) =
       *   \left(\begin{array}{cc}
@@ -320,7 +320,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>C</b><sub>tcn</sub>(\e U) gate (controlled \e U gate)
+    /** \brief <b>C</b><sub>\p tcn</sub>(\p U) gate (controlled \p U gate)
       */
     inline Gate& CGate(const int t, const int c, const int n, const Gate& U)
     {
@@ -356,7 +356,46 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief Swaps Qubits according to the permutation \p sigma
+    /** \brief \b SWAP gate
+      *
+      * \f[\mathbf{SWAP} =
+      *   \left(\begin{array}{cccc}
+      *     1 & 0 & 0 & 0\\
+      *     0 & 0 & 1 & 0\\
+      *     0 & 1 & 0 & 0\\
+      *     0 & 0 & 0 & 1
+      *   \end{array}\right)
+      *   = \mathbf{S}_{102} = \mathbf{S}_{012}
+      * \f]
+      *
+      * \sa SGate()
+      */
+    inline Gate& SWAPGate()
+    {
+      resize(4,4);
+      setZero();
+      (*this)(0,0) = field(1,0);
+      (*this)(1,2) = field(1,0);
+      (*this)(2,1) = field(1,0);
+      (*this)(3,3) = field(1,0);
+      return *this;
+    }
+
+    /** \brief <b>S</b><sub>\p pqn</sub> gate
+      */
+    inline Gate& SGate(const int p, const int q, const int n)
+    {
+      std::vector<int> sigma(n);
+      for (int i = 0; i < n; i++) {
+        sigma[i] = i;
+      }
+      sigma[p] = q;
+      sigma[q] = p;
+      SGate(sigma);
+      return *this;
+    }
+
+    /** \brief <b>S</b>(\p sigma) gate
       *
       * This methods constructs a tensor permutation matrix that permutes
       * qubits according to the permutation \p sigma.
@@ -405,47 +444,6 @@ class Gate : public MatrixXc
           }
         }
       }
-      return *this;
-    }
-
-    /** \brief <b>S</b>\e pq gate - swaps the Qubits at position \e p and \e q
-      *
-      * \sa SGate()
-      */
-    inline Gate& SpqGate(const int p, const int q, const int n)
-    {
-      std::vector<int> sigma(n);
-      for (int i = 0; i < n; i++) {
-        sigma[i] = i;
-      }
-      sigma[p] = q;
-      sigma[q] = p;
-      SGate(sigma);
-      return *this;
-    }
-
-    /** \brief \b SWAP gate
-      *
-      * \f[\mathbf{SWAP} =
-      *   \left(\begin{array}{cccc}
-      *     1 & 0 & 0 & 0\\
-      *     0 & 0 & 1 & 0\\
-      *     0 & 1 & 0 & 0\\
-      *     0 & 0 & 0 & 1
-      *   \end{array}\right)
-      *   = \mathbf{S}_{10} = \mathbf{S}_{01}
-      * \f]
-      *
-      * \sa SpqGate(), SGate()
-      */
-    inline Gate& SWAPGate()
-    {
-      resize(4,4);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,2) = field(1,0);
-      (*this)(2,1) = field(1,0);
-      (*this)(3,3) = field(1,0);
       return *this;
     }
 

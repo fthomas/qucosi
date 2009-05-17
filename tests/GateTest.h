@@ -148,8 +148,8 @@ class GateTest : public CppUnit::TestFixture
       ab = a.tensorDot(b);
       ba = b.tensorDot(a);
 
-      CPPUNIT_ASSERT( s.SpqGate(0,1,2)*ab == ba );
-      CPPUNIT_ASSERT( s.SpqGate(0,1,2) == t.SWAPGate() );
+      CPPUNIT_ASSERT( s.SGate(0,1,2)*ab == ba );
+      CPPUNIT_ASSERT( s.SGate(0,1,2) == t.SWAPGate() );
 
       // Permute three qubits.
       Qubit abc, acb, bac, bca, cab, cba;
@@ -160,12 +160,12 @@ class GateTest : public CppUnit::TestFixture
       cab = c.tensorDot(a.tensorDot(b));
       cba = c.tensorDot(b.tensorDot(a));
 
-      CPPUNIT_ASSERT( s.SpqGate(0,0,3)*abc == abc );
-      CPPUNIT_ASSERT( s.SpqGate(0,1,3)*abc == bac );
-      CPPUNIT_ASSERT( s.SpqGate(1,2,3)*abc == acb );
-      CPPUNIT_ASSERT( s.SpqGate(0,2,3)*abc == cba );
-      CPPUNIT_ASSERT( s.SpqGate(1,2,3)*t.SpqGate(0,1,3)*abc == bca );
-      CPPUNIT_ASSERT( s.SpqGate(0,1,3)*t.SpqGate(1,2,3)*abc == cab );
+      CPPUNIT_ASSERT( s.SGate(0,0,3)*abc == abc );
+      CPPUNIT_ASSERT( s.SGate(0,1,3)*abc == bac );
+      CPPUNIT_ASSERT( s.SGate(1,2,3)*abc == acb );
+      CPPUNIT_ASSERT( s.SGate(0,2,3)*abc == cba );
+      CPPUNIT_ASSERT( s.SGate(1,2,3)*t.SGate(0,1,3)*abc == bca );
+      CPPUNIT_ASSERT( s.SGate(0,1,3)*t.SGate(1,2,3)*abc == cab );
 
       std::vector<int> p1(3), p2(3);
       p1[0] = 1; p2[0] = 2;
@@ -208,12 +208,12 @@ class GateTest : public CppUnit::TestFixture
       dcab = d.tensorDot(c.tensorDot(a.tensorDot(b)));
       dcba = d.tensorDot(c.tensorDot(b.tensorDot(a)));
 
-      CPPUNIT_ASSERT( s.SpqGate(0,1,4)*abcd == bacd );
-      CPPUNIT_ASSERT( s.SpqGate(0,2,4)*abcd == cbad );
-      CPPUNIT_ASSERT( s.SpqGate(0,3,4)*abcd == dbca );
-      CPPUNIT_ASSERT( s.SpqGate(1,2,4)*abcd == acbd );
-      CPPUNIT_ASSERT( s.SpqGate(1,3,4)*abcd == adcb );
-      CPPUNIT_ASSERT( s.SpqGate(2,3,4)*abcd == abdc );
+      CPPUNIT_ASSERT( s.SGate(0,1,4)*abcd == bacd );
+      CPPUNIT_ASSERT( s.SGate(0,2,4)*abcd == cbad );
+      CPPUNIT_ASSERT( s.SGate(0,3,4)*abcd == dbca );
+      CPPUNIT_ASSERT( s.SGate(1,2,4)*abcd == acbd );
+      CPPUNIT_ASSERT( s.SGate(1,3,4)*abcd == adcb );
+      CPPUNIT_ASSERT( s.SGate(2,3,4)*abcd == abdc );
 
       std::vector<int> p3(4), p4(4), p5(4), p6(4);
       p3[0] = 3; p4[0] = 1; p5[0] = 3; p6[0] = 3;
