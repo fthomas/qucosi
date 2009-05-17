@@ -31,6 +31,7 @@ class QubitTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(QubitTest);
   CPPUNIT_TEST(testMeasure);
+  CPPUNIT_TEST(testMeasurePartial);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -58,6 +59,23 @@ class QubitTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( r0 > 450 && r0 < 550);
       CPPUNIT_ASSERT( r1 > 200 && r1 < 300);
       CPPUNIT_ASSERT( r2 > 200 && r2 < 300);
+    }
+
+    void testMeasurePartial()
+    {
+      Qubit b, r1, r2, q0(0,2), q1(1,2), q2(2,2), q3(3,2);
+
+      b = std::sqrt(0.5)*q0 - 0.5*q1 + 0.5*q2;
+      b.measurePartial(1);
+      r1 = std::sqrt(2./3.)*q0 - std::sqrt(1./3.)*q1;
+      r2 = q2;
+      CPPUNIT_ASSERT( b.isApprox(r1) || b.isApprox(r2) );
+
+      b = std::sqrt(0.5)*(q0 + q3);
+      b.measurePartial(1);
+      r1 = q0;
+      r2 = q3;
+      CPPUNIT_ASSERT( b.isApprox(r1) || b.isApprox(r2) );
     }
 };
 

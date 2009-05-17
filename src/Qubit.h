@@ -82,6 +82,36 @@ class Qubit : public Vector {
       }
       return *this;
     }
+
+    inline Qubit& measurePartial(const int p)
+    {
+      int n = log2(size());
+      int q = n-p;
+      int pn = std::pow(2,p);
+      int qn = std::pow(2,q);
+      std::vector<fptype> pj(pn);
+
+      for (int j = 0; j < pn; j++) {
+        pj[j] = 0.;
+        for (int r = 0; r < qn; r++) {
+          pj[j] += std::pow(std::abs( (*this)(j*qn+r) ),2);
+        }
+      }
+
+      fptype s = 0., t = fptype(std::rand())/RAND_MAX;
+      for (int j = 0; j < pn; j++) {
+        s += pj[j];
+        if (s >= t) {
+          Qubit rq;
+          for (int r = 0; r < qn; r++) {
+              rq += (*this)(j*qn+r)/std::sqrt(pj[j]) * Qubit(r,q);
+          }
+          *this = Qubit(j,p).tensorDot(rq);
+          return *this;
+        }
+      }
+      return *this;
+    }
 };
 
 } // namespace QuCoSi
