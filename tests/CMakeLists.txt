@@ -5,6 +5,7 @@ set(tests_SOURCES
 set(tests_HEADERS
     AlgorithmsTest.h
     GateTest.h
+    QubitTest.h
     VectorTest.h
 )
 

@@ -18,6 +18,7 @@
 
 #include <AlgorithmsTest.h>
 #include <GateTest.h>
+#include <QubitTest.h>
 #include <VectorTest.h>
 
 int main(int argc, char* argv[])
@@ -25,6 +26,7 @@ int main(int argc, char* argv[])
   CppUnit::TextUi::TestRunner runner;
 
   runner.addTest(QuCoSi::VectorTest::suite());
+  runner.addTest(QuCoSi::QubitTest::suite());
   runner.addTest(QuCoSi::GateTest::suite());
   runner.addTest(QuCoSi::AlgorithmsTest::suite());
   runner.run();
