@@ -33,11 +33,22 @@ int main(int, char *[])
 {
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
+  Gate c,h;
+  h.XGate();
+  cout << c.CGate(0,1,2,h);
+/*  cout << (0+3)%4 << endl;
+  cout << (1+3)%4<< endl;
+  cout << (2+3)%4 << endl;
+  cout << (3+3)%4 << endl;
+*/  
+
+/*
   Gate s,c;
   s.SWAPGate();
   c.CNOTGate();
 
   cout << s*c*s << endl;
+*/
 /*
   bitset<std::numeric_limits<unsigned long>::digits>
     c(10), d(0);

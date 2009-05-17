@@ -246,6 +246,7 @@ class Gate : public MatrixXc
       *     0 & 0 & 0 & 1\\
       *     0 & 0 & 1 & 0
       *   \end{array}\right)
+      *   = \mathbf{C}_{102}(\mathbf{X})
       * \f]
       *
       * \sa CGate(), XGate()
@@ -261,7 +262,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b CCNOT gate (Toffoli gate, controlled CNOT gate)
+    /** \brief \b CCNOT gate (Toffoli gate, controlled \b CNOT gate)
       *
       * \f[\mathbf{CCNOT} =
       *   \left(\begin{array}{cccccccc}
@@ -274,6 +275,7 @@ class Gate : public MatrixXc
       *     0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
       *     0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
       *   \end{array}\right)
+      *   = \mathbf{C}_{103}(\mathbf{CNOT})
       * \f]
       *
       * \sa CGate(), CNOTGate()
@@ -289,7 +291,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b CSWAP gate (Fredkin gate, controlled SWAP gate)
+    /** \brief \b CSWAP gate (Fredkin gate, controlled \b SWAP gate)
       *
       * \f[\mathbf{CSWAP} =
       *   \left(\begin{array}{cccccccc}
@@ -302,6 +304,7 @@ class Gate : public MatrixXc
       *     0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
       *     0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
       *   \end{array}\right)
+      *   = \mathbf{C}_{103}(\mathbf{SWAP})
       * \f]
       *
       * \sa CGate(), SWAPGate()
@@ -317,27 +320,41 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>C</b>(\e U) gate (controlled \e U gate)
-      *
-      * \f[\mathbf{C}(U) =
-      *   \left(\begin{array}{cccc}
-      *     1 & 0 & 0 & 0\\
-      *     0 & 1 & 0 & 0\\
-      *     0 & 0 & U_{11} & U_{12}\\
-      *     0 & 0 & U_{21} & U_{22}
-      *   \end{array}\right)
-      * \f]
+    /** \brief <b>C</b><sub>tcn</sub>(\e U) gate (controlled \e U gate)
       */
-    inline Gate& CGate(const Gate& U)
+    inline Gate& CGate(const int t, const int c, const int n, const Gate& U)
     {
-      resize(4,4);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,1) = field(1,0);
-      block(2,2,2,2) = U;
+      // Construct the controlled U gate with the first qubit as control and
+      // the second qubit as target.
+      int d = U.rows();
+      Gate cu(2*d,2*d);
+      cu.setIdentity();
+      cu.block(d,d,d,d) = U;
+
+      // Extend the controlled U gate for n qubits if it does not already
+      // operate on n qubits.
+      if (std::pow(2,n) > 2*d) {
+        cu = cu.applyToPos(0,n);
+      }
+
+      // Construct a cyclic permutation that displaces t to position 1.
+      std::vector<int> sigma(n);
+      for (int i = 0; i < n; i++) {
+        sigma[(n-t+i+1)%n] = i;
+      }
+      // Permute c to position 0.
+      int newc = (n-t+c+1)%n, tmp = sigma[0];
+      sigma[0] = sigma[newc];
+      sigma[newc] = tmp;
+
+      // Construct an S gate from the permutation sigma.
+      Gate s;
+      s.SGate(sigma);
+
+      // Now combine the S and the controlled U gate.
+      (*this) = s*cu*s;
       return *this;
     }
-
 
     /** \brief Swaps Qubits according to the permutation \p sigma
       *

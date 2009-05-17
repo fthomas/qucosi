@@ -29,6 +29,7 @@ class GateTest : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE(GateTest);
   CPPUNIT_TEST(testTensorPow);
   CPPUNIT_TEST(testApplyToPos);
+  CPPUNIT_TEST(testCGate);
   CPPUNIT_TEST(testSGate);
   CPPUNIT_TEST(testFGate);
   CPPUNIT_TEST_SUITE_END();
@@ -112,6 +113,25 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( h1.isApprox(h.applyToPos(1,2)) );
       CPPUNIT_ASSERT( h.applyToPos(0,2).isUnitary() );
       CPPUNIT_ASSERT( h.applyToPos(1,2).isUnitary() );
+    }
+
+    void testCGate()
+    {
+      Gate cnot, ccnot, cswap, c, u, g;
+      cnot.CNOTGate();
+      ccnot.CCNOTGate();
+      cswap.CSWAPGate();
+
+      CPPUNIT_ASSERT( c.CGate(1,0,2,u.XGate()) == cnot );
+      CPPUNIT_ASSERT( c.CGate(1,0,3,u.CNOTGate()) == ccnot );
+      CPPUNIT_ASSERT( c.CGate(1,0,3,u.SWAPGate()) == cswap );
+
+      g.resize(4,4);
+      g << 1, 0, 0, 0,
+           0, 0, 0, 1,
+           0, 0, 1, 0,
+           0, 1, 0, 0;
+      CPPUNIT_ASSERT( c.CGate(0,1,2,u.XGate()) == g );
     }
 
     void testSGate()
