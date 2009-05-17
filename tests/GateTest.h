@@ -132,6 +132,8 @@ class GateTest : public CppUnit::TestFixture
            0, 0, 1, 0,
            0, 1, 0, 0;
       CPPUNIT_ASSERT( c.CGate(0,1,2,u.XGate()) == g );
+      u.SWAPGate();
+      CPPUNIT_ASSERT( u*cnot*u == g );
     }
 
     void testSGate()
