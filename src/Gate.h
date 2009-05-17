@@ -471,23 +471,24 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b F gate (quantum Fourier transform)
+    /** \brief <b>F</b><sub>\p n</sub> gate (quantum Fourier transform)
       *
-      * \f[\mathbf{F_N} = \frac{1}{\sqrt{N}}
+      * \f[\mathbf{F_n} = 2^{-n/2}
       *   \left(\begin{array}{cccccc}
       *     1 & 1 & 1 & 1 & \cdots & 1 \\
-      *     1 & \omega^1 & \omega^2 & \omega^3 & \cdots & \omega^{N-1}\\
-      *     1 & \omega^2 & \omega^4 & \omega^6 & \cdots & \omega^{2(N-1)}\\
-      *     1 & \omega^3 & \omega^6 & \omega^9 & \cdots & \omega^{3(N-1)}\\
+      *     1 & \omega^1 & \omega^2 & \omega^3 & \cdots & \omega^{2^n-1}\\
+      *     1 & \omega^2 & \omega^4 & \omega^6 & \cdots & \omega^{2(2^n-1)}\\
+      *     1 & \omega^3 & \omega^6 & \omega^9 & \cdots & \omega^{3(2^n-1)}\\
       *     \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
-      *     1 & \omega^{N-1} & \omega^{2(N-1)} & \omega^{3(N-1)} & \cdots &
-      *       \omega^{(N-1)^2}
+      *     1 & \omega^{2^n-1} & \omega^{2(2^n-1)} & \omega^{3(2^n-1)} &
+      *       \cdots & \omega^{(2^n-1)^2}
       *   \end{array}\right),
-      *   \quad \omega = \exp\left(2 \pi i/N\right)
+      *   \quad \omega = \exp\left(2 \pi i/2^n\right)
       * \f]
       */
-    inline Gate& FGate(const int N)
+    inline Gate& FGate(const int n)
     {
+      int N = std::pow(2,n);
       resize(N,N);
       for (int x = 0; x < N; x++) {
         for (int y = x; y < N; y++) {

@@ -256,7 +256,7 @@ class GateTest : public CppUnit::TestFixture
             q12(12,4), q13(13,4), q14(14,4), q15(15,4);
 
       Gate f;
-      f.FGate(16);
+      f.FGate(4);
 
       CPPUNIT_ASSERT( (f*(0.5*(q0 + q4 + q8 + q12))).isApprox(
                           0.5*(q0 + q4 + q8 + q12)) );
