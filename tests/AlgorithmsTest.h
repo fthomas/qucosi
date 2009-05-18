@@ -138,7 +138,17 @@ class AlgorithmsTest : public CppUnit::TestFixture
     {
       Qubit x;
       Gate h, u;
-      std::vector<int> f(4);
+      std::vector<int> f1(2), f(4);
+
+      f1[0] = 1;
+      f1[1] = 0;
+
+      x = Qubit(1,2);
+      x = h.HGate().tensorPow(2)*x;
+      x = u.UfGate(x,f1)*x;
+      x = h.tensorDot(Gate().IGate())*x;
+      x.measurePartial(1);
+      std::cout << x;
 
       // The function f is constant: f(x) = f(y) for all x, y.
       f[0] = 0;
