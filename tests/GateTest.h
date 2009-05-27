@@ -237,9 +237,20 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( s.SGate(p6).transpose()*dcab == abcd );
 
       // Permute five qubits.
-      Qubit abcde, acbed, edcab;
+      Qubit abcde, abced, abdce, abedc, acbde, acbed, adcbe, aecdb, bacde,
+            cbade, dbcae, ebcda, edcab;
       abcde = a.tensorDot(b).tensorDot(c).tensorDot(d).tensorDot(e);
+      abced = a.tensorDot(b).tensorDot(c).tensorDot(e).tensorDot(d);
+      abdce = a.tensorDot(b).tensorDot(d).tensorDot(c).tensorDot(e);
+      abedc = a.tensorDot(b).tensorDot(e).tensorDot(d).tensorDot(c);
+      acbde = a.tensorDot(c).tensorDot(b).tensorDot(d).tensorDot(e);
       acbed = a.tensorDot(c).tensorDot(b).tensorDot(e).tensorDot(d);
+      adcbe = a.tensorDot(d).tensorDot(c).tensorDot(b).tensorDot(e);
+      aecdb = a.tensorDot(e).tensorDot(c).tensorDot(d).tensorDot(b);
+      bacde = b.tensorDot(a).tensorDot(c).tensorDot(d).tensorDot(e);
+      cbade = c.tensorDot(b).tensorDot(a).tensorDot(d).tensorDot(e);
+      dbcae = d.tensorDot(b).tensorDot(c).tensorDot(a).tensorDot(e);
+      ebcda = e.tensorDot(b).tensorDot(c).tensorDot(d).tensorDot(a);
       edcab = e.tensorDot(d).tensorDot(c).tensorDot(a).tensorDot(b);
 
       std::vector<int> r1(5), r2(5);
@@ -251,6 +262,20 @@ class GateTest : public CppUnit::TestFixture
 
       CPPUNIT_ASSERT( s.SGate(r1)*abcde == acbed );
       CPPUNIT_ASSERT( s.SGate(r2)*abcde == edcab );
+
+      CPPUNIT_ASSERT( s.SGate(0,1,5)*abcde == bacde );
+      CPPUNIT_ASSERT( s.SGate(0,2,5)*abcde == cbade );
+      CPPUNIT_ASSERT( s.SGate(0,3,5)*abcde == dbcae );
+      CPPUNIT_ASSERT( s.SGate(0,4,5)*abcde == ebcda );
+
+      CPPUNIT_ASSERT( s.SGate(1,2,5)*abcde == acbde );
+      CPPUNIT_ASSERT( s.SGate(1,3,5)*abcde == adcbe );
+      CPPUNIT_ASSERT( s.SGate(1,4,5)*abcde == aecdb );
+
+      CPPUNIT_ASSERT( s.SGate(2,3,5)*abcde == abdce );
+      CPPUNIT_ASSERT( s.SGate(2,4,5)*abcde == abedc );
+
+      CPPUNIT_ASSERT( s.SGate(3,4,5)*abcde == abced );
     }
 
     void testFGate()
