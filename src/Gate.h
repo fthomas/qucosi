@@ -244,6 +244,7 @@ class Gate : public MatrixXc
       *     1 & 0\\
       *     0 & 1
       *   \end{array}\right)
+      *   = \mathbf{R}(1)
       * \f]
       */
     inline Gate& IGate()
