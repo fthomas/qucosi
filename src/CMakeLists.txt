@@ -12,3 +12,5 @@ set(QUCOSI_HEADERS
 
 include_directories(. /usr/include/eigen2)
 add_executable(qctest ${QUCOSI_SOURCES})
+
+install(FILES ${QUCOSI_HEADERS} DESTINATION include/qucosi)
