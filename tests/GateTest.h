@@ -127,6 +127,7 @@ class GateTest : public CppUnit::TestFixture
       cswap.CSWAPGate();
 
       CPPUNIT_ASSERT( c.CGate(1,0,2,u.XGate()) == cnot );
+      CPPUNIT_ASSERT( c.CGate(1,0,3,u.CGate(1,0,2,g.XGate())) == ccnot );
       CPPUNIT_ASSERT( c.CGate(1,0,3,u.CNOTGate()) == ccnot );
       CPPUNIT_ASSERT( c.CGate(1,0,3,u.SWAPGate()) == cswap );
 
