@@ -414,8 +414,15 @@ class Gate : public MatrixXc
 
     /** \brief <b>S</b>(\p sigma) gate
       *
-      * This methods constructs a tensor permutation matrix that permutes
-      * qubits according to the permutation \p sigma.
+      * This method constructs a tensor permutation matrix that permutes
+      * qubits according to the permutation \p sigma. For example, this
+      * matrix acts on the tensor product of the qubits \f$ q_0,\ q_1,\
+      * \ldots,\ q_k\f$ as follows:
+      * \f[
+      *   \mathbf{S}(\sigma) \left(q_0 \otimes q_1 \otimes \ldots \otimes
+      *     q_k\right) = q_{\sigma(0)} \otimes q_{\sigma(1)} \otimes \ldots
+      *     \otimes q_{\sigma(k)}
+      * \f]
       *
       * \note The implementation of this method is based on proposition 6.2
       * in the paper arXiv:math/0508053v2 by Rakotonirina Christian. It takes
