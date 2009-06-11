@@ -32,6 +32,7 @@ class GateTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testCGate);
   CPPUNIT_TEST(testSGate);
   CPPUNIT_TEST(testFGate);
+  CPPUNIT_TEST(testCircuitIdentities);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -301,6 +302,29 @@ class GateTest : public CppUnit::TestFixture
 
       CPPUNIT_ASSERT( (f*(0.5*(q3 + q7 + q11 + q15))).isApprox(
                           0.5*(q0 - i*q4 - q8 + i*q12)) );
+    }
+
+    void testCircuitIdentities()
+    {
+      Gate g1, g2, g3, g4, g5;
+
+      CPPUNIT_ASSERT( (g1.HGate() * g2.HGate()).isApprox(g3.IGate()) );
+
+      CPPUNIT_ASSERT( (g1.HGate() * g2.XGate() * g3.HGate()).isApprox(
+        g4.ZGate()) );
+
+      CPPUNIT_ASSERT( (g1.HGate() * g2.ZGate() * g3.HGate()).isApprox(
+        g4.XGate()) );
+
+      CPPUNIT_ASSERT( (g1.HGate().applyToPos(0,2) *
+        g2.CGate(1,0,2,g3.ZGate()) * g4.HGate().applyToPos(0,2)).isApprox(
+        g5.CNOTGate()) );
+
+      CPPUNIT_ASSERT( g1.CGate(1,0,2,g2.ZGate()).isApprox(
+        g3.CGate(0,1,2,g4.ZGate())) );
+
+      CPPUNIT_ASSERT( (g1.HGate().tensorPow(2) * g2.CNOTGate() *
+        g3.HGate().tensorPow(2)).isApprox(g4.CGate(0,1,2,g5.XGate())) );
     }
 };
 
