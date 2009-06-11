@@ -399,6 +399,10 @@ class Gate : public MatrixXc
     }
 
     /** \brief <b>S</b><sub>\p pqn</sub> gate
+      *
+      * This method constructs a \f$2^n \times 2^n\f$ tensor permutation
+      * matrix that permutes the \f$p^{\mathrm{th}}\f$ and \f$q^{\mathrm{th}}
+      * \f$ qubits in a tensor product of \f$n\f$ qubits.
       */
     inline Gate& SGate(const int p, const int q, const int n)
     {
