@@ -31,6 +31,7 @@ class GateTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testApplyToPos);
   CPPUNIT_TEST(testCGate);
   CPPUNIT_TEST(testSGate);
+  CPPUNIT_TEST(testUfGate);
   CPPUNIT_TEST(testFGate);
   CPPUNIT_TEST(testCircuitIdentities);
   CPPUNIT_TEST_SUITE_END();
@@ -115,7 +116,7 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( h.applyToPos(0,2).isUnitary() );
       CPPUNIT_ASSERT( h.applyToPos(1,2).isUnitary() );
 
-      h0 = h0.HGate().tensorPowSet(2).applyToPos(1,3);
+      h0 = h0.HGate().tensorPowSet(2).applyToPos(0,3);
       h1 = h1.HGate().tensorPowSet(2).tensorDotSet(Gate().IGate());
       CPPUNIT_ASSERT( h0.isApprox(h1) );
     }
@@ -278,6 +279,325 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( s.SGate(2,4,5)*abcde == abedc );
 
       CPPUNIT_ASSERT( s.SGate(3,4,5)*abcde == abced );
+    }
+
+    void testUfGate()
+    {
+      Gate uf, uc, uh, a1, a2, a3, a4, a5;
+
+      //
+      // Test all 4x4 UfGates.
+      //
+      std::vector<int> f(2);
+
+      f[0] = 0; f[1] = 0;
+      uh.resize(4,4);
+      uh << 1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1;
+      uc.IGate().tensorPowSet(2);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      f[0] = 0; f[1] = 1;
+      uh.resize(4,4);
+      uh << 1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 0, 1,
+            0, 0, 1, 0;
+      uc.CGate(1,0,2,a1.XGate());
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      f[0] = 1; f[1] = 0;
+      uh.resize(4,4);
+      uh << 0, 1, 0, 0,
+            1, 0, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1;
+      uc = a1.XGate().applyToPos(1,2) * a2.CGate(1,0,2,a3.XGate());
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      f[0] = 1; f[1] = 1;
+      uh.resize(4,4);
+      uh << 0, 1, 0, 0,
+            1, 0, 0, 0,
+            0, 0, 0, 1,
+            0, 0, 1, 0;
+      uc = uc.XGate().applyToPos(1,2);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      //
+      // Test all 8x8 UfGates.
+      //
+      f.resize(4);
+
+      // binary 0
+      f[0] = 0; f[1] = 0; f[2] = 0; f[3] = 0;
+      uh.resize(8,8);
+      uh.setIdentity();
+      uc.IGate().tensorPowSet(3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 15
+      f[0] = 1; f[1] = 1; f[2] = 1; f[3] = 1;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = uc.XGate().applyToPos(2,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 1
+      f[0] = 0; f[1] = 0; f[2] = 0; f[3] = 1;
+      uh.resize(8,8);
+      uh << 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = uc.CGate(1,0,3,a1.CNOTGate());
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 14
+      f[0] = 1; f[1] = 1; f[2] = 1; f[3] = 0;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 1, 0,
+            0, 0, 0, 0, 0, 0, 0, 1;
+      uc = a1.XGate().applyToPos(2,3) * uc.CGate(1,0,3,a2.CNOTGate());
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 2
+      f[0] = 0; f[1] = 0; f[2] = 1; f[3] = 0;
+      uh.resize(8,8);
+      uh << 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 1, 0,
+            0, 0, 0, 0, 0, 0, 0, 1;
+      uc = a1.XGate().applyToPos(1,3) * uc.CGate(1,0,3,a2.CNOTGate()) *
+           a3.XGate().applyToPos(1,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 13
+      f[0] = 1; f[1] = 1; f[2] = 0; f[3] = 1;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = a1.XGate().applyToPos(1,3) * a2.XGate().applyToPos(2,3) *
+           uc.CGate(1,0,3,a3.CNOTGate()) * a4.XGate().applyToPos(1,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 3
+      f[0] = 0; f[1] = 0; f[2] = 1; f[3] = 1;
+      uh.resize(8,8);
+      uh << 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = uc.CGate(2,0,3,a1.XGate());
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 12
+      f[0] = 1; f[1] = 1; f[2] = 0; f[3] = 0;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 1, 0,
+            0, 0, 0, 0, 0, 0, 0, 1;
+      uc = a1.XGate().applyToPos(0,3) * uc.CGate(2,0,3,a2.XGate()) *
+           a3.XGate().applyToPos(0,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 4
+      f[0] = 0; f[1] = 1; f[2] = 0; f[3] = 0;
+      uh.resize(8,8);
+      uh << 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 1, 0,
+            0, 0, 0, 0, 0, 0, 0, 1;
+      uc = a1.XGate().applyToPos(0,3) * uc.CCNOTGate() *
+           a2.XGate().applyToPos(0,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 11
+      f[0] = 1; f[1] = 0; f[2] = 1; f[3] = 1;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = a1.XGate().applyToPos(0,3) * a2.XGate().applyToPos(2,3) *
+           uc.CCNOTGate() * a3.XGate().applyToPos(0,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 5
+      f[0] = 0; f[1] = 1; f[2] = 0; f[3] = 1;
+      uh.resize(8,8);
+      uh << 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = uc.CNOTGate().applyToPos(1,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 10
+      f[0] = 1; f[1] = 0; f[2] = 1; f[3] = 0;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 1, 0,
+            0, 0, 0, 0, 0, 0, 0, 1;
+      uc = a1.XGate().applyToPos(1,3) * uc.CNOTGate().applyToPos(1,3) *
+           a2.XGate().applyToPos(1,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 6
+      f[0] = 0; f[1] = 1; f[2] = 1; f[3] = 0;
+      uh.resize(8,8);
+      uh << 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 1, 0,
+            0, 0, 0, 0, 0, 0, 0, 1;
+      uc = a1.CGate(2,1,3,a3.XGate()) * a2.CGate(2,0,3,a4.XGate());
+      uf.UfGate(f);
+      //CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 9
+      f[0] = 1; f[1] = 0; f[2] = 0; f[3] = 1;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = uc.XGate().applyToPos(2,3) * a1.CGate(2,1,3,a2.XGate()) *
+           a3.CGate(2,0,3,a4.XGate());
+      uf.UfGate(f);
+      //CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 7
+      f[0] = 0; f[1] = 1; f[2] = 1; f[3] = 1;
+      uh.resize(8,8);
+      uh << 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1, 0;
+      uc = a1.XGate().applyToPos(0,3) * a2.XGate().applyToPos(1,3) *
+           a3.XGate().applyToPos(2,3) * uc.CCNOTGate() *
+           a4.XGate().applyToPos(0,3) * a5.XGate().applyToPos(1,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
+
+      // binary 8
+      f[0] = 1; f[1] = 0; f[2] = 0; f[3] = 0;
+      uh.resize(8,8);
+      uh << 0, 1, 0, 0, 0, 0, 0, 0,
+            1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 1, 0,
+            0, 0, 0, 0, 0, 0, 0, 1;
+      uc = a1.XGate().applyToPos(0,3) * a2.XGate().applyToPos(1,3) *
+           uc.CCNOTGate() * a3.XGate().applyToPos(0,3) *
+           a4.XGate().applyToPos(1,3);
+      uf.UfGate(f);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
     }
 
     void testFGate()

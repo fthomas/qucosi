@@ -80,10 +80,9 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    inline Gate applyToPos(const int i, const int n) const
+    inline Gate applyToPos(const int j, const int n) const
     {
-      int j = i+1-log2(rows());
-      int k = n-i-1;
+      int k = n-j-log2(rows());
       Gate id, x = *this;
 
       if (j > 0) {
