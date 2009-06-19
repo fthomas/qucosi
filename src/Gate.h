@@ -476,6 +476,30 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief <b>U</b><sub>f</sub> gate
+      *
+      * \f[
+      *   \mathbf{U}_f |x\rangle_n |y\rangle_1 =
+      *     |x\rangle_n |y \oplus f(x)\rangle_1
+      * \f]
+      */
+    inline Gate& UfGate(const std::vector<int>& f)
+    {
+      int s = f.size();
+      resize(2*s,2*s);
+      setIdentity();
+
+      for (int i = 0; i < s; i++) {
+        if (f.at(i) == 1) {
+          (*this)(2*i,2*i) = 0;
+          (*this)(2*i+1,2*i+1) = 0;
+          (*this)(2*i+1,2*i) = 1;
+          (*this)(2*i,2*i+1) = 1;
+        }
+      }
+      return *this;
+    }
+
     inline Gate& UfGate(const Vector& v, const std::vector<int>& f)
     {
       int s = v.size();
@@ -502,7 +526,7 @@ class Gate : public MatrixXc
 
     /** \brief <b>F</b><sub>\p n</sub> gate (quantum Fourier transform)
       *
-      * \f[\mathbf{F_n} = 2^{-n/2}
+      * \f[\mathbf{F}_n = 2^{-n/2}
       *   \left(\begin{array}{cccccc}
       *     1 & 1 & 1 & 1 & \cdots & 1 \\
       *     1 & \omega^1 & \omega^2 & \omega^3 & \cdots & \omega^{2^n-1}\\
