@@ -148,7 +148,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
       x = u.UfGate(x,f1)*x;
       x = h.tensorDot(Gate().IGate())*x;
       x.measurePartial(1);
-      std::cout << x;
+      //std::cout << x;
 
       // The function f is constant: f(x) = f(y) for all x, y.
       f[0] = 0;

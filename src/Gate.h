@@ -80,17 +80,18 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    inline Gate applyToPos(const int k, const int n) const
+    inline Gate applyToPos(const int i, const int n) const
     {
-      int l = n-k-log2(rows());
+      int j = i+1-log2(rows());
+      int k = n-i-1;
       Gate id, x = *this;
 
-      if (l > 0) {
-        id.resize(std::pow(2,l), std::pow(2,l));
+      if (j > 0) {
+        id.resize(std::pow(2,j), std::pow(2,j));
         id.setIdentity();
         x = id.tensorDot(x);
       }
-      if (l >= 0 && k > 0) {
+      if (j >= 0 && k > 0) {
         id.resize(std::pow(2,k), std::pow(2,k));
         id.setIdentity();
         x.tensorDotSet(id);

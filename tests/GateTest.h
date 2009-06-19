@@ -98,16 +98,16 @@ class GateTest : public CppUnit::TestFixture
       h0.resize(4,4);
       h1.resize(4,4);
 
-      h0 << 1,  1,  0,  0,
-            1, -1,  0,  0,
-            0,  0,  1,  1,
-            0,  0,  1, -1;
-      h0 *= std::sqrt(1./2);
-
-      h1 << 1,  0,  1,  0,
+      h0 << 1,  0,  1,  0,
             0,  1,  0,  1,
             1,  0, -1,  0,
             0,  1,  0, -1;
+      h0 *= std::sqrt(1./2);
+
+      h1 << 1,  1,  0,  0,
+            1, -1,  0,  0,
+            0,  0,  1,  1,
+            0,  0,  1, -1;
       h1 *= std::sqrt(1./2);
 
       CPPUNIT_ASSERT( h0.isApprox(h.applyToPos(0,2)) );
@@ -316,8 +316,8 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( (g1.HGate() * g2.ZGate() * g3.HGate()).isApprox(
         g4.XGate()) );
 
-      CPPUNIT_ASSERT( (g1.HGate().applyToPos(0,2) *
-        g2.CGate(1,0,2,g3.ZGate()) * g4.HGate().applyToPos(0,2)).isApprox(
+      CPPUNIT_ASSERT( (g1.HGate().applyToPos(1,2) *
+        g2.CGate(1,0,2,g3.ZGate()) * g4.HGate().applyToPos(1,2)).isApprox(
         g5.CNOTGate()) );
 
       CPPUNIT_ASSERT( g1.CGate(1,0,2,g2.ZGate()).isApprox(
