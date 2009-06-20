@@ -132,6 +132,7 @@ class GateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( c.CGate(1,0,3,u.CGate(1,0,2,g.XGate())) == ccnot );
       CPPUNIT_ASSERT( c.CGate(1,0,3,u.CNOTGate()) == ccnot );
       CPPUNIT_ASSERT( c.CGate(1,0,3,u.SWAPGate()) == cswap );
+      CPPUNIT_ASSERT( c.CGate(2,1,3,u.XGate()) == cnot.applyToPos(1,3) );
 
       g.resize(4,4);
       g << 1, 0, 0, 0,
@@ -543,7 +544,7 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 0, 0, 1;
       uc = a1.CGate(2,1,3,a3.XGate()) * a2.CGate(2,0,3,a4.XGate());
       uf.UfGate(f);
-      //CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
 
       // binary 9
@@ -560,7 +561,7 @@ class GateTest : public CppUnit::TestFixture
       uc = uc.XGate().applyToPos(2,3) * a1.CGate(2,1,3,a2.XGate()) *
            a3.CGate(2,0,3,a4.XGate());
       uf.UfGate(f);
-      //CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
 
       // binary 7

@@ -369,7 +369,7 @@ class Gate : public MatrixXc
       s.SGate(sigma);
 
       // Now combine the S and the controlled U gate.
-      *this = s*cu*s;
+      *this = s.transpose()*cu*s;
       return *this;
     }
 
