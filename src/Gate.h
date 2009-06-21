@@ -338,6 +338,16 @@ class Gate : public MatrixXc
     }
 
     /** \brief <b>C</b><sub>\p tcn</sub>(\p U) gate (controlled \p U gate)
+      *
+      * This method constructs a gate that acts on \p n qubits and where the
+      * gate \p U is applied to the qubit(s) at position \p t (the target
+      * qubit(s)) if the qubit at position \p c (the control qubit) is 1.
+      *
+      * \param t the position of the target qubit(s)
+      * \param c the position of the control qubit
+      * \param n the count of qubits this gate acts on
+      * \param U the gate that acts on the target qubit and that will be
+      *          controlled by the control qubit
       */
     inline Gate& CGate(const int t, const int c, const int n, const Gate& U)
     {
@@ -401,8 +411,12 @@ class Gate : public MatrixXc
     /** \brief <b>S</b><sub>\p pqn</sub> gate
       *
       * This method constructs a \f$2^n \times 2^n\f$ tensor permutation
-      * matrix that permutes the \f$p^{\mathrm{th}}\f$ and \f$q^{\mathrm{th}}
-      * \f$ qubits in a tensor product of \f$n\f$ qubits.
+      * matrix that permutes the \p p<sup>th</sup> and \p q<sup>th</sup>
+      * qubits in a tensor product of \p n qubits.
+      *
+      * \param p the new position of the \p q<sup>th</sup> qubit
+      * \param q the new position of the \p p<sup>th</sup> qubit
+      * \param n the count of qubits this gate acts on
       */
     inline Gate& SGate(const int p, const int q, const int n)
     {
@@ -435,6 +449,7 @@ class Gate : public MatrixXc
       * \f$j_1 \ldots j_k\f$ can be obtained from the row and column indices
       * of the permutation matrix with <tt>std::bitset</tt>s.
       *
+      * \param sigma the permutation that will be applied to qubits
       * \sa http://arxiv.org/abs/math/0508053
       */
     inline Gate& SGate(const std::vector<int>& sigma)
@@ -480,12 +495,14 @@ class Gate : public MatrixXc
       * This method constructs a gate that can be associated with the boolean
       * function \f$f:\ \{ 0,\ 1,\ 2,\ \ldots,\ 2^n - 1 \} \rightarrow \{ 0,\
       * 1\}\f$. It is defined so that it acts on a tensor product of
-      * \f$n+1\f$ qubits as
+      * \p n + 1 qubits as
       * \f[
       *   \mathbf{U}_f |x\rangle_n |y\rangle_1 =
       *     |x\rangle_n |y \oplus f(x)\rangle_1 \ ,
       * \f]
       * where \f$\oplus\f$ denotes the binary addition.
+      *
+      * \param f the boolean function associated with this gate
       */
     inline Gate& UfGate(const std::vector<int>& f)
     {
@@ -506,6 +523,8 @@ class Gate : public MatrixXc
 
     /** \brief <b>F</b><sub>\p n</sub> gate (quantum Fourier transform)
       *
+      * This method constructs the quantum Fourier transform gate that acts on
+      * \p n qubits. It is defined as
       * \f[\mathbf{F}_n = 2^{-n/2}
       *   \left(\begin{array}{cccccc}
       *     1 & 1 & 1 & 1 & \cdots & 1 \\
@@ -516,8 +535,10 @@ class Gate : public MatrixXc
       *     1 & \omega^{2^n-1} & \omega^{2(2^n-1)} & \omega^{3(2^n-1)} &
       *       \cdots & \omega^{(2^n-1)^2}
       *   \end{array}\right),
-      *   \quad \omega = \exp\left(2 \pi i/2^n\right)
+      *   \quad \omega = \exp\left(2 \pi i/2^n\right) \ .
       * \f]
+      *
+      * \param n the count of qubits this gate acts on
       */
     inline Gate& FGate(const int n)
     {
