@@ -477,10 +477,15 @@ class Gate : public MatrixXc
 
     /** \brief <b>U</b><sub>f</sub> gate
       *
+      * This method constructs a gate that can be associated with the boolean
+      * function \f$f:\ \{ 0,\ 1,\ 2,\ \ldots,\ 2^n - 1 \} \rightarrow \{ 0,\
+      * 1\}\f$. It is defined so that it acts on a tensor product of
+      * \f$n+1\f$ qubits as
       * \f[
       *   \mathbf{U}_f |x\rangle_n |y\rangle_1 =
-      *     |x\rangle_n |y \oplus f(x)\rangle_1
+      *     |x\rangle_n |y \oplus f(x)\rangle_1 \ ,
       * \f]
+      * where \f$\oplus\f$ denotes the binary addition.
       */
     inline Gate& UfGate(const std::vector<int>& f)
     {
