@@ -97,9 +97,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
 
     void testDeutsch()
     {
-      Qubit q0(field(1,0), field(0,0)),
-            q1(field(0,0), field(1,0)),
-            x, r0 ,r1;
+      Qubit q0(0,1), q1(1,1), x, r0 ,r1;
 
       Gate h, u;
       h.HGate().tensorPowSet(2);
@@ -111,56 +109,186 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f[0] = 0;
       f[1] = 0;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(x,f) * x;
+      x = h * u.UfGate(f) * x;
       CPPUNIT_ASSERT( x.isApprox(r0) );
 
       f[0] = 1;
       f[1] = 1;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(x,f) * x;
+      x = h * u.UfGate(f) * x;
       CPPUNIT_ASSERT( x.isApprox(-r0) );
 
       // The function f is balanced: f(0) != f(1).
       f[0] = 0;
       f[1] = 1;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(x,f) * x;
+      x = h * u.UfGate(f) * x;
       CPPUNIT_ASSERT( x.isApprox(r1) );
 
       f[0] = 1;
       f[1] = 0;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(x,f) * x;
+      x = h * u.UfGate(f) * x;
       CPPUNIT_ASSERT( x.isApprox(-r1) );
     }
 
     void testDeutschJozsa()
     {
-      Qubit x;
-      Gate h, u;
-      std::vector<int> f1(2), f(4);
+      Qubit x, y, r;
+      Gate h, u, i;
+      std::vector<int> f1(2), f2(4);
 
+      y = (Qubit(0,1) - Qubit(1,1)) * std::sqrt(0.5);
+
+      //
+      // Test with 2 qubits.
+      //
+      r = Qubit(0,1).tensorDot(y);
+
+      // The function f is constant: f(0) == f(1).
+      f1[0] = 0;
+      f1[1] = 0;
+
+      x = Qubit(1,2);
+      x = h.HGate().tensorPow(2) * x;
+      x = u.UfGate(f1) * x;
+      x = h.tensorDot(i.IGate()) * x;
+      x.measurePartial(1);
+      CPPUNIT_ASSERT( x.isApprox(r) );
+
+      f1[0] = 1;
+      f1[1] = 1;
+
+      x = Qubit(1,2);
+      x = h.HGate().tensorPow(2) * x;
+      x = u.UfGate(f1) * x;
+      x = h.tensorDot(i.IGate()) * x;
+      x.measurePartial(1);
+      CPPUNIT_ASSERT( x.isApprox(-r) );
+
+      // The function f is balanced: f(0) != f(1).
       f1[0] = 1;
       f1[1] = 0;
 
       x = Qubit(1,2);
-      x = h.HGate().tensorPow(2)*x;
-      x = u.UfGate(x,f1)*x;
-      x = h.tensorDot(Gate().IGate())*x;
+      x = h.HGate().tensorPow(2) * x;
+      x = u.UfGate(f1) * x;
+      x = h.tensorDot(i.IGate()) * x;
       x.measurePartial(1);
-      //std::cout << x;
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+
+      f1[0] = 0;
+      f1[1] = 1;
+
+      x = Qubit(1,2);
+      x = h.HGate().tensorPow(2) * x;
+      x = u.UfGate(f1) * x;
+      x = h.tensorDot(i.IGate()) * x;
+      x.measurePartial(1);
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+
+      //
+      // Test with 3 qubits.
+      //
+      r = Qubit(0,2).tensorDot(y);
 
       // The function f is constant: f(x) = f(y) for all x, y.
-      f[0] = 0;
-      f[1] = 0;
-      f[2] = 0;
-      f[3] = 0;
+      f2[0] = 0;
+      f2[1] = 0;
+      f2[2] = 0;
+      f2[3] = 0;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3)*x;
-      x = u.UfGate(x,f)*x;
-      x = h.HGate().tensorPow(2).tensorDot(Gate().IGate())*x;
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
       x.measurePartial(2);
+      CPPUNIT_ASSERT( x.isApprox(r) );
+
+      f2[0] = 1;
+      f2[1] = 1;
+      f2[2] = 1;
+      f2[3] = 1;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x.measurePartial(2);
+      CPPUNIT_ASSERT( x.isApprox(-r) );
+      
+      // The function f is balanced.
+      f2[0] = 0;
+      f2[1] = 0;
+      f2[2] = 1;
+      f2[3] = 1;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x.measurePartial(2);
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+
+      f2[0] = 1;
+      f2[1] = 1;
+      f2[2] = 0;
+      f2[3] = 0;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x.measurePartial(2);
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+
+      f2[0] = 1;
+      f2[1] = 0;
+      f2[2] = 1;
+      f2[3] = 0;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x.measurePartial(2);
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+
+      f2[0] = 0;
+      f2[1] = 1;
+      f2[2] = 0;
+      f2[3] = 1;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x.measurePartial(2);
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+
+      f2[0] = 1;
+      f2[1] = 0;
+      f2[2] = 0;
+      f2[3] = 1;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x.measurePartial(2);
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+
+      f2[0] = 0;
+      f2[1] = 1;
+      f2[2] = 1;
+      f2[3] = 0;
+
+      x = Qubit(1,3);
+      x = h.HGate().tensorPow(3) * x;
+      x = u.UfGate(f2) * x;
+      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x.measurePartial(2);
+      CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
     }
 };
 

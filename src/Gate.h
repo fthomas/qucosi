@@ -499,30 +499,6 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    inline Gate& UfGate(const Vector& v, const std::vector<int>& f)
-    {
-      int s = v.size();
-      resize(s,s);
-      setIdentity();
-
-      int x = 0, y = 0, z = 0;
-      for (int i = 0; i < s; i++) {
-        if (v(i) != field(0,0)) {
-          x = i/2;
-          y = i%2;
-          z = i-y;
-
-          if (y != (f.at(x)+y)%2) {
-            (*this)(z,z) = field(0,0);
-            (*this)(z+1,z+1) = field(0,0);
-            (*this)(z+1,z) = field(1,0);
-            (*this)(z,z+1) = field(1,0);
-          }
-        }
-      }
-      return *this;
-    }
-
     /** \brief <b>F</b><sub>\p n</sub> gate (quantum Fourier transform)
       *
       * \f[\mathbf{F}_n = 2^{-n/2}
