@@ -34,6 +34,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testCoinFlipping);
   CPPUNIT_TEST(testDeutsch);
   CPPUNIT_TEST(testDeutschJozsa);
+  CPPUNIT_TEST(testBernsteinVazirani);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -289,6 +290,42 @@ class AlgorithmsTest : public CppUnit::TestFixture
       x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
+    }
+
+    void testBernsteinVazirani()
+    {
+      Gate h, u, x, x0, x1 ,x2, x3, x4;
+      h.HGate().tensorPowSet(6);
+
+      x.XGate();
+      x0.CGate(5,0,6,x);
+      x1.CGate(5,1,6,x);
+      x2.CGate(5,2,6,x);
+      x3.CGate(5,3,6,x);
+      x4.CGate(5,4,6,x);
+
+      CPPUNIT_ASSERT( (h*(x0*x1*x4)*h*Qubit(1,6)).isApprox(
+        Qubit(25,5).tensorDot(Qubit(1,1))) );
+      CPPUNIT_ASSERT( (h*(x0*x1*x2)*h*Qubit(1,6)).isApprox(
+        Qubit(28,5).tensorDot(Qubit(1,1))) );
+      CPPUNIT_ASSERT( (h*(x2)*h*Qubit(1,6)).isApprox(
+        Qubit(4,5).tensorDot(Qubit(1,1))) );
+
+      std::vector<int> f(32);
+      for (int i = 0; i < 32; i++) {
+        f[i] = 0;
+      }
+
+      // a = 25
+      f[1]  = 1; f[3]  = 1; f[5]  = 1; f[7]  = 1;
+      f[8]  = 1; f[10] = 1; f[12] = 1; f[14] = 1;
+      f[16] = 1; f[18] = 1; f[20] = 1; f[22] = 1;
+      f[25] = 1; f[27] = 1; f[29] = 1; f[31] = 1;
+
+      u.UfGate(f);
+      CPPUNIT_ASSERT( u == x0*x1*x4 );
+      CPPUNIT_ASSERT( (h*u*h*Qubit(1,6)).isApprox(
+        Qubit(25,5).tensorDot(Qubit(1,1))) );
     }
 };
 
