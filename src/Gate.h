@@ -40,6 +40,25 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief Calculates the tensor product of this gate with \p m
+      *
+      * This method calculates the tensor product of this gate with Gate \p m.
+      * The tensor product \f$A \otimes B\f$ of the gates \f$A \in K^{m \times
+      * n}\f$ and \f$B \in K^{p \times q}\f$ is defined as
+      *
+      * \f[
+      *   A \otimes B =
+      *     \left(\begin{array}{ccc}
+      *     a_{11} B & \cdots & a_{1n} B \\
+      *     \vdots & \ddots & \vdots \\
+      *     a_{m1} B & \cdots & a_{mn} B
+      *     \end{array}\right) \in K^{mp \times nq} \ .
+      * \f]
+      *
+      * \param m the right hand side operand of the tensor product
+      * \return the tensor product of this gate with Gate \p m
+      * \sa http://en.wikipedia.org/wiki/Kronecker_product
+      */
     inline Gate tensorDot(const Gate& m) const
     {
       int c1, r1, c2, r2;
@@ -57,6 +76,14 @@ class Gate : public MatrixXc
       return x;
     }
 
+    /** \brief Sets the tensor product of this gate and \p m as this gate
+      *
+      * This method calculates the tensor product of this gate and Gate \p m
+      * and sets the result as this gate.
+      *
+      * \param m the right hand side operand of the tensor product
+      * \sa tensorDot()
+      */
     inline Gate& tensorDotSet(const Gate& m)
     {
       if (size() > 0 && m.size() > 0) {
@@ -80,6 +107,19 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief Extends a gate for k qubits to a gate for \p n qubits,
+      *        whereas k < \p n
+      *
+      * This methods constructs a gate that acts on \p n qubits so that the
+      * original gate acts on the qubit(s) at position \p j and all other
+      * qubits are left unchanged. This is accomplished by tensorDot() the
+      * appropriate number of identity gates from the left and the right to
+      * original gate.
+      *
+      * \param j the position the original gate acts on
+      * \param n the count of qubits the returned gate acts on
+      * \return the for \p n qubits extended gate
+      */
     inline Gate applyToPos(const int j, const int n) const
     {
       int k = n-j-log2(rows());
