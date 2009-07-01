@@ -30,8 +30,15 @@ namespace QuCoSi {
 class Gate : public MatrixXc
 {
   public:
-    inline Gate() : MatrixXc() {}
+    /** \brief Constructs the 2 × 2 zero matrix
+      */
+    inline Gate() : MatrixXc(2,2) {}
 
+    /** \brief Constructs the \p r × \p c zero matrix
+      *
+      * \param r the number of rows of this gate
+      * \param c the number of columns of this gate
+      */
     inline Gate(const int r, const int c) : MatrixXc(r,c) {}
 
     inline Gate& operator=(const MatrixXc& m)
@@ -40,18 +47,33 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief Calculates the tensor product of this gate with \p m
+    /** \brief Computes the tensor product of this gate with \p m
       *
-      * This method calculates the tensor product of this gate with Gate \p m.
-      * The tensor product \f$A \otimes B\f$ of the gates \f$A \in K^{m \times
-      * n}\f$ and \f$B \in K^{p \times q}\f$ is defined as
+      * The tensor product \f$\mathbf{A} \otimes \mathbf{B}\f$ of two gates
+      * \f$\mathbf{A} \in K^{m \times n}\f$ and \f$\mathbf{B} \in K^{p \times
+      * q}\f$ is defined as:
       *
       * \f[
-      *   A \otimes B =
+      *   \mathbf{A}\, \otimes\, \mathbf{B} =
       *     \left(\begin{array}{ccc}
-      *     a_{11} B & \cdots & a_{1n} B \\
-      *     \vdots & \ddots & \vdots \\
-      *     a_{m1} B & \cdots & a_{mn} B
+      *       a_{11} \mathbf{B} & \cdots & a_{1n} \mathbf{B} \\
+      *       \vdots & \ddots & \vdots \\
+      *       a_{m1} \mathbf{B} & \cdots & a_{mn} \mathbf{B}
+      *     \end{array}\right)
+      *     =
+      *     \left(\begin{array}{cccccccccc}
+      *       a_{11} b_{11} & \cdots & a_{11} b_{1q} & \cdots & \cdots &
+      *         a_{1n} b_{11} & \cdots & a_{1n} b_{1q} \\
+      *       \vdots & \ddots & \vdots & & & \vdots & \ddots & \vdots \\
+      *       a_{11} b_{p1} & \cdots & a_{11} b_{pq} & \cdots & \cdots &
+      *         a_{1n} b_{p1} & \cdots & a_{1n} b_{pq} \\
+      *       \vdots & & \vdots & \ddots & & \vdots & & \vdots \\
+      *       \vdots & & \vdots & & \ddots & \vdots & & \vdots \\
+      *       a_{m1} b_{11} & \cdots & a_{m1} b_{1q} & \cdots & \cdots &
+      *         a_{mn} b_{11} & \cdots & a_{mn} b_{1q} \\
+      *       \vdots & \ddots & \vdots & & & \vdots & \ddots & \vdots \\
+      *       a_{m1} b_{p1} & \cdots & a_{m1} b_{pq} & \cdots & \cdots &
+      *         a_{mn} b_{p1} & \cdots & a_{mn} b_{pq}
       *     \end{array}\right) \in K^{mp \times nq} \ .
       * \f]
       *
@@ -78,10 +100,8 @@ class Gate : public MatrixXc
 
     /** \brief Sets the tensor product of this gate and \p m as this gate
       *
-      * This method calculates the tensor product of this gate and Gate \p m
-      * and sets the result as this gate.
-      *
       * \param m the right hand side operand of the tensor product
+      * \return a reference to \c *this
       * \sa tensorDot()
       */
     inline Gate& tensorDotSet(const Gate& m)
@@ -92,6 +112,20 @@ class Gate : public MatrixXc
       return *this;
     }
 
+    /** \brief Computes the <tt>n</tt>th tensor power of this gate
+      *
+      * The <tt>n</tt>th tensor power of a gate \f$\mathbf{A}\f$ is the
+      * <tt>n</tt>-fold tensor product of \f$\mathbf{A}\f$ with itself:
+      *
+      * \f[
+      *   \mathbf{A}^{\otimes n} = \underbrace{\mathbf{A} \otimes \ldots
+      *     \otimes \mathbf{A}}_n \ .
+      * \f]
+      *
+      * \param n the exponent of the tensor power
+      * \return this gate raised to the <tt>n</tt>th power
+      * \sa tensorDot()
+      */
     inline Gate tensorPow(const int n) const
     {
       Gate x = *this;
@@ -101,24 +135,30 @@ class Gate : public MatrixXc
       return x;
     }
 
+    /** \brief Sets the <tt>n</tt>th tensor power of this gate as this gate
+      *
+      * \param n the exponent of the tensor power
+      * \return a reference to \c *this
+      * \sa tensorPow()
+      */
     inline Gate& tensorPowSet(const int n)
     {
       *this = tensorPow(n);
       return *this;
     }
 
-    /** \brief Extends a gate for k qubits to a gate for \p n qubits,
-      *        whereas k < \p n
+    /** \brief Extends this gate to a <tt>n</tt>-qubits gate
       *
-      * This methods constructs a gate that acts on \p n qubits so that the
+      * This method constructs a gate that acts on \p n qubits so that the
       * original gate acts on the qubit(s) at position \p j and all other
-      * qubits are left unchanged. This is accomplished by tensorDot() the
-      * appropriate number of identity gates from the left and the right to
-      * original gate.
+      * qubits are left unchanged. This is accomplished by tensor
+      * multiplication of an appropriate number of identity gates from the
+      * left and the right to the original gate.
       *
-      * \param j the position the original gate acts on
-      * \param n the count of qubits the returned gate acts on
+      * \param j the position of the qubit(s) the original gate acts on
+      * \param n the number of qubits the returned gate acts on
       * \return the for \p n qubits extended gate
+      * \sa tensorDot()
       */
     inline Gate applyToPos(const int j, const int n) const
     {
@@ -138,7 +178,7 @@ class Gate : public MatrixXc
       return x;
     }
 
-    /** \brief \b X gate (NOT gate, Pauli \b X matrix)
+    /** \brief \b X gate (\f$\sigma_1\f$ Pauli matrix, NOT gate)
       *
       * \f[\mathbf{X} =
       *   \left(\begin{array}{cc}
@@ -146,6 +186,8 @@ class Gate : public MatrixXc
       *     1 & 0
       *   \end{array}\right)
       * \f]
+      *
+      * \return a reference to \c *this
       */
     inline Gate& XGate()
     {
@@ -156,7 +198,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b Y gate (Pauli \b Y matrix)
+    /** \brief \b Y gate (\f$\sigma_2\f$ Pauli matrix)
       *
       * \f[\mathbf{Y} =
       *   \left(\begin{array}{cc}
@@ -164,6 +206,8 @@ class Gate : public MatrixXc
       *     i & 0
       *   \end{array}\right)
       * \f]
+      *
+      * \return a reference to \c *this
       */
     inline Gate& YGate()
     {
@@ -174,7 +218,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b Z gate (Pauli \b Z matrix)
+    /** \brief \b Z gate (\f$\sigma_3\f$ Pauli matrix)
       *
       * \f[\mathbf{Z} =
       *   \left(\begin{array}{cc}
@@ -184,6 +228,7 @@ class Gate : public MatrixXc
       *   = \mathbf{R}(2)
       * \f]
       *
+      * \return a reference to \c *this
       * \sa RGate()
       */
     inline Gate& ZGate()
@@ -204,6 +249,8 @@ class Gate : public MatrixXc
       *   \end{array}\right)
       *   = \frac{1}{\sqrt{2}} (\mathbf{X} + \mathbf{Z})
       * \f]
+      *
+      * \return a reference to \c *this
       */
     inline Gate& HGate()
     {
@@ -226,6 +273,7 @@ class Gate : public MatrixXc
       *   = \mathbf{R}(4)
       * \f]
       *
+      * \return a reference to \c *this
       * \sa RGate()
       */
     inline Gate& PGate()
@@ -247,6 +295,7 @@ class Gate : public MatrixXc
       *   = \mathbf{R}(8)
       * \f]
       *
+      * \return a reference to \c *this
       * \sa RGate()
       */
     inline Gate& TGate()
@@ -267,6 +316,9 @@ class Gate : public MatrixXc
       *     0 & e^{2 \pi i/k}
       *   \end{array}\right)
       * \f]
+      *
+      * \param k the phase shift of this gate
+      * \return a reference to \c *this
       */
     inline Gate& RGate(const fptype k)
     {
@@ -286,6 +338,8 @@ class Gate : public MatrixXc
       *   \end{array}\right)
       *   = \mathbf{R}(1)
       * \f]
+      *
+      * \return a reference to \c *this
       */
     inline Gate& IGate()
     {
@@ -306,6 +360,7 @@ class Gate : public MatrixXc
       *   = \mathbf{C}_{102}(\mathbf{X})
       * \f]
       *
+      * \return a reference to \c *this
       * \sa CGate(), XGate()
       */
     inline Gate& CNOTGate()
@@ -335,6 +390,7 @@ class Gate : public MatrixXc
       *   = \mathbf{C}_{103}(\mathbf{CNOT})
       * \f]
       *
+      * \return a reference to \c *this
       * \sa CGate(), CNOTGate()
       */
     inline Gate& CCNOTGate()
@@ -364,6 +420,7 @@ class Gate : public MatrixXc
       *   = \mathbf{C}_{103}(\mathbf{SWAP})
       * \f]
       *
+      * \return a reference to \c *this
       * \sa CGate(), SWAPGate()
       */
     inline Gate& CSWAPGate()
@@ -379,15 +436,16 @@ class Gate : public MatrixXc
 
     /** \brief <b>C</b><sub>\p tcn</sub>(\p U) gate (controlled \p U gate)
       *
-      * This method constructs a gate that acts on \p n qubits and where the
+      * This method constructs a gate that acts on \p n qubits so that the
       * gate \p U is applied to the qubit(s) at position \p t (the target
       * qubit(s)) if the qubit at position \p c (the control qubit) is 1.
       *
       * \param t the position of the target qubit(s)
       * \param c the position of the control qubit
-      * \param n the count of qubits this gate acts on
-      * \param U the gate that acts on the target qubit and that will be
+      * \param n the number of qubits this gate acts on
+      * \param U the gate that acts on the target qubit and that is
       *          controlled by the control qubit
+      * \return a reference to \c *this
       */
     inline Gate& CGate(const int t, const int c, const int n, const Gate& U)
     {
@@ -435,6 +493,7 @@ class Gate : public MatrixXc
       *   = \mathbf{S}_{102} = \mathbf{S}_{012}
       * \f]
       *
+      * \return a reference to \c *this
       * \sa SGate()
       */
     inline Gate& SWAPGate()
@@ -451,12 +510,13 @@ class Gate : public MatrixXc
     /** \brief <b>S</b><sub>\p pqn</sub> gate
       *
       * This method constructs a \f$2^n \times 2^n\f$ tensor permutation
-      * matrix that permutes the \p p<sup>th</sup> and \p q<sup>th</sup>
-      * qubits in a tensor product of \p n qubits.
+      * matrix that permutes the <tt>p</tt>th and <tt>q</tt>th qubits in a
+      * tensor product of \p n qubits.
       *
-      * \param p the new position of the \p q<sup>th</sup> qubit
-      * \param q the new position of the \p p<sup>th</sup> qubit
-      * \param n the count of qubits this gate acts on
+      * \param p the new position of the <tt>q</tt>th qubit
+      * \param q the new position of the <tt>p</tt>th qubit
+      * \param n the number of qubits this gate acts on
+      * \return a reference to \c *this
       */
     inline Gate& SGate(const int p, const int q, const int n)
     {
@@ -475,7 +535,7 @@ class Gate : public MatrixXc
       * This method constructs a tensor permutation matrix that permutes
       * qubits according to the permutation \p sigma. For example, this
       * matrix acts on the tensor product of the qubits \f$ q_0,\ q_1,\
-      * \ldots,\ q_k\f$ as follows
+      * \ldots,\ q_k\f$ as follows:
       * \f[
       *   \mathbf{S}(\sigma) \left(q_0 \otimes q_1 \otimes \ldots \otimes
       *     q_k\right) = q_{\sigma(0)} \otimes q_{\sigma(1)} \otimes \ldots
@@ -490,6 +550,7 @@ class Gate : public MatrixXc
       * of the permutation matrix with <tt>std::bitset</tt>s.
       *
       * \param sigma the permutation that will be applied to qubits
+      * \return a reference to \c *this
       * \sa http://arxiv.org/abs/math/0508053
       */
     inline Gate& SGate(const std::vector<int>& sigma)
@@ -543,6 +604,7 @@ class Gate : public MatrixXc
       * where \f$\oplus\f$ denotes the binary addition.
       *
       * \param f the boolean function associated with this gate
+      * \return a reference to \c *this
       */
     inline Gate& UfGate(const std::vector<int>& f)
     {
@@ -561,10 +623,11 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>F</b><sub>\p n</sub> gate (quantum Fourier transform)
+    /** \brief <b>F</b><sub>\p n</sub> gate
+      *        (quantum Fourier transform (QFT) gate)
       *
       * This method constructs the quantum Fourier transform gate that acts on
-      * \p n qubits. It is defined as
+      * \p n qubits. It is defined as:
       * \f[\mathbf{F}_n = 2^{-n/2}
       *   \left(\begin{array}{cccccc}
       *     1 & 1 & 1 & 1 & \cdots & 1 \\
@@ -578,7 +641,8 @@ class Gate : public MatrixXc
       *   \quad \omega = \exp\left(2 \pi i/2^n\right) \ .
       * \f]
       *
-      * \param n the count of qubits this gate acts on
+      * \param n the number of qubits this gate acts on
+      * \return a reference to \c *this
       */
     inline Gate& FGate(const int n)
     {
