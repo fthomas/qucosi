@@ -31,7 +31,7 @@ namespace QuCoSi {
   * is of dynamic size and uses complex numbers. Besides the standard methods
   * that are inherited from the Eigen base class it offers some convenient
   * methods like isNormalized() and randomize(). The most important feature of
-  * this class is the canonical tensor product tensorDot() and tensorDotSet().
+  * this class is the tensor product tensorDot() and tensorDotSet().
   *
   * \sa Qubit
   */
@@ -47,11 +47,13 @@ class Vector : public VectorXc
     }
 
     /** \brief Constructs the null vector of dimension \p dim
+      *
       * \param dim the dimension of this vector
       */
     inline Vector(const int dim) : VectorXc(dim) {}
 
     /** \brief Constructs the two-dimensional vector (\p c0 \p c1)<sup>T</sup>
+      *
       * \param c0 the first component of this vector
       * \param c1 the second component of this vector
       */
@@ -68,6 +70,7 @@ class Vector : public VectorXc
     }
 
     /** \brief Checks if this vector is an unit vector
+      *
       * \return true if this vector is an unit vector
       */
     inline bool isNormalized() const
@@ -76,6 +79,8 @@ class Vector : public VectorXc
     }
 
     /** \brief Sets all coefficients of this vector to random values
+      *
+      * \return a reference to \c *this
       */
     inline Vector& randomize()
     {
@@ -83,11 +88,11 @@ class Vector : public VectorXc
       return *this;
     }
 
-    /** \brief Calculates the tensor product of this vector with \p v
+    /** \brief Computes the tensor product of this vector with \p v
       *
-      * This method calculates the canonical tensor product of this vector
-      * with Vector \p v. The canonical tensor product \f$x \otimes y\f$ of
-      * the vectors \f$x \in K^n\f$ and \f$y \in K^m\f$ is defined as
+      * The tensor product \f$x \otimes y\f$ of the vectors \f$x \in K^n\f$
+      * and \f$y \in K^m\f$ is defined as:
+      *
       * \f[
       *   \left(\begin{array}{c}
       *     x_1 \\ x_2 \\ \vdots \\ x_n
@@ -105,7 +110,7 @@ class Vector : public VectorXc
       * \f]
       *
       * \param v the right hand side operand of the tensor product
-      * \return the canonical tensor product of this vector with Vector \p v
+      * \return the tensor product of this vector with Vector \p v
       */
     inline Vector tensorDot(const Vector& v) const
     {
@@ -121,12 +126,13 @@ class Vector : public VectorXc
 
     /** \brief Sets the tensor product of this vector and \p v as this vector
       *
-      * This method calculates the tensor product of this vector and Vector
+      * This method computes the tensor product of this vector and Vector
       * \p v and sets the result as this vector. For two vectors \c x and \c y
       * \code x.tensorDotSet(y) \endcode is practically identical to
       * \code x = x.tensorDot(y) \endcode
       *
       * \param v the right hand side operand of the tensor product
+      * \return a reference to \c *this
       * \sa tensorDot()
       */
     inline Vector& tensorDotSet(const Vector& v)

@@ -27,6 +27,18 @@
 
 namespace QuCoSi {
 
+/** \class Gate
+  *
+  * \brief Single- and multi-qubit gate of varying complexity
+  *
+  * The Gate class is the base for all quantum circuits in QuCoSi. It
+  * provides common quantum gates for one to three qubits, more complex gates
+  * for an arbitrary number of qubits, and methods to combine or extend them.
+  * Since gates are represented by unitary matrices, this class is derived
+  * of Eigen's dynamic size matrix class that uses complex numbers. Therefore
+  * composition of multiple gates is easily accomplished by simple matrix
+  * multiplication of the single gates.
+  */
 class Gate : public MatrixXc
 {
   public:
