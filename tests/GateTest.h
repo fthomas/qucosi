@@ -20,7 +20,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <Gate.h>
+#include <QuCoSi/Gate>
 
 namespace QuCoSi {
 

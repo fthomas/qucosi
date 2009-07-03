@@ -23,7 +23,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <Vector.h>
+#include <QuCoSi/Vector>
 
 namespace QuCoSi {
 

@@ -7,7 +7,7 @@ project(QuCoSi)
 #add_definitions(-Wall -ansi -pedantic)
 add_definitions(-Wall -ansi)
 
-add_subdirectory(src)
+add_subdirectory(QuCoSi)
 add_subdirectory(tests)
 
 find_package(Doxygen)

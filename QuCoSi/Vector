@@ -19,7 +19,7 @@
 
 #include <Eigen/Array>
 
-#include <Aux.h>
+#include "Aux"
 
 namespace QuCoSi {
 
@@ -106,7 +106,7 @@ class Vector : public VectorXc
       *     x_1 y_1 \\ \vdots \\ x_1 y_m \\
       *     x_2 y_1 \\ \vdots \\ x_2 y_m \\
       *     \vdots \\ x_n y_m
-      *   \end{array}\right) \ .
+      *   \end{array}\right) \in K^{nm} \ .
       * \f]
       *
       * \param v the right hand side operand of the tensor product
@@ -148,4 +148,4 @@ class Vector : public VectorXc
 
 #endif // QUCOSI_VECTOR_H
 
-// vim: shiftwidth=2 textwidth=78
+// vim: filetype=cpp shiftwidth=2 textwidth=78

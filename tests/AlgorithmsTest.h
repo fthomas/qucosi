@@ -23,8 +23,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <Gate.h>
-#include <Qubit.h>
+#include <QuCoSi/Gate>
+#include <QuCoSi/Qubit>
 
 namespace QuCoSi {
 

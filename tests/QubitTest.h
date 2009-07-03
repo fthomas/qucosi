@@ -23,7 +23,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <Qubit.h>
+#include <QuCoSi/Qubit>
 
 namespace QuCoSi {
 

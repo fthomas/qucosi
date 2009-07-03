@@ -20,8 +20,8 @@
 #include <ostream>
 #include <vector>
 
-#include <Aux.h>
-#include <Vector.h>
+#include "Aux"
+#include "Vector"
 
 namespace QuCoSi {
 
@@ -120,4 +120,4 @@ inline std::ostream& operator<<(std::ostream& os, const Basis& b)
 
 #endif // QUCOSI_BASIS_H
 
-// vim: shiftwidth=2 textwidth=78
+// vim: filetype=cpp shiftwidth=2 textwidth=78

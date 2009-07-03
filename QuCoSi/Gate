@@ -22,8 +22,8 @@
 #include <limits>
 #include <vector>
 
-#include <Aux.h>
-#include <Vector.h>
+#include "Aux"
+#include "Vector"
 
 namespace QuCoSi {
 
@@ -267,11 +267,10 @@ class Gate : public MatrixXc
     inline Gate& HGate()
     {
       resize(2,2);
-      fptype c = std::sqrt(0.5);
-      (*this)(0,0) = field(c,0);
-      (*this)(0,1) = field(c,0);
-      (*this)(1,0) = field(c,0);
-      (*this)(1,1) = field(-c,0);
+      (*this)(0,0) = field(M_SQRT1_2,0);
+      (*this)(0,1) = field(M_SQRT1_2,0);
+      (*this)(1,0) = field(M_SQRT1_2,0);
+      (*this)(1,1) = field(-M_SQRT1_2,0);
       return *this;
     }
 
@@ -314,9 +313,8 @@ class Gate : public MatrixXc
     {
       resize(2,2);
       setZero();
-      fptype c = std::sqrt(0.5);
       (*this)(0,0) = field(1,0);
-      (*this)(1,1) = field(c,c);
+      (*this)(1,1) = field(M_SQRT1_2,M_SQRT1_2);
       return *this;
     }
 
@@ -679,4 +677,4 @@ class Gate : public MatrixXc
 
 #endif // QUCOSI_GATE_H
 
-// vim: shiftwidth=2 textwidth=78
+// vim: filetype=cpp shiftwidth=2 textwidth=78
