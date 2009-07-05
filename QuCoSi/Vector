@@ -84,7 +84,7 @@ class Vector : public VectorXc
       */
     inline Vector& randomize()
     {
-      setRandom().normalize();
+      do setRandom().normalize(); while ( isZero() );
       return *this;
     }
 
