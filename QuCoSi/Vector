@@ -92,7 +92,6 @@ class Vector : public VectorXc
       *
       * The tensor product \f$x \otimes y\f$ of the vectors \f$x \in K^n\f$
       * and \f$y \in K^m\f$ is defined as:
-      *
       * \f[
       *   \left(\begin{array}{c}
       *     x_1 \\ x_2 \\ \vdots \\ x_n

@@ -64,7 +64,6 @@ class Gate : public MatrixXc
       * The tensor product \f$\mathbf{A} \otimes \mathbf{B}\f$ of two gates
       * \f$\mathbf{A} \in K^{m \times n}\f$ and \f$\mathbf{B} \in K^{p \times
       * q}\f$ is defined as:
-      *
       * \f[
       *   \mathbf{A}\, \otimes\, \mathbf{B} =
       *     \left(\begin{array}{ccc}
@@ -128,7 +127,6 @@ class Gate : public MatrixXc
       *
       * The <tt>n</tt>th tensor power of a gate \f$\mathbf{A}\f$ is the
       * <tt>n</tt>-fold tensor product of \f$\mathbf{A}\f$ with itself:
-      *
       * \f[
       *   \mathbf{A}^{\otimes n} = \underbrace{\mathbf{A} \otimes \ldots
       *     \otimes \mathbf{A}}_n \ .
@@ -188,6 +186,19 @@ class Gate : public MatrixXc
         x.tensorDotSet(id);
       }
       return x;
+    }
+
+    /** \brief Sets the to <tt>n</tt>-qubits extended gate as this gate
+      *
+      * \param j the position of the qubit(s) the original gate acts on
+      * \param n the number of qubits the extended gate acts on
+      * \return a reference to \c *this
+      * \sa applyToPos()
+      */
+    inline Gate& applyToPosSet(const int j, const int n)
+    {
+      *this = applyToPos(j,n);
+      return *this;
     }
 
     /** \brief \b X gate (\f$\sigma_1\f$ Pauli matrix, NOT gate)
