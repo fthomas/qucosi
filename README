@@ -2,11 +2,11 @@ QuCoSi - Quantum Computer Simulation
 ====================================
 
 Source code:
-  git://git.debian.org/git/users/fst/qucosi.git
-  http://git.debian.org/?p=users/fst/qucosi.git
+  git://qucosi.git.sourceforge.net/gitroot/qucosi
+  http://qucosi.git.sourceforge.net/
 
 API Documentation:
-  http://alioth.debian.org/~fst/qucosi/html/
+  http://qucosi.sourceforge.net/doc/
 
 Requirements:
   C++ compiler, e.g. g++: http://gcc.gnu.org/
