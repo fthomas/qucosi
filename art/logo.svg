@@ -6,6 +6,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="744.09448819"
@@ -13,13 +14,24 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
-   sodipodi:docname="drawing.svg"
+   sodipodi:docname="logo.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/home/frank/drawing.png"
-   inkscape:export-xdpi="75.123917"
-   inkscape:export-ydpi="75.123917">
+   inkscape:export-filename="/home/frank/code/qucosi/trunk/art/logo.png"
+   inkscape:export-xdpi="68.581367"
+   inkscape:export-ydpi="68.581367">
   <defs
      id="defs4">
+    <linearGradient
+       id="linearGradient3193">
+      <stop
+         style="stop-color:#009ed3;stop-opacity:1;"
+         offset="0"
+         id="stop3195" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="1"
+         id="stop3197" />
+    </linearGradient>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 526.18109 : 1"
@@ -27,6 +39,74 @@
        inkscape:vp_z="744.09448 : 526.18109 : 1"
        inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
        id="perspective10" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3193"
+       id="linearGradient3199"
+       x1="213.62862"
+       y1="554.77704"
+       x2="213.54547"
+       y2="448.81705"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3193"
+       id="linearGradient3209"
+       x1="373.28958"
+       y1="446.58691"
+       x2="372.6915"
+       y2="550.78693"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3193"
+       id="linearGradient3225"
+       gradientUnits="userSpaceOnUse"
+       x1="373.28958"
+       y1="446.58691"
+       x2="372.6915"
+       y2="550.78693"
+       gradientTransform="matrix(1.0036288,0,0,1.0036288,59.787632,-3.2300539)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3193"
+       id="linearGradient3231"
+       gradientUnits="userSpaceOnUse"
+       x1="213.62862"
+       y1="554.77704"
+       x2="213.54547"
+       y2="448.81705"
+       gradientTransform="matrix(0.9963221,0,0,0.9963222,-9.9700229,8.8068892)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3193"
+       id="linearGradient3262"
+       x1="258.85855"
+       y1="585.99438"
+       x2="342.93292"
+       y2="585.99438"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.012015,0,0,1,-1.9737608,-60.987959)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3193"
+       id="linearGradient3270"
+       x1="261.38483"
+       y1="477.49734"
+       x2="345.4592"
+       y2="477.49734"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0120207,0,0,1,-609.60685,-2.5253813)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3193"
+       id="linearGradient3298"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9963221,0,0,0.9963222,166.12606,8.9015707)"
+       x1="219.07692"
+       y1="448.81384"
+       x2="219.16953"
+       y2="555.92505" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -38,9 +118,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="312.98068"
-     inkscape:cy="556.71888"
+     inkscape:zoom="2.8"
+     inkscape:cx="295.97031"
+     inkscape:cy="551.62925"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -80,7 +160,7 @@
            height="44.446705"
            x="166.67517"
            y="493.74783" /></flowRegion><flowPara
-         id="flowPara2395"></flowPara></flowRoot>    <text
+         id="flowPara2395" /></flowRoot>    <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
        x="243.44676"
@@ -101,85 +181,77 @@
          x="317.44043"
          y="504.35443"
          style="font-style:italic" /></text>
-    <g
-       id="g3254">
-      <text
-         id="text2383"
-         y="488.69705"
-         x="179.70563"
-         style="font-size:40px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Asana Math;-inkscape-font-specification:Asana Math"
-           y="488.69705"
-           x="179.70563"
-           id="tspan2385"
-           sodipodi:role="line">|<tspan
-   id="tspan2405"
-   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic">Qu</tspan>〉</tspan><tspan
-           id="tspan2387"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:#666666;font-family:Asana Math;-inkscape-font-specification:Asana Math"
-           y="538.69702"
-           x="179.70563"
-           sodipodi:role="line">|0〉</tspan></text>
-      <text
-         id="text2427"
-         y="488.58691"
-         x="349.19351"
-         style="font-size:40px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#666666;font-family:Asana Math;-inkscape-font-specification:Asana Math"
-           y="488.58691"
-           x="349.19351"
-           id="tspan2429"
-           sodipodi:role="line">|<tspan
-   id="tspan2437"
-   style="font-size:40px;fill:#666666">0</tspan>〉</tspan><tspan
-           id="tspan2433"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Asana Math;-inkscape-font-specification:Asana Math"
-           y="538.58691"
-           x="349.19351"
-           sodipodi:role="line">|<tspan
-   id="tspan2435"
-   style="font-style:italic;-inkscape-font-specification:Asana Math Italic">Si</tspan>〉</tspan></text>
-      <g
-         id="g3246">
-        <g
-           id="g3241"
-           transform="matrix(0.8407436,0,0,1,38.202958,0)">
-          <rect
-             y="474.99734"
-             x="265.4577"
-             height="5"
-             width="100"
-             id="rect2441"
-             style="fill:#000000;stroke:#000000;stroke-width:0.91539657;stroke-opacity:1" />
-          <rect
-             y="524.90552"
-             x="265.45667"
-             height="5"
-             width="100"
-             id="rect2443"
-             style="fill:#000000;stroke:#000000;stroke-width:0.9133358;stroke-opacity:1" />
-          <rect
-             y="460.20303"
-             x="276.07306"
-             height="84.902641"
-             width="78.061813"
-             id="rect3215"
-             style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.79620314;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        </g>
-        <text
-           xml:space="preserve"
-           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-           x="276.75259"
-           y="514.68811"
-           id="text3225"><tspan
-             sodipodi:role="line"
-             id="tspan3227"
-             x="276.75259"
-             y="514.68811"
-             style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic">Co</tspan></text>
-      </g>
-    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:39.85288239px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:url(#linearGradient3231);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic"
+       x="169.07468"
+       y="495.70657"
+       id="text2383"
+       transform="scale(1.0197932,0.9805909)"><tspan
+         sodipodi:role="line"
+         id="tspan2385"
+         x="169.07468"
+         y="495.70657"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:url(#linearGradient3231);fill-opacity:1;font-family:Asana Math;-inkscape-font-specification:Asana Math">|<tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:url(#linearGradient3231);fill-opacity:1;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic"
+   id="tspan2405">Qu</tspan>〉</tspan><tspan
+         sodipodi:role="line"
+         x="169.07468"
+         y="545.52271"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:url(#linearGradient3231);fill-opacity:1;font-family:Asana Math;-inkscape-font-specification:Asana Math"
+         id="tspan2387">|0〉</tspan></text>
+    <rect
+       style="fill:url(#linearGradient3270);fill-opacity:1;stroke:none;stroke-width:0.83934605;stroke-opacity:1"
+       id="rect2441"
+       width="85.084999"
+       height="5"
+       x="-345.08002"
+       y="472.47195"
+       transform="scale(-1,1)" />
+    <rect
+       style="fill:url(#linearGradient3262);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.83745652;stroke-opacity:1"
+       id="rect2443"
+       width="85.084518"
+       height="5"
+       x="259.99496"
+       y="522.50647" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.50000000000000000;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;opacity:1"
+       id="rect3215"
+       width="63.523525"
+       height="83.510483"
+       x="270.83975"
+       y="458.23846" />
+    <text
+       xml:space="preserve"
+       style="font-size:39.75598526px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="280.76593"
+       y="505.24176"
+       id="text3225"
+       transform="scale(0.9848096,1.0154247)"><tspan
+         sodipodi:role="line"
+         id="tspan3227"
+         x="280.76593"
+         y="505.24176"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic">Co</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:39.85288238999999777px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:url(#linearGradient3298);fill-opacity:1.0;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Asana Math;-inkscape-font-specification:Asana Math Italic"
+       x="345.17072"
+       y="495.7973"
+       id="text3286"
+       transform="scale(1.0197932,0.9805909)"><tspan
+         sodipodi:role="line"
+         id="tspan3288"
+         x="345.17072"
+         y="495.7973"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:url(#linearGradient3298);fill-opacity:1.0;font-family:Asana Math;-inkscape-font-specification:Asana Math">|0〉</tspan><tspan
+         sodipodi:role="line"
+         x="345.17072"
+         y="545.61346"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;fill:url(#linearGradient3298);fill-opacity:1.0;font-family:Asana Math;-inkscape-font-specification:Asana Math"
+         id="tspan3292">|<tspan
+   style="font-style:italic;fill:url(#linearGradient3298);-inkscape-font-specification:Asana Math Italic;fill-opacity:1.0"
+   id="tspan3296">Si</tspan>〉</tspan></text>
   </g>
 </svg>
