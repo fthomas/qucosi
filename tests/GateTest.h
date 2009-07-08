@@ -301,6 +301,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       f[0] = 0; f[1] = 1;
       uh.resize(4,4);
@@ -312,6 +313,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       f[0] = 1; f[1] = 0;
       uh.resize(4,4);
@@ -323,6 +325,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       f[0] = 1; f[1] = 1;
       uh.resize(4,4);
@@ -334,6 +337,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       //
       // Test all 8x8 UfGates.
@@ -348,6 +352,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 15
       f[0] = 1; f[1] = 1; f[2] = 1; f[3] = 1;
@@ -364,6 +369,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 1
       f[0] = 0; f[1] = 0; f[2] = 0; f[3] = 1;
@@ -380,6 +386,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 14
       f[0] = 1; f[1] = 1; f[2] = 1; f[3] = 0;
@@ -396,6 +403,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 2
       f[0] = 0; f[1] = 0; f[2] = 1; f[3] = 0;
@@ -413,6 +421,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 13
       f[0] = 1; f[1] = 1; f[2] = 0; f[3] = 1;
@@ -430,6 +439,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 3
       f[0] = 0; f[1] = 0; f[2] = 1; f[3] = 1;
@@ -446,6 +456,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 12
       f[0] = 1; f[1] = 1; f[2] = 0; f[3] = 0;
@@ -463,6 +474,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 4
       f[0] = 0; f[1] = 1; f[2] = 0; f[3] = 0;
@@ -480,6 +492,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 11
       f[0] = 1; f[1] = 0; f[2] = 1; f[3] = 1;
@@ -497,6 +510,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 5
       f[0] = 0; f[1] = 1; f[2] = 0; f[3] = 1;
@@ -513,6 +527,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 10
       f[0] = 1; f[1] = 0; f[2] = 1; f[3] = 0;
@@ -530,6 +545,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 6
       f[0] = 0; f[1] = 1; f[2] = 1; f[3] = 0;
@@ -546,6 +562,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 9
       f[0] = 1; f[1] = 0; f[2] = 0; f[3] = 1;
@@ -563,6 +580,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 7
       f[0] = 0; f[1] = 1; f[2] = 1; f[3] = 1;
@@ -581,6 +599,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       // binary 8
       f[0] = 1; f[1] = 0; f[2] = 0; f[3] = 0;
@@ -599,6 +618,7 @@ class GateTest : public CppUnit::TestFixture
       uf.UfGate(f);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == uf );
+      CPPUNIT_ASSERT( uh == uf.UfGate(f,1) );
 
       //
       // Test all 8x8 UfGates for two output qubits.
@@ -606,7 +626,12 @@ class GateTest : public CppUnit::TestFixture
       f.resize(2);
 
       f[0] = 0; f[1] = 0;
-      uc = a1.IGate().tensorPow(3);
+      uh.resize(8,8);
+      uh.setIdentity();
+      uc.IGate().tensorPowSet(3);
+      uf.UfGate(f,2);
+      CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 0; f[1] = 1;
       uh.resize(8,8);
@@ -619,7 +644,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 0, 0, 1,
             0, 0, 0, 0, 0, 0, 1, 0;
       uc = a1.CGate(2,0,3,a2.XGate());
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 0; f[1] = 2;
       uh.resize(8,8);
@@ -632,7 +659,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 1, 0, 0, 0,
             0, 0, 0, 0, 0, 1, 0, 0;
       uc = a1.CGate(1,0,3,a2.XGate());
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 0; f[1] = 3;
       uh.resize(8,8);
@@ -645,7 +674,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 1, 0, 0,
             0, 0, 0, 0, 1, 0, 0, 0;
       uc = a1.CGate(2,0,3,a2.XGate()) * a3.CGate(1,0,3,a4.XGate());
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 1; f[1] = 0;
       uh.resize(8,8);
@@ -659,7 +690,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 0, 0, 1;
       uc = a1.XGate().applyToPos(0,3) * a2.CGate(2,0,3,a3.XGate()) *
            a4.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 1; f[1] = 1;
       uh.resize(8,8);
@@ -673,8 +706,10 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 0, 1, 0;
       uc = a1.CGate(2,0,3,a2.XGate()) * a3.XGate().applyToPos(0,3) *
            a4.CGate(2,0,3,a5.XGate()) * a6.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
       CPPUNIT_ASSERT( uh == a7.XGate().applyToPos(2,3) );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 1; f[1] = 2;
       uh.resize(8,8);
@@ -688,7 +723,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 1, 0, 0;
       uc = a1.CGate(1,0,3,a2.XGate()) * a3.XGate().applyToPos(0,3) *
            a4.CGate(2,0,3,a5.XGate()) * a6.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 1; f[1] = 3;
       uh.resize(8,8);
@@ -703,7 +740,9 @@ class GateTest : public CppUnit::TestFixture
       uc = a1.CGate(2,0,3,a2.XGate()) * a3.CGate(1,0,3,a4.XGate()) *
            a5.XGate().applyToPos(0,3) * a6.CGate(2,0,3,a7.XGate()) *
            a8.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 2; f[1] = 0;
       uh.resize(8,8);
@@ -717,7 +756,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 0, 0, 1;
       uc = a1.XGate().applyToPos(0,3) * a2.CGate(1,0,3,a3.XGate()) *
            a4.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 2; f[1] = 1;
       uh.resize(8,8);
@@ -731,7 +772,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 0, 1, 0;
       uc = a1.CGate(2,0,3,a2.XGate()) * a3.XGate().applyToPos(0,3) *
            a4.CGate(1,0,3,a5.XGate()) * a5.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 2; f[1] = 2;
       uh.resize(8,8);
@@ -745,7 +788,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 1, 0, 0;
       uc = a1.CGate(1,0,3,a2.XGate()) * a3.XGate().applyToPos(0,3) *
            a4.CGate(1,0,3,a5.XGate()) * a6.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 2; f[1] = 3;
       uh.resize(8,8);
@@ -760,7 +805,9 @@ class GateTest : public CppUnit::TestFixture
       uc = a1.CGate(1,0,3,a2.XGate()) * a3.CGate(2,0,3,a4.XGate()) *
            a5.XGate().applyToPos(0,3) * a6.CGate(1,0,3,a7.XGate()) *
            a8.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 3; f[1] = 0;
       uh.resize(8,8);
@@ -774,7 +821,9 @@ class GateTest : public CppUnit::TestFixture
             0, 0, 0, 0, 0, 0, 0, 1;
       uc = a1.XGate().applyToPos(0,3) * a2.CGate(1,0,3,a3.XGate()) *
            a4.CGate(2,0,3,a5.XGate()) * a6.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 3; f[1] = 1;
       uh.resize(8,8);
@@ -789,7 +838,9 @@ class GateTest : public CppUnit::TestFixture
       uc = a1.CGate(2,0,3,a2.XGate()) * a3.XGate().applyToPos(0,3) *
            a4.CGate(1,0,3,a5.XGate()) * a6.CGate(2,0,3,a7.XGate()) *
            a8.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 3; f[1] = 2;
       uh.resize(8,8);
@@ -804,7 +855,9 @@ class GateTest : public CppUnit::TestFixture
       uc = a1.CGate(1,0,3,a2.XGate()) * a3.XGate().applyToPos(0,3) *
            a4.CGate(1,0,3,a5.XGate()) * a6.CGate(2,0,3,a7.XGate()) *
            a8.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       f[0] = 3; f[1] = 3;
       uh.resize(8,8);
@@ -819,7 +872,9 @@ class GateTest : public CppUnit::TestFixture
       uc = a1.CGate(1,0,3,a2.XGate()) * a3.CGate(2,0,3,a4.XGate()) *
            a5.XGate().applyToPos(0,3) * a6.CGate(1,0,3,a7.XGate()) *
            a8.CGate(2,0,3,a9.XGate()) * a10.XGate().applyToPos(0,3);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
 
       //
       // Test some 16x16 UfGates for two input and output qubits.
@@ -855,7 +910,9 @@ class GateTest : public CppUnit::TestFixture
            a4.XGate().applyToPos(1,4) *
            a5.CGate(1,0,4,a6.CGate(2,0,3,a7.XGate())) *
            a8.XGate().tensorPow(2).applyToPos(0,4);
+      uf.UfGate(f,2);
       CPPUNIT_ASSERT( uh == uc );
+      CPPUNIT_ASSERT( uh == uf );
     }
 
     void testFGate()

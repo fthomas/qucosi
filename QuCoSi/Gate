@@ -614,17 +614,16 @@ class Gate : public MatrixXc
 
     /** \brief <b>U</b><sub>f</sub> gate
       *
-      * This method constructs a gate that can be associated with the boolean
-      * function \f$f:\ \{ 0,\ 1,\ 2,\ \ldots,\ 2^n - 1 \} \rightarrow \{ 0,\
-      * 1\}\f$. It is defined so that it acts on a tensor product of
-      * \p n + 1 qubits as
+      * This method constructs a gate that can be associated with the function
+      * \f$f:\,\{0,1,2,\ldots,2^n-1\} \rightarrow \{0,1\}\f$. It is defined so
+      * that it acts on a tensor product of n + 1 qubits as
       * \f[
       *   \mathbf{U}_f |x\rangle_n |y\rangle_1 =
       *     |x\rangle_n |y \oplus f(x)\rangle_1 \ ,
       * \f]
-      * where \f$\oplus\f$ denotes the binary addition.
+      * where \f$\oplus\f$ denotes binary addition.
       *
-      * \param f the boolean function associated with this gate
+      * \param f the function associated with this gate
       * \return a reference to \c *this
       */
     inline Gate& UfGate(const std::vector<int>& f)
@@ -639,6 +638,43 @@ class Gate : public MatrixXc
           (*this)(2*i+1,2*i+1) = 0;
           (*this)(2*i+1,2*i) = 1;
           (*this)(2*i,2*i+1) = 1;
+        }
+      }
+      return *this;
+    }
+
+    /** \brief <b>U</b><sub>f</sub> gate
+      *
+      * This method constructs a gate that can be associated with the function
+      * \f$f:\,\{0,1,2,\ldots,2^n-1\} \rightarrow \{0,1,2,\ldots,2^m-1\}\f$.
+      * It is defined so that it acts on a tensor product of n + \p m qubits
+      * as
+      * \f[
+      *   \mathbf{U}_f |x\rangle_n |y\rangle_m =
+      *     |x\rangle_n |y \oplus f(x)\rangle_m \ ,
+      * \f]
+      * where \f$\oplus\f$ denotes bitwise binary addition.
+      *
+      * \param f the function associated with this gate
+      * \param m the number of output qubits
+      * \return a reference to \c *this
+      */
+    inline Gate& UfGate(const std::vector<int>& f, const int m)
+    {
+      int sx = f.size();
+      int sy = std::pow(2,m);
+      resize(sx*sy,sx*sy);
+      setZero();
+
+      for (int i = 0, j = 0; i < sx; i++) {
+        for (int k = 0; k < sy; j++, k++) {
+          int fi = f.at(i);
+          if (j%2 == 0) {
+            (*this)(j-k+(k+fi)%sy,j) = 1;
+          }
+          else {
+            (*this)(j-k+(k-fi+sy)%sy,j) = 1;
+          }
         }
       }
       return *this;
