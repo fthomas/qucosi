@@ -37,7 +37,7 @@ namespace QuCoSi {
   * Since gates are represented by unitary matrices, this class is derived
   * of Eigen's dynamic size matrix class that uses complex numbers. Therefore
   * composition of multiple gates is easily accomplished by simple matrix
-  * multiplication of the single gates.
+  * multiplication of single gates.
   */
 class Gate : public MatrixXc
 {
@@ -170,7 +170,7 @@ class Gate : public MatrixXc
       * \return the for \p n qubits extended gate
       * \sa tensorDot()
       */
-    inline Gate applyToPos(const int j, const int n) const
+    inline Gate applyTo(const int j, const int n) const
     {
       int k = n-j-log2(rows());
       Gate id, x = *this;
@@ -193,11 +193,11 @@ class Gate : public MatrixXc
       * \param j the position of the qubit(s) the original gate acts on
       * \param n the number of qubits the extended gate acts on
       * \return a reference to \c *this
-      * \sa applyToPos()
+      * \sa applyTo()
       */
-    inline Gate& applyToPosSet(const int j, const int n)
+    inline Gate& applyToSet(const int j, const int n)
     {
-      *this = applyToPos(j,n);
+      *this = applyTo(j,n);
       return *this;
     }
 
@@ -212,7 +212,7 @@ class Gate : public MatrixXc
       *
       * \return a reference to \c *this
       */
-    inline Gate& XGate()
+    inline Gate& X()
     {
       resize(2,2);
       setZero();
@@ -232,7 +232,7 @@ class Gate : public MatrixXc
       *
       * \return a reference to \c *this
       */
-    inline Gate& YGate()
+    inline Gate& Y()
     {
       resize(2,2);
       setZero();
@@ -252,9 +252,9 @@ class Gate : public MatrixXc
       * \f]
       *
       * \return a reference to \c *this
-      * \sa RGate()
+      * \sa R()
       */
-    inline Gate& ZGate()
+    inline Gate& Z()
     {
       resize(2,2);
       setZero();
@@ -275,7 +275,7 @@ class Gate : public MatrixXc
       *
       * \return a reference to \c *this
       */
-    inline Gate& HGate()
+    inline Gate& H()
     {
       resize(2,2);
       (*this)(0,0) = field(M_SQRT1_2,0);
@@ -285,7 +285,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b P gate (phase gate)
+    /** \brief \b P gate (phase shift gate)
       *
       * \f[\mathbf{P} =
       *   \left(\begin{array}{cc}
@@ -296,9 +296,9 @@ class Gate : public MatrixXc
       * \f]
       *
       * \return a reference to \c *this
-      * \sa RGate()
+      * \sa R()
       */
-    inline Gate& PGate()
+    inline Gate& P()
     {
       resize(2,2);
       setZero();
@@ -307,7 +307,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief \b T gate (pi/4 phase shift gate)
+    /** \brief \b T gate (\f$\pi/4\f$ phase shift gate)
       *
       * \f[\mathbf{T} =
       *   \left(\begin{array}{cc}
@@ -318,9 +318,9 @@ class Gate : public MatrixXc
       * \f]
       *
       * \return a reference to \c *this
-      * \sa RGate()
+      * \sa R()
       */
-    inline Gate& TGate()
+    inline Gate& T()
     {
       resize(2,2);
       setZero();
@@ -341,7 +341,7 @@ class Gate : public MatrixXc
       * \param k the phase shift of this gate
       * \return a reference to \c *this
       */
-    inline Gate& RGate(const fptype k)
+    inline Gate& R(const fptype k)
     {
       resize(2,2);
       setZero();
@@ -362,7 +362,7 @@ class Gate : public MatrixXc
       *
       * \return a reference to \c *this
       */
-    inline Gate& IGate()
+    inline Gate& I()
     {
       resize(2,2);
       setIdentity();
@@ -382,9 +382,9 @@ class Gate : public MatrixXc
       * \f]
       *
       * \return a reference to \c *this
-      * \sa CGate(), XGate()
+      * \sa C(), X()
       */
-    inline Gate& CNOTGate()
+    inline Gate& CNOT()
     {
       resize(4,4);
       setZero();
@@ -412,9 +412,9 @@ class Gate : public MatrixXc
       * \f]
       *
       * \return a reference to \c *this
-      * \sa CGate(), CNOTGate()
+      * \sa C(), CNOT()
       */
-    inline Gate& CCNOTGate()
+    inline Gate& CCNOT()
     {
       resize(8,8);
       setIdentity();
@@ -442,9 +442,9 @@ class Gate : public MatrixXc
       * \f]
       *
       * \return a reference to \c *this
-      * \sa CGate(), SWAPGate()
+      * \sa C(), SWAP()
       */
-    inline Gate& CSWAPGate()
+    inline Gate& CSWAP()
     {
       resize(8,8);
       setIdentity();
@@ -468,7 +468,7 @@ class Gate : public MatrixXc
       *          controlled by the control qubit
       * \return a reference to \c *this
       */
-    inline Gate& CGate(const int t, const int c, const int n, const Gate& U)
+    inline Gate& C(const int t, const int c, const int n, const Gate& U)
     {
       // Construct the controlled U gate with the first qubit as control and
       // the second qubit as target.
@@ -480,7 +480,7 @@ class Gate : public MatrixXc
       // Extend the controlled U gate for n qubits if it does not already
       // operate on n qubits.
       if (std::pow(2,n) > 2*d) {
-        cu = cu.applyToPos(0,n);
+        cu = cu.applyTo(0,n);
       }
 
       // Construct a cyclic permutation that displaces t to position 1.
@@ -495,7 +495,7 @@ class Gate : public MatrixXc
 
       // Construct an S gate from the permutation sigma.
       Gate s;
-      s.SGate(sigma);
+      s.S(sigma);
 
       // Now combine the S and the controlled U gate.
       *this = s.transpose()*cu*s;
@@ -515,9 +515,9 @@ class Gate : public MatrixXc
       * \f]
       *
       * \return a reference to \c *this
-      * \sa SGate()
+      * \sa S()
       */
-    inline Gate& SWAPGate()
+    inline Gate& SWAP()
     {
       resize(4,4);
       setZero();
@@ -539,7 +539,7 @@ class Gate : public MatrixXc
       * \param n the number of qubits this gate acts on
       * \return a reference to \c *this
       */
-    inline Gate& SGate(const int p, const int q, const int n)
+    inline Gate& S(const int p, const int q, const int n)
     {
       std::vector<int> sigma(n);
       for (int i = 0; i < n; i++) {
@@ -547,7 +547,7 @@ class Gate : public MatrixXc
       }
       sigma[p] = q;
       sigma[q] = p;
-      SGate(sigma);
+      S(sigma);
       return *this;
     }
 
@@ -574,7 +574,7 @@ class Gate : public MatrixXc
       * \return a reference to \c *this
       * \sa http://arxiv.org/abs/math/0508053
       */
-    inline Gate& SGate(const std::vector<int>& sigma)
+    inline Gate& S(const std::vector<int>& sigma)
     {
       int n = sigma.size();
       int dim = std::pow(2,n);
@@ -612,7 +612,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>U</b><sub>f</sub> gate
+    /** \brief <b>U</b><sub>f</sub> gate for one output qubit
       *
       * This method constructs a gate that can be associated with the function
       * \f$f:\,\{0,1,2,\ldots,2^n-1\} \rightarrow \{0,1\}\f$. It is defined so
@@ -626,7 +626,7 @@ class Gate : public MatrixXc
       * \param f the function associated with this gate
       * \return a reference to \c *this
       */
-    inline Gate& UfGate(const std::vector<int>& f)
+    inline Gate& U(const std::vector<int>& f)
     {
       int s = f.size();
       resize(2*s,2*s);
@@ -643,7 +643,7 @@ class Gate : public MatrixXc
       return *this;
     }
 
-    /** \brief <b>U</b><sub>f</sub> gate
+    /** \brief <b>U</b><sub>f</sub> gate for multiple output qubits
       *
       * This method constructs a gate that can be associated with the function
       * \f$f:\,\{0,1,2,\ldots,2^n-1\} \rightarrow \{0,1,2,\ldots,2^m-1\}\f$.
@@ -659,7 +659,7 @@ class Gate : public MatrixXc
       * \param m the number of output qubits
       * \return a reference to \c *this
       */
-    inline Gate& UfGate(const std::vector<int>& f, const int m)
+    inline Gate& U(const std::vector<int>& f, const int m)
     {
       int sx = f.size();
       int sy = std::pow(2,m);
@@ -701,7 +701,7 @@ class Gate : public MatrixXc
       * \param n the number of qubits this gate acts on
       * \return a reference to \c *this
       */
-    inline Gate& FGate(const int n)
+    inline Gate& F(const int n)
     {
       int N = std::pow(2,n);
       resize(N,N);

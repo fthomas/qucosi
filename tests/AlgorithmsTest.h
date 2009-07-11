@@ -69,10 +69,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( (0.5 + 0.01) >= pc );
 
       // Now test the quantum coin.
-      Qubit q0(field(1,0), field(0,0)),
-            q1(field(0,0), field(1,0)), x;
+      Qubit q0(0,1), q1(1,1), x;
       Gate h;
-      h.HGate();
+      h.H();
 
       n = 0, heads = 0, tails = 0;
       for ( ; n < 48779; n++) {
@@ -101,7 +100,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
       Qubit q0(0,1), q1(1,1), x, r0 ,r1;
 
       Gate h, u;
-      h.HGate().tensorPowSet(2);
+      h.H().tensorPowSet(2);
       r0 = q0.tensorDot(q1);
       r1 = q1.tensorDot(q1);
       std::vector<int> f(2);
@@ -110,26 +109,26 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f[0] = 0;
       f[1] = 0;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(f) * x;
+      x = h * u.U(f) * x;
       CPPUNIT_ASSERT( x.isApprox(r0) );
 
       f[0] = 1;
       f[1] = 1;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(f) * x;
+      x = h * u.U(f) * x;
       CPPUNIT_ASSERT( x.isApprox(-r0) );
 
       // The function f is balanced: f(0) != f(1).
       f[0] = 0;
       f[1] = 1;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(f) * x;
+      x = h * u.U(f) * x;
       CPPUNIT_ASSERT( x.isApprox(r1) );
 
       f[0] = 1;
       f[1] = 0;
       x = h * q0.tensorDot(q1);
-      x = h * u.UfGate(f) * x;
+      x = h * u.U(f) * x;
       CPPUNIT_ASSERT( x.isApprox(-r1) );
     }
 
@@ -151,9 +150,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f1[1] = 0;
 
       x = Qubit(1,2);
-      x = h.HGate().tensorPow(2) * x;
-      x = u.UfGate(f1) * x;
-      x = h.tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(2) * x;
+      x = u.U(f1) * x;
+      x = h.tensorDot(i.I()) * x;
       x.measurePartial(1);
       CPPUNIT_ASSERT( x.isApprox(r) );
 
@@ -161,9 +160,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f1[1] = 1;
 
       x = Qubit(1,2);
-      x = h.HGate().tensorPow(2) * x;
-      x = u.UfGate(f1) * x;
-      x = h.tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(2) * x;
+      x = u.U(f1) * x;
+      x = h.tensorDot(i.I()) * x;
       x.measurePartial(1);
       CPPUNIT_ASSERT( x.isApprox(-r) );
 
@@ -172,9 +171,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f1[1] = 0;
 
       x = Qubit(1,2);
-      x = h.HGate().tensorPow(2) * x;
-      x = u.UfGate(f1) * x;
-      x = h.tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(2) * x;
+      x = u.U(f1) * x;
+      x = h.tensorDot(i.I()) * x;
       x.measurePartial(1);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
 
@@ -182,9 +181,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f1[1] = 1;
 
       x = Qubit(1,2);
-      x = h.HGate().tensorPow(2) * x;
-      x = u.UfGate(f1) * x;
-      x = h.tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(2) * x;
+      x = u.U(f1) * x;
+      x = h.tensorDot(i.I()) * x;
       x.measurePartial(1);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
 
@@ -200,9 +199,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 0;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( x.isApprox(r) );
 
@@ -212,9 +211,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 1;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( x.isApprox(-r) );
       
@@ -225,9 +224,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 1;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
 
@@ -237,9 +236,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 0;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
 
@@ -249,9 +248,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 0;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
 
@@ -261,9 +260,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 1;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
 
@@ -273,9 +272,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 1;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
 
@@ -285,9 +284,9 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f2[3] = 0;
 
       x = Qubit(1,3);
-      x = h.HGate().tensorPow(3) * x;
-      x = u.UfGate(f2) * x;
-      x = h.HGate().tensorPow(2).tensorDot(i.IGate()) * x;
+      x = h.H().tensorPow(3) * x;
+      x = u.U(f2) * x;
+      x = h.H().tensorPow(2).tensorDot(i.I()) * x;
       x.measurePartial(2);
       CPPUNIT_ASSERT( !x.isApprox(r) && !x.isApprox(-r) );
     }
@@ -295,14 +294,14 @@ class AlgorithmsTest : public CppUnit::TestFixture
     void testBernsteinVazirani()
     {
       Gate h, u, x, x0, x1 ,x2, x3, x4;
-      h.HGate().tensorPowSet(6);
+      h.H().tensorPowSet(6);
 
-      x.XGate();
-      x0.CGate(5,0,6,x);
-      x1.CGate(5,1,6,x);
-      x2.CGate(5,2,6,x);
-      x3.CGate(5,3,6,x);
-      x4.CGate(5,4,6,x);
+      x.X();
+      x0.C(5,0,6,x);
+      x1.C(5,1,6,x);
+      x2.C(5,2,6,x);
+      x3.C(5,3,6,x);
+      x4.C(5,4,6,x);
 
       CPPUNIT_ASSERT( (h*(x0*x1*x4)*h*Qubit(1,6)).isApprox(
         Qubit(25,5).tensorDot(Qubit(1,1))) );
@@ -333,7 +332,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
       f[16] = 1; f[18] = 1; f[20] = 1; f[22] = 1;
       f[25] = 1; f[27] = 1; f[29] = 1; f[31] = 1;
 
-      u.UfGate(f);
+      u.U(f);
       CPPUNIT_ASSERT( u == x0*x1*x4 );
       CPPUNIT_ASSERT( (h*u*h*Qubit(1,6)).isApprox(
         Qubit(25,5).tensorDot(Qubit(1,1))) );
