@@ -33,6 +33,14 @@ int main(int, char *[])
 {
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
+/*
+  cout << bwise_bin_add(0,1) << (1^0) << endl;
+  cout << bwise_bin_add(1,1) << (1^1) << endl;
+  cout << bwise_bin_add(2,1) << (1^2) << endl;
+  cout << bwise_bin_add(3,1) << (1^3) << endl;
+
+  cout << bwise_bin_dot(25,3) << endl;
+*/
 
 /*
   Gate c,h;

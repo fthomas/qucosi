@@ -53,7 +53,7 @@ class Qubit : public Vector {
     inline bool isPureState() const
     {
       for (int i = 0; i < size(); i++) {
-        if (isOne(std::pow(std::abs((*this)(i)),2))) {
+        if (is_one(std::pow(std::abs((*this)(i)),2))) {
           return true;
         }
       }
@@ -67,7 +67,7 @@ class Qubit : public Vector {
 
       for (int i = 0; i < n; i++) {
         p[i] = std::pow(std::abs((*this)(i)),2);
-        if (isOne(p[i])) {
+        if (is_one(p[i])) {
           return *this;
         }
       }

@@ -75,7 +75,7 @@ class Vector : public VectorXc
       */
     inline bool isNormalized() const
     {
-      return isOne(norm());
+      return is_one(norm());
     }
 
     /** \brief Sets all coefficients of this vector to random values

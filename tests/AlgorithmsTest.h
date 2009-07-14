@@ -35,6 +35,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testDeutsch);
   CPPUNIT_TEST(testDeutschJozsa);
   CPPUNIT_TEST(testBernsteinVazirani);
+  CPPUNIT_TEST(testSimon);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -336,6 +337,31 @@ class AlgorithmsTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( u == x0*x1*x4 );
       CPPUNIT_ASSERT( (h*u*h*Qubit(1,6)).isApprox(
         Qubit(25,5).tensorDot(Qubit(1,1))) );
+
+      // Automated way to create the appropriate function for U().
+      std::vector<int> g(32);
+      for (int i = 0; i < 32; i++) {
+        g[i] = bwise_bin_dot(i,25);
+      }
+      CPPUNIT_ASSERT( u == Gate().U(g) );
+    }
+
+    void testSimon()
+    {
+      std::vector<int> f(4);
+      // f: {0, 1, 2, 3} -> {0, 1}
+      // f[x] = f[x o+ a], with a=3
+      f[0] = 0; f[3] = 0;
+      f[1] = 1; f[2] = 1;
+
+      Qubit x(0,3);
+      Gate h, u;
+
+      x = h.H().tensorPowSet(2).applyToSet(0,3) * x;
+      x = u.U(f) * x;
+      x = h * x;
+      x.measurePartial(2);
+      std::cout << std::endl << x << std::endl;
     }
 };
 
