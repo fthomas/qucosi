@@ -34,6 +34,15 @@ int main(int, char *[])
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
 /*
+  Gate u;
+  vector<int> f(4);
+  f[0] = 1; f[1] = 1; f[2] = 1; f[3] = 1;
+  for(int i = 0; i < 1000000; i++) {
+    u.U2(f);
+  }
+*/
+
+/*
   cout << bwise_bin_add(0,1) << (1^0) << endl;
   cout << bwise_bin_add(1,1) << (1^1) << endl;
   cout << bwise_bin_add(2,1) << (1^2) << endl;
