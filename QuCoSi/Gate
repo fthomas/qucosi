@@ -363,8 +363,8 @@ class Gate : public MatrixXc
 
     /** \brief <b>R</b><sub>x</sub>(\p theta) gate
       *
-      * Rotates a qubit about the \f$x\f$-axis on the Bloch sphere by the
-      * angle \p theta.
+      * Rotates a qubit about the x-axis on the Bloch sphere by the angle
+      * \p theta.
       *
       * \f[\mathbf{R_x}(\theta) =
       *   \exp \left( -i \frac{\theta}{2} \mathbf{X} \right) =
@@ -376,7 +376,7 @@ class Gate : public MatrixXc
       *   \end{array}\right)
       * \f]
       *
-      * \param theta the angle of rotation about the \f$x\f$-axis
+      * \param theta the angle of rotation about the x-axis
       * \return a reference to \c *this
       */
     inline Gate& Rx(const fptype theta)
@@ -389,8 +389,8 @@ class Gate : public MatrixXc
 
     /** \brief <b>R</b><sub>y</sub>(\p theta) gate
       *
-      * Rotates a qubit about the \f$y\f$-axis on the Bloch sphere by the
-      * angle \p theta.
+      * Rotates a qubit about the y-axis on the Bloch sphere by the angle
+      * \p theta.
       *
       * \f[\mathbf{R_y}(\theta) =
       *   \exp \left( -i \frac{\theta}{2} \mathbf{Y} \right) =
@@ -402,7 +402,7 @@ class Gate : public MatrixXc
       *   \end{array}\right)
       * \f]
       *
-      * \param theta the angle of rotation about the \f$y\f$-axis
+      * \param theta the angle of rotation about the y-axis
       * \return a reference to \c *this
       */
     inline Gate& Ry(const fptype theta)
@@ -415,8 +415,8 @@ class Gate : public MatrixXc
 
     /** \brief <b>R</b><sub>z</sub>(\p theta) gate
       *
-      * Rotates a qubit about the \f$z\f$-axis on the Bloch sphere by the
-      * angle \p theta.
+      * Rotates a qubit about the z-axis on the Bloch sphere by the angle
+      * \p theta.
       *
       * \f[\mathbf{R_z}(\theta) =
       *   \exp \left( -i \frac{\theta}{2} \mathbf{Z} \right) =
@@ -428,7 +428,7 @@ class Gate : public MatrixXc
       *   \end{array}\right)
       * \f]
       *
-      * \param theta the angle of rotation about the \f$z\f$-axis
+      * \param theta the angle of rotation about the z-axis
       * \return a reference to \c *this
       */
     inline Gate& Rz(const fptype theta)
