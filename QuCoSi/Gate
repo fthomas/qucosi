@@ -215,9 +215,8 @@ class Gate : public MatrixXc
     inline Gate& X()
     {
       resize(2,2);
-      setZero();
-      (*this)(0,1) = field(1,0);
-      (*this)(1,0) = field(1,0);
+      *this << 0, 1,
+               1, 0;
       return *this;
     }
 
@@ -235,9 +234,8 @@ class Gate : public MatrixXc
     inline Gate& Y()
     {
       resize(2,2);
-      setZero();
-      (*this)(0,1) = field(0,-1);
-      (*this)(1,0) = field(0,1);
+      *this << 0, field(0,-1),
+               field(0,1), 0;
       return *this;
     }
 
@@ -257,9 +255,8 @@ class Gate : public MatrixXc
     inline Gate& Z()
     {
       resize(2,2);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,1) = field(-1,0);
+      *this << 1, 0,
+               0, -1;
       return *this;
     }
 
@@ -278,10 +275,8 @@ class Gate : public MatrixXc
     inline Gate& H()
     {
       resize(2,2);
-      (*this)(0,0) = field(M_SQRT1_2,0);
-      (*this)(0,1) = field(M_SQRT1_2,0);
-      (*this)(1,0) = field(M_SQRT1_2,0);
-      (*this)(1,1) = field(-M_SQRT1_2,0);
+      *this << M_SQRT1_2, M_SQRT1_2,
+               M_SQRT1_2, -M_SQRT1_2;
       return *this;
     }
 
@@ -301,9 +296,8 @@ class Gate : public MatrixXc
     inline Gate& P()
     {
       resize(2,2);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,1) = field(0,1);
+      *this << 1, 0,
+               0, field(0,1);
       return *this;
     }
 
@@ -323,9 +317,8 @@ class Gate : public MatrixXc
     inline Gate& T()
     {
       resize(2,2);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,1) = field(M_SQRT1_2,M_SQRT1_2);
+      *this << 1, 0,
+               0, field(M_SQRT1_2,M_SQRT1_2);
       return *this;
     }
 
@@ -344,9 +337,8 @@ class Gate : public MatrixXc
     inline Gate& R(const fptype k)
     {
       resize(2,2);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,1) = std::exp(2*M_PI/k*field(0,1));
+      *this << 1, 0,
+               0, std::exp(2*M_PI/k*field(0,1));
       return *this;
     }
 

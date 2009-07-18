@@ -33,6 +33,11 @@ int main(int, char *[])
 {
   std::srand((unsigned)std::time(NULL) + (unsigned)std::clock());
 
+  Gate x;
+  for(int i = 0; i < 20000000; i++) {
+    x.X();
+  }
+
 /*
   Gate u;
   vector<int> f(4);
