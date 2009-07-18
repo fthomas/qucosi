@@ -379,11 +379,10 @@ class Gate : public MatrixXc
     inline Gate& CNOT()
     {
       resize(4,4);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,1) = field(1,0);
-      (*this)(2,3) = field(1,0);
-      (*this)(3,2) = field(1,0);
+      *this << 1, 0, 0, 0,
+               0, 1, 0, 0,
+               0, 0, 0, 1,
+               0, 0, 1, 0;
       return *this;
     }
 
@@ -410,10 +409,10 @@ class Gate : public MatrixXc
     {
       resize(8,8);
       setIdentity();
-      (*this)(6,6) = field(0,0);
-      (*this)(7,7) = field(0,0);
-      (*this)(7,6) = field(1,0);
-      (*this)(6,7) = field(1,0);
+      (*this)(6,6) = 0;
+      (*this)(7,7) = 0;
+      (*this)(7,6) = 1;
+      (*this)(6,7) = 1;
       return *this;
     }
 
@@ -440,10 +439,10 @@ class Gate : public MatrixXc
     {
       resize(8,8);
       setIdentity();
-      (*this)(5,5) = field(0,0);
-      (*this)(6,6) = field(0,0);
-      (*this)(6,5) = field(1,0);
-      (*this)(5,6) = field(1,0);
+      (*this)(5,5) = 0;
+      (*this)(6,6) = 0;
+      (*this)(6,5) = 1;
+      (*this)(5,6) = 1;
       return *this;
     }
 
@@ -512,11 +511,10 @@ class Gate : public MatrixXc
     inline Gate& SWAP()
     {
       resize(4,4);
-      setZero();
-      (*this)(0,0) = field(1,0);
-      (*this)(1,2) = field(1,0);
-      (*this)(2,1) = field(1,0);
-      (*this)(3,3) = field(1,0);
+      *this << 1, 0, 0, 0,
+               0, 0, 1, 0,
+               0, 1, 0, 0,
+               0, 0, 0, 1;
       return *this;
     }
 
@@ -576,8 +574,8 @@ class Gate : public MatrixXc
       // The first and last component of any tensor stays unchanged for all
       // tensor permutations, therefore we ignore the outermost rows and
       // columns.
-      (*this)(0,0) = field(1,0);
-      (*this)(dim-1,dim-1) = field(1,0);
+      (*this)(0,0) = 1;
+      (*this)(dim-1,dim-1) = 1;
 
       for (int c = 1; c < dim-1; c++) {
         for (int r = 1; r < dim-1; r++) {
@@ -596,7 +594,7 @@ class Gate : public MatrixXc
           // the column index, set a 1 at this position. This equals the
           // multiple Kronecker deltas.
           if (br == bcp) {
-            (*this)(r,c) = field(1,0);
+            (*this)(r,c) = 1;
             break;
           }
         }
