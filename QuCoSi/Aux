@@ -55,6 +55,21 @@ inline int log2(const unsigned value)
   return l-1;
 }
 
+/** \brief Computes the modulo-2 sum of the products of corresponding bits of
+  *        the integers \p x and \p y
+  *
+  * Let \p x and \p y be positive integers and \f$x_i, y_i\f$ are the bits
+  * of \p x and \p y in the binary numeral system (that is \f$x = \sum_{i=0}^n
+  * x_i \, 2^i \f$), then this function computes the modulo-2 sum of the
+  * products of corresponding bits of \p x and \p y denoted by \f$x \cdot y\f$:
+  * \f[
+  *   x \cdot y = x_n \, y_n \oplus \ldots \oplus x_1 \, y_1 \oplus x_0 \, y_0
+  *   \ .
+  * \f]
+  *
+  * \return the modulo-2 sum of the products of corresponding bits of \p x
+  *         and \p y
+  */
 inline int bwise_bin_dot(const long x, const long y)
 {
   long a = (x & y);
