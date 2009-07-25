@@ -42,8 +42,7 @@ class Vector : public VectorXc
       */
     inline Vector() : VectorXc(2)
     {
-      (*this)[0] = field(1,0);
-      (*this)[1] = field(0,0);
+      *this << 1, 0;
     }
 
     /** \brief Constructs the null vector of dimension \p dim
@@ -59,8 +58,7 @@ class Vector : public VectorXc
       */
     inline Vector(const field& c0, const field& c1) : VectorXc(2)
     {
-      (*this)[0] = c0;
-      (*this)[1] = c1;
+      *this << c0, c1;
     }
 
     inline Vector& operator=(const VectorXc& v)
@@ -84,7 +82,7 @@ class Vector : public VectorXc
       */
     inline Vector& randomize()
     {
-      do setRandom().normalize(); while ( isZero() );
+      do setRandom().normalize(); while (isZero() == true);
       return *this;
     }
 
@@ -117,7 +115,7 @@ class Vector : public VectorXc
       int k = 0;
       for (int i = 0; i < size(); i++) {
         for (int j = 0; j < v.size(); j++, k++) {
-          w[k] = (*this)[i]*v[j];
+          w(k) = (*this)(i)*v(j);
         }
       }
       return w;
@@ -136,9 +134,7 @@ class Vector : public VectorXc
       */
     inline Vector& tensorDotSet(const Vector& v)
     {
-      if (size() > 0 && v.size() > 0) {
-        *this = tensorDot(v);
-      }
+      *this = tensorDot(v);
       return *this;
     }
 };

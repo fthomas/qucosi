@@ -18,6 +18,7 @@
 #define QUCOSI_GATE_H
 
 #include <bitset>
+#include <cassert>
 #include <cmath>
 #include <limits>
 #include <vector>
@@ -46,12 +47,12 @@ class Gate : public MatrixXc
       */
     inline Gate() : MatrixXc(2,2) {}
 
-    /** \brief Constructs the \p r × \p c zero matrix
+    /** \brief Constructs the \p rows × \p cols zero matrix
       *
-      * \param r the number of rows of this gate
-      * \param c the number of columns of this gate
+      * \param rows the number of rows of this gate
+      * \param cols the number of columns of this gate
       */
-    inline Gate(const int r, const int c) : MatrixXc(r,c) {}
+    inline Gate(const int rows, const int cols) : MatrixXc(rows,cols) {}
 
     inline Gate& operator=(const MatrixXc& m)
     {
@@ -117,9 +118,7 @@ class Gate : public MatrixXc
       */
     inline Gate& tensorDotSet(const Gate& m)
     {
-      if (size() > 0 && m.size() > 0) {
-        *this = tensorDot(m);
-      }
+      *this = tensorDot(m);
       return *this;
     }
 
@@ -539,6 +538,8 @@ class Gate : public MatrixXc
       */
     inline Gate& C(const int t, const int c, const int n, const Gate& U)
     {
+      assert(t < n || c < n || t == c);
+
       // Construct the controlled U gate with the first qubit as control and
       // the second qubit as target.
       int d = U.rows();
@@ -765,14 +766,14 @@ class Gate : public MatrixXc
       */
     inline Gate& F(const int n)
     {
-      int N = std::pow(2,n);
-      resize(N,N);
-      for (int x = 0; x < N; x++) {
-        for (int y = x; y < N; y++) {
-          (*this)(x,y) = std::exp(2*M_PI*x*y/N*field(0,1));
+      int s = std::pow(2,n);
+      resize(s,s);
+      for (int x = 0; x < s; x++) {
+        for (int y = x; y < s; y++) {
+          (*this)(x,y) = std::exp(2*M_PI*x*y/s*field(0,1));
         }
       }
-      *this *= std::sqrt(1./N);
+      *this *= std::sqrt(1./s);
 
       MatrixXc t = transpose();
       t.diagonal().setZero();
