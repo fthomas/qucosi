@@ -349,19 +349,71 @@ class AlgorithmsTest : public CppUnit::TestFixture
     void testSimon()
     {
       std::vector<int> f(4);
-      // f: {0, 1, 2, 3} -> {0, 1}
-      // f[x] = f[x o+ a], with a=3
-      f[0] = 0; f[3] = 0;
-      f[1] = 1; f[2] = 1;
+      // f: {0, 1, 2, 3} -> {0, 1, 2, 3}
+      // f[x] = f[x o+ a], with a = 2 ^= 10
+      int a = 2;
+      f[0] = 1; f[2] = 1;
+      f[1] = 2; f[3] = 2;
 
-      Qubit x(0,3);
+      Qubit r(0,4), t(0,4);
       Gate h, u;
 
-      x = h.H().tensorPowSet(2).applyToSet(0,3) * x;
-      x = u.U(f) * x;
-      x = h * x;
-      x.measurePartial(2);
-      std::cout << std::endl << x << std::endl;
+      r = h.H().tensorPowSet(2).applyToSet(0,4) * r;
+
+      // Check that our qubits are intialized correctly.
+      t.setZero();
+      for (int x = 0; x <= 3; x++) {
+        t += 0.5 * Qubit(x,2).tensorDot(Qubit(0,2));
+      }
+      CPPUNIT_ASSERT( r.isApprox(t) );
+
+      r = u.U(f,2) * r;
+
+      // Check the call of the oracle U_f.
+      t.setZero();
+      for (int x = 0; x <= 3; x++) {
+        t += 0.5 * Qubit(x,2).tensorDot(Qubit(f[x],2));
+      }
+      CPPUNIT_ASSERT( r.isApprox(t) );
+
+      // Measure the output qubits.
+      std::vector<int> p(4);
+      p[0] = 2; p[1] = 3; p[2] = 0; p[3] = 1;
+      Gate s; s.S(p);
+      r = s * r; r.measurePartial(2); r = s.transpose() * r;
+
+      // Check the qubit state after measuring the output qubits.
+      Qubit t1[4];
+      int x0 = 0;
+      for (int x = 0; x <= 3; x++) {
+        t1[x] = std::sqrt(0.5)*(Qubit(x,2) + Qubit(x^a,2));
+        t1[x].tensorDotSet(Qubit(f[x],2));
+        if (r.isApprox(t1[x])) {
+          x0 = x^a;
+        }
+      }
+      CPPUNIT_ASSERT( r.isApprox(t1[0]) || r.isApprox(t1[1]) ||
+                      r.isApprox(t1[2]) || r.isApprox(t1[3]) );
+
+      r = h * r;
+      r = r.first(2);
+
+      // Check the input qubit state after applying the Hadamard gate.
+      t.resize(4); t.setZero();
+      for (int y = 0; y <= 1; y++) {
+        if (bwise_bin_dot(a,y) == 0) {
+          t += 1./std::pow(2, 1./2.) * std::pow(-1,bwise_bin_dot(x0,y)) *
+               Qubit(y,2);
+        }
+      }
+      CPPUNIT_ASSERT( r.isApprox(t) );
+
+      r.measure();
+
+      // Our input a = 2. Our result y = 1.
+      // => a_1*0 o+ a_0*1 = 0. Because a != 0 it follows that a = 2.
+      CPPUNIT_ASSERT( r.isApprox(Qubit(0,2)) || r.isApprox(Qubit(1,2)) ||
+                      r.isApprox(-Qubit(1,2)) );
     }
 };
 
