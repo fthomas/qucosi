@@ -23,6 +23,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include <QuCoSi/Gate>
 #include <QuCoSi/Qubit>
 
 namespace QuCoSi {
@@ -30,6 +31,7 @@ namespace QuCoSi {
 class QubitTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(QubitTest);
+  CPPUNIT_TEST(testFirstLast);
   CPPUNIT_TEST(testMeasure);
   CPPUNIT_TEST(testMeasurePartial);
   CPPUNIT_TEST_SUITE_END();
@@ -41,6 +43,32 @@ class QubitTest : public CppUnit::TestFixture
     }
 
     void tearDown() {}
+
+    void testFirstLast()
+    {
+      Qubit x, y, q0(0,1), q1(1,1);
+      Gate g;
+
+      x = g.H()*q0; // 1 qubit
+      y = x.tensorDot(q1); // 2 qubits
+      CPPUNIT_ASSERT( y.first(1).isApprox(x) );
+
+      x = g.tensorPow(2)*q0.tensorDot(q1); // 2 qubits
+      y = x.tensorDot(q0); // 3 qubits
+      CPPUNIT_ASSERT( y.first(2).isApprox(x) );
+
+      x = g.tensorPow(2)*q1.tensorDot(q1); // 2 qubits
+      y = x.tensorDot(q1); // 3 qubits
+      CPPUNIT_ASSERT( y.first(2).isApprox(x) );
+
+      x = g*q0; // 1 qubit
+      y = x.tensorDot(q1).tensorDot(q0); // 3 qubits
+      CPPUNIT_ASSERT( y.first(1).isApprox(x) );
+
+      x = g*q0; // 1 qubit
+      y = x.tensorDot(q1).tensorDot(q1); // 3 qubits
+      CPPUNIT_ASSERT( y.first(1).isApprox(x) );
+    }
 
     void testMeasure()
     {
