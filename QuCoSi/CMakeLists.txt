@@ -1,6 +1,5 @@
 set(QUCOSI_HEADERS
     Aux
-    Basis
     Gate
     Qubit
     Vector

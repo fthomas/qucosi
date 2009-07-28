@@ -20,7 +20,6 @@
 #include <limits>
 
 #include <QuCoSi/Aux>
-#include <QuCoSi/Basis>
 #include <QuCoSi/Gate>
 #include <QuCoSi/Qubit>
 #include <QuCoSi/Vector>
