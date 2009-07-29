@@ -36,16 +36,28 @@ typedef std::complex<fptype> field;
 typedef Eigen::Matrix<field, Eigen::Dynamic, 1> VectorXc;
 typedef Eigen::Matrix<field, Eigen::Dynamic, Eigen::Dynamic> MatrixXc;
 
+/** \brief Checks if \p x is approximately zero
+  *
+  * \return true if \p x is approximately zero
+  */
 inline bool is_zero(const fptype x)
 {
   return std::abs(x) <= std::numeric_limits<fptype>::epsilon();
 }
 
+/** \brief Checks if \p x is approximately one
+  *
+  * \return true if \p x is approximately one
+  */
 inline bool is_one(const fptype x)
 {
   return is_zero(x-1.);
 }
 
+/** \brief Computes the binary logarithm of the integer \p value
+  *
+  * \return the binary logarithm of \p value and -1 if \p value == 0
+  */
 inline int log2(const unsigned value)
 {
   unsigned l = 0;
