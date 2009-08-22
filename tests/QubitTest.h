@@ -49,6 +49,7 @@ class QubitTest : public CppUnit::TestFixture
       Qubit x, y, q0(0,1), q1(1,1);
       Gate g;
 
+      // test first():
       x = g.H()*q0; // 1 qubit
       y = x.tensorDot(q1); // 2 qubits
       CPPUNIT_ASSERT( y.first(1).isApprox(x) );
@@ -68,6 +69,27 @@ class QubitTest : public CppUnit::TestFixture
       x = g*q0; // 1 qubit
       y = x.tensorDot(q1).tensorDot(q1); // 3 qubits
       CPPUNIT_ASSERT( y.first(1).isApprox(x) );
+
+      // test last():
+      x = g.H()*q0; // 1 qubit
+      y = q1.tensorDot(x); // 2 qubits
+      CPPUNIT_ASSERT( y.last(1).isApprox(x) );
+
+      x = g.tensorPow(2)*q0.tensorDot(q1); // 2 qubits
+      y = q0.tensorDot(x); // 3 qubits
+      CPPUNIT_ASSERT( y.last(2).isApprox(x) );
+
+      x = g.tensorPow(2)*q1.tensorDot(q1); // 2 qubits
+      y = q1.tensorDot(x); // 3 qubits
+      CPPUNIT_ASSERT( y.last(2).isApprox(x) );
+
+      x = g*q0; // 1 qubit
+      y = q1.tensorDot(q0).tensorDot(x); // 3 qubits
+      CPPUNIT_ASSERT( y.last(1).isApprox(x) );
+
+      x = g*q0; // 1 qubit
+      y = q1.tensorDot(q1).tensorDot(x); // 3 qubits
+      CPPUNIT_ASSERT( y.last(1).isApprox(x) );
     }
 
     void testMeasure()

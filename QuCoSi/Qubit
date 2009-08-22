@@ -81,6 +81,26 @@ class Qubit : public Vector {
       return q;
     }
 
+    inline Qubit last(const int j) const
+    {
+      int dim_total = size();
+      int dim_last = std::pow(2,j);
+
+      int pos = 0;
+      for (; pos < dim_total; pos++) {
+        if (!is_zero(std::abs((*this)(pos)))) {
+          pos -= pos%dim_last;
+          break;
+        }
+      }
+
+      Qubit q(dim_last);
+      for (int i = 0; i < dim_last; i++) {
+        q(i) = (*this)(pos+i);
+      }
+      return q;
+    }
+
     inline Qubit& measure()
     {
       int n = size();
