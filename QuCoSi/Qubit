@@ -52,7 +52,7 @@ class Qubit : public Vector {
 
     inline bool isPureState() const
     {
-      for (int i = 0; i < size(); i++) {
+      for (int i = 0; i < size(); ++i) {
         if (is_one(std::pow(std::abs((*this)(i)),2))) {
           return true;
         }
@@ -67,7 +67,7 @@ class Qubit : public Vector {
       int dim_last = dim_total/dim_first;
 
       int pos = 0;
-      for (; pos < dim_total; pos++) {
+      for (; pos < dim_total; ++pos) {
         if (!is_zero(std::abs((*this)(pos)))) {
           pos %= dim_last;
           break;
@@ -75,7 +75,7 @@ class Qubit : public Vector {
       }
 
       Qubit q(dim_first);
-      for (int i = 0; i < dim_first; i++) {
+      for (int i = 0; i < dim_first; ++i) {
         q(i) = (*this)(i*dim_last + pos);
       }
       return q;
@@ -87,7 +87,7 @@ class Qubit : public Vector {
       int dim_last = std::pow(2,j);
 
       int pos = 0;
-      for (; pos < dim_total; pos++) {
+      for (; pos < dim_total; ++pos) {
         if (!is_zero(std::abs((*this)(pos)))) {
           pos -= pos%dim_last;
           break;
@@ -95,7 +95,7 @@ class Qubit : public Vector {
       }
 
       Qubit q(dim_last);
-      for (int i = 0; i < dim_last; i++) {
+      for (int i = 0; i < dim_last; ++i) {
         q(i) = (*this)(pos+i);
       }
       return q;
@@ -106,7 +106,7 @@ class Qubit : public Vector {
       int n = size();
       std::vector<fptype> p(n);
 
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < n; ++i) {
         p[i] = std::pow(std::abs((*this)(i)),2);
         if (is_one(p[i])) {
           return *this;
@@ -114,7 +114,7 @@ class Qubit : public Vector {
       }
 
       fptype s = 0., r = fptype(std::rand())/RAND_MAX;
-      for (int j = 0; j < n; j++) {
+      for (int j = 0; j < n; ++j) {
         s += p[j];
         if (s >= r) {
           field c = (*this)(j)/std::abs((*this)(j));
@@ -134,19 +134,19 @@ class Qubit : public Vector {
       int qn = std::pow(2,q);
       std::vector<fptype> pj(pn);
 
-      for (int j = 0; j < pn; j++) {
+      for (int j = 0; j < pn; ++j) {
         pj[j] = 0.;
-        for (int r = 0; r < qn; r++) {
+        for (int r = 0; r < qn; ++r) {
           pj[j] += std::pow(std::abs((*this)(j*qn+r)),2);
         }
       }
 
       fptype s = 0., t = fptype(std::rand())/RAND_MAX;
-      for (int j = 0; j < pn; j++) {
+      for (int j = 0; j < pn; ++j) {
         s += pj[j];
         if (s >= t) {
           Qubit rq(qn);
-          for (int r = 0; r < qn; r++) {
+          for (int r = 0; r < qn; ++r) {
               rq += (*this)(j*qn+r)/std::sqrt(pj[j])*Qubit(r,q);
           }
           *this = Qubit(j,p).tensorDot(rq);

@@ -98,12 +98,12 @@ class QubitTest : public CppUnit::TestFixture
       x = std::sqrt(0.5)*q0 - 0.5*q1 + 0.5*q2;
 
       int n = 0, r0 = 0, r1 = 0, r2 = 0;
-      for ( ; n < 1000; n++) {
+      for (; n < 1000; ++n) {
         v = x;
         v.measure();
-        if (v == q0) r0++;
-        if (v == -1*q1) r1++;
-        if (v == q2) r2++;
+        if (v == q0) ++r0;
+        if (v == -1*q1) ++r1;
+        if (v == q2) ++r2;
       }
       CPPUNIT_ASSERT( r0 + r1 + r2 == n );
       CPPUNIT_ASSERT( r0 > 450 && r0 < 550);

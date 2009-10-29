@@ -84,7 +84,7 @@ class GateTest : public CppUnit::TestFixture
       i.resize(2,2);
       i.setIdentity();
 
-      for (int n = 2; n <= 8; n++) {
+      for (int n = 2; n <= 8; ++n) {
         int p = std::pow(2,n);
         i_byhand.resize(p,p);
         i_byhand.setIdentity();

@@ -95,15 +95,14 @@ class Gate : public MatrixXc
       */
     inline Gate tensorDot(const Gate& m) const
     {
-      int c1, r1, c2, r2;
-      r1 = rows();
-      c1 = cols();
-      r2 = m.rows();
-      c2 = m.cols();
+      const int r1 = rows();
+      const int c1 = cols();
+      const int r2 = m.rows();
+      const int c2 = m.cols();
       Gate x(r1*r2, c1*c2);
 
-      for (int c = 0; c < c1; c++) {
-        for (int r = 0; r < r1; r++) {
+      for (int c = 0; c < c1; ++c) {
+        for (int r = 0; r < r1; ++r) {
           x.block(r*r2, c*c2, r2, c2) = (*this)(r,c)*m;
         }
       }
@@ -138,7 +137,7 @@ class Gate : public MatrixXc
     inline Gate tensorPow(const int n) const
     {
       Gate x = *this;
-      for (int i = 1; i < n; i++) {
+      for (int i = 1; i < n; ++i) {
         x.tensorDotSet(*this);
       }
       return x;
@@ -171,7 +170,7 @@ class Gate : public MatrixXc
       */
     inline Gate applyTo(const int j, const int n) const
     {
-      int k = n-j-log2(rows());
+      const int k = n-j-log2(rows());
       Gate id, x = *this;
 
       if (j > 0) {
@@ -542,7 +541,7 @@ class Gate : public MatrixXc
 
       // Construct the controlled U gate with the first qubit as control and
       // the second qubit as target.
-      int d = U.rows();
+      const int d = U.rows();
       Gate cu(2*d,2*d);
       cu.setIdentity();
       cu.block(d,d,d,d) = U;
@@ -555,11 +554,11 @@ class Gate : public MatrixXc
 
       // Construct a cyclic permutation that displaces t to position 1.
       std::vector<int> sigma(n);
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < n; ++i) {
         sigma[(n-t+i+1)%n] = i;
       }
       // Permute c to position 0.
-      int newc = (n-t+c+1)%n, tmp = sigma[0];
+      const int newc = (n-t+c+1)%n, tmp = sigma[0];
       sigma[0] = sigma[newc];
       sigma[newc] = tmp;
 
@@ -611,7 +610,7 @@ class Gate : public MatrixXc
     inline Gate& S(const int p, const int q, const int n)
     {
       std::vector<int> sigma(n);
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < n; ++i) {
         sigma[i] = i;
       }
       sigma[p] = q;
@@ -645,8 +644,8 @@ class Gate : public MatrixXc
       */
     inline Gate& S(const std::vector<int>& sigma)
     {
-      int n = sigma.size();
-      int dim = std::pow(2,n);
+      const int n = sigma.size();
+      const int dim = std::pow(2,n);
       resize(dim,dim);
       setZero();
 
@@ -656,8 +655,8 @@ class Gate : public MatrixXc
       (*this)(0,0) = 1;
       (*this)(dim-1,dim-1) = 1;
 
-      for (int c = 1; c < dim-1; c++) {
-        for (int r = 1; r < dim-1; r++) {
+      for (int c = 1; c < dim-1; ++c) {
+        for (int r = 1; r < dim-1; ++r) {
           // Create bitsets of the row and column index. Since the dimension
           // of single qubits is 2, these bitsets can be interpreted as the
           // multiple row and colum indices.
@@ -665,7 +664,7 @@ class Gate : public MatrixXc
             br(r), bc(c), bcp(0);
 
           // Permute the bitset bc using the permutation sigma.
-          for (int i = 0; i < n; i++) {
+          for (int i = 0; i < n; ++i) {
             bcp[n-1-i] = bc[n-1-sigma[i]];
           }
 
@@ -697,11 +696,11 @@ class Gate : public MatrixXc
       */
     inline Gate& U(const std::vector<int>& f)
     {
-      int s = f.size();
+      const int s = f.size();
       resize(2*s,2*s);
       setIdentity();
 
-      for (int i = 0; i < s; i++) {
+      for (int i = 0; i < s; ++i) {
         if (f.at(i) == 1) {
           (*this)(2*i,2*i) = 0;
           (*this)(2*i+1,2*i+1) = 0;
@@ -730,13 +729,13 @@ class Gate : public MatrixXc
       */
     inline Gate& U(const std::vector<int>& f, const int m)
     {
-      int sx = f.size();
-      int sy = std::pow(2,m);
+      const int sx = f.size();
+      const int sy = std::pow(2,m);
       resize(sx*sy,sx*sy);
       setZero();
 
-      for (int i = 0, j = 0; i < sx; i++) {
-        for (int k = 0; k < sy; j++, k++) {
+      for (int i = 0, j = 0; i < sx; ++i) {
+        for (int k = 0; k < sy; ++j, ++k) {
           (*this)(j-k+(k^f.at(i)),j) = 1;
         }
       }
@@ -766,10 +765,10 @@ class Gate : public MatrixXc
       */
     inline Gate& F(const int n)
     {
-      int s = std::pow(2,n);
+      const int s = std::pow(2,n);
       resize(s,s);
-      for (int x = 0; x < s; x++) {
-        for (int y = x; y < s; y++) {
+      for (int x = 0; x < s; ++x) {
+        for (int y = x; y < s; ++y) {
           (*this)(x,y) = std::exp(2*M_PI*x*y/s*field(0,1));
         }
       }

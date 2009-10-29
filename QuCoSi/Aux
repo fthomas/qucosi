@@ -62,7 +62,7 @@ inline int log2(const unsigned value)
 {
   unsigned l = 0;
   while ((value >> l) != 0) {
-    l++;
+    ++l;
   }
   return l-1;
 }
@@ -86,8 +86,8 @@ inline int bwise_bin_dot(const long x, const long y)
 {
   long a = (x & y);
   // Count the number of set bits in a.
-  unsigned int c;
-  for (c = 0; a; c++) {
+  unsigned int c = 0;
+  for (; a; ++c) {
     a &= a-1;
   }
   // Return the parity of a.

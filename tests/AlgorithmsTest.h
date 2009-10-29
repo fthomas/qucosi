@@ -52,13 +52,13 @@ class AlgorithmsTest : public CppUnit::TestFixture
       fptype coin;
       int n = 0, heads = 0, tails = 0;
 
-      for ( ; n < 48779; n++) {
+      for (; n < 48779; ++n) {
         coin = fptype(std::rand())/RAND_MAX;
         if (coin <= 0.5) {
-          tails++;
+          ++tails;
         }
         else {
-          heads++;
+          ++heads;
         }
       }
       CPPUNIT_ASSERT( heads + tails == n );
@@ -75,16 +75,16 @@ class AlgorithmsTest : public CppUnit::TestFixture
       h.H();
 
       n = 0, heads = 0, tails = 0;
-      for ( ; n < 48779; n++) {
+      for (; n < 48779; ++n) {
         x = q0;
         x = h*x;
         x.measure();
 
         if (x == q0) {
-          tails++;
+          ++tails;
         }
         else if (x == q1) {
-          heads++;
+          ++heads;
         }
       }
       CPPUNIT_ASSERT( heads + tails == n );
@@ -312,7 +312,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
         Qubit(4,5).tensorDot(Qubit(1,1))) );
 
       std::vector<int> f(32);
-      for (int i = 0; i < 32; i++) {
+      for (int i = 0; i < 32; ++i) {
         f[i] = 0;
       }
 
@@ -340,7 +340,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
 
       // Automated way to create the appropriate function for U().
       std::vector<int> g(32);
-      for (int i = 0; i < 32; i++) {
+      for (int i = 0; i < 32; ++i) {
         g[i] = bwise_bin_dot(i,25);
       }
       CPPUNIT_ASSERT( u == Gate().U(g) );
@@ -362,7 +362,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
 
       // Check that our qubits are intialized correctly.
       t.setZero();
-      for (int x = 0; x <= 3; x++) {
+      for (int x = 0; x <= 3; ++x) {
         t += 0.5 * Qubit(x,2).tensorDot(Qubit(0,2));
       }
       CPPUNIT_ASSERT( r.isApprox(t) );
@@ -371,7 +371,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
 
       // Check the call of the oracle U_f.
       t.setZero();
-      for (int x = 0; x <= 3; x++) {
+      for (int x = 0; x <= 3; ++x) {
         t += 0.5 * Qubit(x,2).tensorDot(Qubit(f[x],2));
       }
       CPPUNIT_ASSERT( r.isApprox(t) );
@@ -385,7 +385,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
       // Check the qubit state after measuring the output qubits.
       Qubit t1[4];
       int x0 = 0;
-      for (int x = 0; x <= 3; x++) {
+      for (int x = 0; x <= 3; ++x) {
         t1[x] = std::sqrt(0.5)*(Qubit(x,2) + Qubit(x^a,2));
         t1[x].tensorDotSet(Qubit(f[x],2));
         if (r.isApprox(t1[x])) {
@@ -400,7 +400,7 @@ class AlgorithmsTest : public CppUnit::TestFixture
 
       // Check the input qubit state after applying the Hadamard gate.
       t.resize(4); t.setZero();
-      for (int y = 0; y <= 1; y++) {
+      for (int y = 0; y <= 1; ++y) {
         if (bwise_bin_dot(a,y) == 0) {
           t += 1./std::pow(2, 1./2.) * std::pow(-1,bwise_bin_dot(x0,y)) *
                Qubit(y,2);

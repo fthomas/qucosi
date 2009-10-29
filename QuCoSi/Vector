@@ -112,9 +112,8 @@ class Vector : public VectorXc
     inline Vector tensorDot(const Vector& v) const
     {
       Vector w(size()*v.size());
-      int k = 0;
-      for (int i = 0; i < size(); i++) {
-        for (int j = 0; j < v.size(); j++, k++) {
+      for (int i = 0, k = 0; i < size(); ++i) {
+        for (int j = 0; j < v.size(); ++j, ++k) {
           w(k) = (*this)(i)*v(j);
         }
       }
