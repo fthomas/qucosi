@@ -273,8 +273,8 @@ class Gate : public MatrixXc
     inline Gate& H()
     {
       resize(2,2);
-      *this << M_SQRT1_2, M_SQRT1_2,
-               M_SQRT1_2, -M_SQRT1_2;
+      *this << c_sqrt1_2, c_sqrt1_2,
+               c_sqrt1_2, -c_sqrt1_2;
       return *this;
     }
 
@@ -316,7 +316,7 @@ class Gate : public MatrixXc
     {
       resize(2,2);
       *this << 1, 0,
-               0, field(M_SQRT1_2,M_SQRT1_2);
+               0, field(c_sqrt1_2,c_sqrt1_2);
       return *this;
     }
 
@@ -336,7 +336,7 @@ class Gate : public MatrixXc
     {
       resize(2,2);
       *this << 1, 0,
-               0, std::exp(2*M_PI/k*field(0,1));
+               0, std::exp(2*c_pi/k*field(0,1));
       return *this;
     }
 
@@ -769,7 +769,7 @@ class Gate : public MatrixXc
       resize(s,s);
       for (int x = 0; x < s; ++x) {
         for (int y = x; y < s; ++y) {
-          (*this)(x,y) = std::exp(2*M_PI*x*y/s*field(0,1));
+          (*this)(x,y) = std::exp(2*c_pi*x*y/s*field(0,1));
         }
       }
       *this *= std::sqrt(1./s);
